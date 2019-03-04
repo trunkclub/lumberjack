@@ -1,0 +1,28 @@
+{
+  "name": "a11y-report",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "develop": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "start": "npm run server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "combine-reports": "node utils/axe/combineReports.js",
+    "check-routes": "node utils/axe/checkRoutes.js"
+  },
+  "author": "Beck Kramer",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "axe-core": "^3.1.2",
+    "axe-puppeteer": "^1.0.0",
+    "concurrently": "^4.1.0",
+    "moment": "^2.24.0",
+    "puppeteer": "^1.12.2",
+    "yargs": "^13.2.1"
+  }
+}
