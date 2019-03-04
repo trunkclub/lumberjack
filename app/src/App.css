@@ -1,0 +1,41 @@
+
+body {
+  font-family: Arial;
+  margin: 2rem auto;
+  max-width: 60rem;
+  padding: 2rem;
+}
+
+.violation {
+  border: 1px solid #CCC;
+  margin: 2rem 0;
+  padding: 0 1rem 1rem;
+}
+
+.violation footer {
+  border-top: 1px solid #CCC;
+  padding: 1rem;
+}
+
+.violation__details {
+  margin: 1rem 0;
+}
+
+dt {
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+pre {
+  border: 1px solid #CCC;
+  overflow-x: scroll;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}

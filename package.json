@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "cd client && yarn start",
-    "develop": "concurrently \"npm run server\" \"npm run client\"",
+    "app": "cd app && yarn start",
+    "develop": "concurrently \"npm run server\" \"npm run app\"",
     "server": "node server/index.js",
     "start": "npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",

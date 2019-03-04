@@ -13,8 +13,8 @@ Currently, it:
 - Displays this in an incredibly basic React app that can be copy/pasted into a Paper doc
 
 ## Setup:
-Currently, running reports depends on the following:
-
+Running reports depends on the following:
+* You've run `npm install` in the root directory and `yarn` in the `app` directory
 * Customer App is currently running at `localhost:10081`
 * Customer App's login page form fields have been updated with IDs for puppeteer to find:
   * `#login-email`
