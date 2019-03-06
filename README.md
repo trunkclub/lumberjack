@@ -16,25 +16,18 @@ Currently, it:
 Running reports depends on the following:
 * You've run `npm install` in the root directory and `yarn` in the `app` directory
 * Customer App is currently running at `localhost:10081`
-* Customer App's login page form fields have been updated with IDs for puppeteer to find:
-  * `#login-email`
-  * `#login-password`
-  * `#login-submit`
-
-- A folder cooresponding to the `testID` you want to use has been created in the `./server/audits` and `./server/screenshots` folders
-- No file with the `testID` is currently present in the `./server/reports` folder; if one is present delete it before combining reports
 
 ## Commands
 Once the above is set up, you can run the following:
 
 _To test routes:_
 ```js
-npm run check-routes --testID=[your test ID]
+TESTID=[your test ID] npm run check-routes
 ```
 
 _To combine reports into one file:_
 ```js
-npm run combine-reports --testID=[your test ID]
+TESTID=[your test ID] npm run combine-reports
 ```
 
 ## View Reports:

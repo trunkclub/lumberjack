@@ -37,7 +37,37 @@ const writeReport = (testID, cleanRoute, violations) => {
 
 ;(async () => {
 
+  if (!argv.testID) {
+    console.log('No testID value found. Please provide one.')
+    return
+  }
+
   const testID = argv.testID
+
+  // TODO: Pull these folder checkers into a function
+
+  const auditFolder = `./server/audits/${testID}`
+
+  await fs.access(auditFolder, fs.constants.F_OK, (error) => {
+    if (error) {
+      console.log(`Creating audit folder for ${testID}...`)
+      fs.mkdir(auditFolder, (error) => {
+        console.log('There was an issue making the audit directory: ' + error)
+      })
+    }
+  })
+
+  const screenshotFolder = `./server/screenshots/${testID}`
+
+  await fs.access(screenshotFolder, fs.constants.F_OK, (error) => {
+    if (error) {
+      console.log(`Creating screenshot folder for ${testID}...`)
+      fs.mkdir(screenshotFolder, (error) => {
+        console.log('There was an issue making the screenshot directory: ' + error)
+      })
+    }
+  })
+
   let completedAudits = []
 
   console.log('\nRunning audit on ' + appData.routes.length + ' routes...')
@@ -51,13 +81,13 @@ const writeReport = (testID, cleanRoute, violations) => {
 
     await page.goto('http://localhost:10081/login')
 
-    await page.click('#login-email')
+    await page.click('input[type="email"]')
     await page.keyboard.type('gonzoTgreat@testing.com')
 
-    await page.click('#login-password')
+    await page.click('input[type="password"]')
     await page.keyboard.type('Test1234')
 
-    await page.click('#login-submit')
+    await page.click('button[type="submit"]')
 
     await page.waitForNavigation({waitUntil: 'load'})
 

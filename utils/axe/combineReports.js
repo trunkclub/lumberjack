@@ -5,9 +5,10 @@ const argv = require('yargs').argv
 const testID = argv.testID
 
 if (!testID) {
-  console.log('No testID value found. Please provide one with --testID=[your test ID]')
+  console.log('No testID value found. Please provide one.')
   return
 }
+
 const auditDirectory = `./server/audits/${testID}`
 
 const prettyRoute = (route) => {
@@ -51,10 +52,20 @@ fs.readdir(auditDirectory, async(error, files) => {
     console.log(data)
   })
 
+  const reportFile = `./server/reports/report-${testID}.json`
+
+  await fs.access(snapshotFolder, fs.constants.F_OK, (error) => {
+    if (!error) {
+      fs.unlink(reportFile, (error) => {
+        console.log(`Report file already exists; deleting and creating fresh file...`)
+      })
+    }
+  })
+
   // Add check for file so that if it exists already, it gets overridden.
   // Currently, if file exists, nothing actually happens.
   fs.writeFile(
-    `./server/reports/report-${testID}.json`,
+    reportFile,
     JSON.stringify(combinedViolations),
     'utf8',
     (error) => {
