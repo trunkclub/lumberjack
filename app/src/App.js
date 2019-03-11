@@ -8,7 +8,7 @@ class App extends Component {
 
   state = {
     reportData: null,
-    reportId: '02282019'
+    reportId: '03072019'
   }
 
   componentDidMount() {
@@ -18,23 +18,23 @@ class App extends Component {
   getReport = (reportId) => {
     axios.get(`/api/reports/${reportId}`)
       .then((response) => {
-        
-        let totalNumberOfViolations = 0
 
+        const report = []
 
-        for (let report of response.data) {
-          if (!report || !report.violations || !report.violations.length) {
-            return null
+        for (let type of Object.keys(response.data)) {
+
+          const violations = response.data[type]
+          const formatted = {
+            id: type,
+            title: type.split('-').join(' '),
+            violations,
           }
 
-          for (let violation of report.violations) {
-            totalNumberOfViolations += violation.nodes.length
-          }
+          report.push(formatted)
         }
 
         this.setState({
-          reportData: response.data,
-          totalNumberOfViolations,
+          reportData: report,
         })
       })
       .catch((error) => {
@@ -42,108 +42,118 @@ class App extends Component {
       });
   }
 
-  renderViolationDetails(details) {
-    return details.map(detail => {
-      return (
-        // <dl>
-        //   <dt>Element Identifier:</dt>
-        //   <dd><code>{detail.target}</code></dd>
-        //   <dt>Summary:</dt>
-        //   <dd>{detail.failureSummary}</dd>
-        //   <dt>HTML:</dt>
-        //   <dd>
-        //     <pre>
-        //       {detail.html}
-        //     </pre>
-        //   </dd>
-        // </dl>
-
-        <div>
-          <hr />
-          <h3>Element Identifier:</h3>
-          <div><code>{detail.target}</code></div>
-
-          <h3>Summary:</h3>
-          <div>{detail.failureSummary}</div>
-
-          <h3>HTML:</h3>
-          <div>
-            <pre>
-              {detail.html}
-            </pre>
-          </div>
-        </div>
-      )
-    })
+  prettyRoute = (route) => {
+    const splitRoute = route.split('_')
+  
+    if (splitRoute[0] === '') {
+      const emptyEntry = splitRoute.shift()
+    }
+  
+    return splitRoute.join('/')
   }
 
   renderReport(data) {
 
     const reportElements = data.map((report, index) => {
 
-      if (!report || !report.violations || !report.violations.length) {
-        return null
-      }
-
-      const violations = report.violations.map((violation, i) => {
-
-        return (
-          <article
-            className="violation"
-            key={`violation-${index}-${i}`}>
-            <header>
-              <h2>Issue: {violation.help}</h2>
-              <ul>
-                <li><b>Impact:</b> {violation.impact}</li>
-                <li><b># of instances:</b> {violation.nodes.length}</li>
-              </ul>
-            </header>
-
-            <p>{violation.description}</p>
-
-
-            <div className="violation__details">
-              {this.renderViolationDetails(violation.nodes)}
-            </div>
-
-            <footer>
-              <a href={violation.helpUrl}>Read more about how to fix this issue</a>
-            </footer>
-            <hr />
-          </article>
-        )
-      })
-
-      const prettyRoute = (route) => {
-          const splitRoute = route.split('_')
-        
-          if (splitRoute[0] === '') {
-            const emptyEntry = splitRoute.shift()
-          }
-        
-          return splitRoute.join('/')
-      }
-
-      let totalNumberOfViolations = 0
-
-      for (let violation of report.violations) {
-        totalNumberOfViolations += violation.nodes.length
-      }
+      const violations = this.renderViolations(report.violations)
 
       return (
-        <article key={`report${index}`}>
-          <header>
-            <h1>Route  <code>{prettyRoute(report.route)}</code> <small>({totalNumberOfViolations} {totalNumberOfViolations === 1 ? <span>violation</span> : <span>violations</span>})</small></h1>
-          </header>
-          <main>
-            {violations}
-          </main>
-          <hr />
-        </article>
+        <section
+          id={report.id}
+          key={report.id}
+        >
+          <h2>Violation type: {report.title}</h2>
+
+          {violations}
+
+        </section>
       )
+
     })
 
     return (reportElements)
+  }
+
+  renderViolations(violations) {
+
+    return violations.map((details, index) => {
+
+      const {
+        route,
+        violation,
+      } = details
+
+      const {
+        description,
+        help,
+        helpUrl,
+        id,
+        impact,
+        nodes,
+      } = violation
+
+      return (
+        <article
+          className="violation"
+          key={`${id}-${index}`}
+        >
+
+          <h3>{this.prettyRoute(route)}</h3>
+
+          <p><b>Impact:</b> {impact}</p>
+          <p><b>Description:</b> {description}</p>
+
+          <p><a href={helpUrl}>Read more about how to fix this issue</a></p>
+
+          <div>
+            <h4>Instances:</h4>
+            <div className="violation__instances">
+              {this.renderInstances(nodes)}
+            </div>
+          </div>
+        </article>
+      )
+    })
+  }
+
+  renderInstances(instances) {
+
+    return instances.map((instance, index) => {
+console.log(instance)
+      return (
+        <div className="violation__instance">
+
+          <h5>Element:</h5>
+          <pre>{instance.html}</pre>
+          <pre>{instance.target[0]}</pre>
+          {instance.any.length > 0 && (
+            <div>
+              <h5>Fix any of the following:</h5>
+              <ul>
+                {this.renderIssueList(instance.any)}
+              </ul>
+            </div>
+          )}
+          {instance.all.length > 0 && (
+            <div>
+              <h5>Fix all of the following:</h5>
+              <ul>
+                {this.renderIssueList(instance.all)}
+              </ul>
+            </div>
+          )}
+        </div>
+      )
+    })
+  }
+
+  renderIssueList(issues) {
+    return issues.map((issue, index) => {
+      return (
+        <li>{issue.message}</li>
+      )
+    })
   }
 
   render() {
@@ -152,7 +162,7 @@ class App extends Component {
         <h1>Customer App A11y Audit ({this.state.reportId}): </h1>
         {this.state.reportData && (
           <div>
-            {this.state.reportData.length} routes with {this.state.totalNumberOfViolations} total violations:
+            {this.state.reportData.length} violation types:
             <div>{this.renderReport(this.state.reportData)}</div>
           </div>
         )}

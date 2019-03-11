@@ -17,9 +17,15 @@ body {
   padding: 1rem;
 }
 
-.violation__details {
+.violation__instances {
   margin: 1rem 0;
 }
+
+/* .violation__instance {
+  border: 1px solid #CCC;
+  padding: 0 1rem;
+  margin: 1rem 0 0;
+} */
 
 dt {
   font-weight: 600;
@@ -38,4 +44,9 @@ h1 {
 
 h2 {
   font-size: 2rem;
+}
+
+h5 {
+  font-size: 1rem;
+  font-style: italic;
 }
