@@ -6,6 +6,11 @@ const argv = require('yargs').argv
 
 const appData = require('../constants')
 
+// TODO: Move this to env file?
+const APP_URL = 'http://localhost:10081'
+const USER_EMAIL = 'gonzoTgreat@testing.com'
+const PASSWORD = 'Test1234'
+
 const prettyRoute = (route) => {
   const splitRoute = route.split('/')
 
@@ -16,11 +21,17 @@ const prettyRoute = (route) => {
   return splitRoute.join('_')
 }
 
-const writeReport = (testID, cleanRoute, violations) => {
+const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) => {
   return new Promise((resolve, reject) => {
+
+    const data = {
+      needsManualCheck,
+      violations,
+    }
+
     fs.writeFile(
       `./server/audits/${testID}/axe-audit--${cleanRoute}.json`,
-      JSON.stringify(violations),
+      JSON.stringify([data]),
       'utf8',
       (error, result) => {
         if (error) {
@@ -52,7 +63,9 @@ const writeReport = (testID, cleanRoute, violations) => {
     if (error) {
       console.log(`Creating audit folder for ${testID}...`)
       fs.mkdir(auditFolder, (error) => {
-        console.log('There was an issue making the audit directory: ' + error)
+        if (error) {
+          console.log('There was an issue making the audit directory: ' + error)
+        }
       })
     }
   })
@@ -63,7 +76,9 @@ const writeReport = (testID, cleanRoute, violations) => {
     if (error) {
       console.log(`Creating screenshot folder for ${testID}...`)
       fs.mkdir(screenshotFolder, (error) => {
-        console.log('There was an issue making the screenshot directory: ' + error)
+        if (error) {
+          console.log('There was an issue making the screenshot directory: ' + error)
+        }
       })
     }
   })
@@ -75,32 +90,55 @@ const writeReport = (testID, cleanRoute, violations) => {
   for (let route of appData.routes) {
 
     const browser = await puppeteer.launch({headless: true})
+    const cleanRoute = prettyRoute(route)
     const page = await browser.newPage()
 
     await page.setBypassCSP(true)
 
-    await page.goto('http://localhost:10081/login')
-
-    await page.click('input[type="email"]')
-    await page.keyboard.type('gonzoTgreat@testing.com')
-
-    await page.click('input[type="password"]')
-    await page.keyboard.type('Test1234')
-
-    await page.click('button[type="submit"]')
-
-    await page.waitForNavigation({waitUntil: 'load'})
-
-    const cleanRoute = prettyRoute(route)
+    // === START AUDIT ROUTE === //
 
     console.log('\nAuditing ' + route + '...')
 
     await page.goto(
-      `http://localhost:10081${route}`,
-      { timeout: 6000 }
-    ).catch(error => { console.log('Error with route loading.') })
+      APP_URL + route,
+      { timeout: 3000 }
+    ).catch(error => { console.log('Error with initial route loading.') })
 
-    // this is too delicate.
+
+    const url = await page.evaluate('location.href').catch(error => { console.log('There was an issue evaluating the route location.') })
+    const needsLogin = url.indexOf('/login?url=%2F') >= 0
+
+    if (needsLogin) {
+
+      console.log('Redirected to login screen. Logging in...')
+
+      await page.click('input[type="email"]').catch((error) => {
+        console.log('Issue with email field. \n\n' + error)
+      })
+
+      await page.keyboard.type(USER_EMAIL)
+
+      await page.click('input[type="password"]').catch((error) => {
+        console.log('Issue with password field. \n\n' + error)
+      })
+
+      await page.keyboard.type(PASSWORD)
+
+      await page.click('button[type="submit"]').catch((error) => {
+        console.log('Issue with submit button. \n\n' + error)
+      })
+
+      await page.waitForNavigation({waitUntil: 'load'}).catch((error) => {
+        console.log('Issue with navigation. \n\n' + error)
+      })
+
+      await page.goto(
+        APP_URL + route,
+        { timeout: 6000 }
+      ).catch(error => { console.log('Error with route loading.') })
+    }
+
+    // TODO: See if switching to 
     await page.waitFor(2000, { timeout: 2000 }).catch(error => {
       console.log('Error with waiting.')
     })
@@ -111,19 +149,23 @@ const writeReport = (testID, cleanRoute, violations) => {
     }).catch(error => { console.log('Error with screenshot.') })
 
     await page.waitFor('html').then(async() => {
+
+      let violations = []
+
       await new AxePuppeteer(page).analyze().then(async(results) => {
         if (results.violations && results.violations.length) {
   
           const numberOfViolations = results.violations.length
           
           console.log(`${numberOfViolations} violations found. Writing report...`)
-  
-          await writeReport(testID, cleanRoute, results.violations)
-  
+          violations = results.violations
         } else {
           console.log('No violations found!')
         }
-      }).catch(error => {
+
+        await writeReport(testID, cleanRoute, violations)
+      }).catch(async(error) => {
+        await writeReport(testID, cleanRoute, violations, true)
         console.log('No results returned- there may be an issue with this audit.')
         console.log(error)
       })
