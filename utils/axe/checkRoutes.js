@@ -4,7 +4,7 @@ const fs = require('fs')
 
 const argv = require('yargs').argv
 
-const appData = require('../constants')
+const appRoutes = require('../routes')
 
 // TODO: Move this to env file?
 const APP_URL = 'http://localhost:10081'
@@ -85,9 +85,9 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
 
   let completedAudits = []
 
-  console.log('\nRunning audit on ' + appData.routes.length + ' routes...')
+  console.log('\nRunning audit on ' + appRoutes.routes.length + ' routes...')
 
-  for (let route of appData.routes) {
+  for (let route of appRoutes.routes) {
 
     const browser = await puppeteer.launch({headless: true})
     const cleanRoute = prettyRoute(route)
@@ -176,6 +176,6 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
     await browser.close()
   }
 
-  console.log(`Completed ${completedAudits.length} of ${appData.routes.length} audits.`)
+  console.log(`Completed ${completedAudits.length} of ${appRoutes.routes.length} audits.`)
 
 })()
