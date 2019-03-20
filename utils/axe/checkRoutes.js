@@ -85,6 +85,7 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
 
   let completedAudits = []
 
+  const startTime = new Date()
   console.log('\nRunning audit on ' + appRoutes.routes.length + ' routes...')
 
   for (let route of appRoutes.routes) {
@@ -176,6 +177,9 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
     await browser.close()
   }
 
-  console.log(`Completed ${completedAudits.length} of ${appRoutes.routes.length} audits.`)
+  const endTime = new Date()
+  const timeDiff = endTime.getTime() - startTime.getTime()
+  const timeInSeconds = timeDiff / (1000) % 60
+  console.log(`Completed ${completedAudits.length} of ${appRoutes.routes.length} audits in ${timeDiff} seconds.`)
 
 })()
