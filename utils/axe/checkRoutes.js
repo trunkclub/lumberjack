@@ -7,7 +7,7 @@ const argv = require('yargs').argv
 const appRoutes = require('../routes')
 
 // TODO: Move this to env file?
-const APP_URL = 'http://localhost:10081'
+const APP_URL = 'http://localhost:5555'
 const USER_EMAIL = 'gonzoTgreat@testing.com'
 const PASSWORD = 'Test1234'
 
@@ -59,6 +59,8 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
 
   const auditFolder = `./server/audits/${testID}`
 
+  const auditRoutes = appRoutes.thread
+
   await fs.access(auditFolder, fs.constants.F_OK, (error) => {
     if (error) {
       console.log(`Creating audit folder for ${testID}...`)
@@ -86,9 +88,9 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
   let completedAudits = []
 
   const startTime = new Date()
-  console.log('\nRunning audit on ' + appRoutes.routes.length + ' routes...')
+  console.log('\nRunning audit on ' + auditRoutes.length + ' routes...')
 
-  for (let route of appRoutes.routes) {
+  for (let route of auditRoutes) {
 
     const browser = await puppeteer.launch({headless: true})
     const cleanRoute = prettyRoute(route)
@@ -180,6 +182,6 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
   const endTime = new Date()
   const timeDiff = endTime.getTime() - startTime.getTime()
   const timeInSeconds = timeDiff / (1000) % 60
-  console.log(`Completed ${completedAudits.length} of ${appRoutes.routes.length} audits in ${timeDiff} seconds.`)
+  console.log(`Completed ${completedAudits.length} of ${auditRoutes.length} audits in ${timeInSeconds} seconds.`)
 
 })()

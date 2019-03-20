@@ -212,7 +212,37 @@ const cleanRoutes = [
   '/try-a-new-stylist'
 ]
 
+const threadComponents = [
+  'Accordion',
+  'Button',
+  'Checkbox Group',
+  'Divider',
+  'Fieldset',
+  'Input',
+  'Legend',
+  'Menu Option',
+  'Page Description',
+  'Page Header',
+  'Primary Button',
+  'Radio Group',
+  'Secondary Button',
+  'Section Header',
+  'Select',
+  'Spinner',
+  'Sub Header',
+  'Text Area',
+]
+
+const threadRoutes = (components) => {
+  return components.map(component => {
+    const formatted = component.replace(' ', '%20')
+    console.log(formatted)
+    return `/iframe.html?selectedKind=${formatted}&selectedStory=Basic%20Usage`
+  })
+}
+
 
 module.exports = {
-  routes: cleanRoutes // uniqueRoutes(),
+  customerApp: cleanRoutes, // uniqueRoutes(),
+  thread: threadRoutes(threadComponents),
 }
