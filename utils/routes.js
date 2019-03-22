@@ -212,37 +212,89 @@ const cleanRoutes = [
   '/try-a-new-stylist'
 ]
 
-const threadComponents = [
-  'Accordion',
-  'Button',
-  'Checkbox Group',
-  'Divider',
-  'Fieldset',
-  'Input',
-  'Legend',
-  'Menu Option',
-  'Page Description',
-  'Page Header',
-  'Primary Button',
-  'Radio Group',
-  'Secondary Button',
-  'Section Header',
-  'Select',
-  'Spinner',
-  'Sub Header',
-  'Text Area',
+// const threadComponents = [
+//   'Accordion',
+//   'Button',
+//   'Checkbox Group',
+//   'Divider',
+//   'Fieldset',
+//   'Input',
+//   'Legend',
+//   'Menu Option',
+//   'Page Description',
+//   'Page Header',
+//   'Primary Button',
+//   'Radio Group',
+//   'Secondary Button',
+//   'Section Header',
+//   'Select',
+//   'Spinner',
+//   'Sub Header',
+//   'Text Area',
+// ]
+
+const threadData = [
+  {
+    name: 'Accordion',
+    variants: [
+      'Basic Usage',
+      'Allow Multiple To Be Open',
+      'Header On The Bottom',
+      'Controlled Component',
+    ]
+  },
+  {
+    name: 'Button',
+    variants: [
+      'All colors'
+    ]
+  },
+  {
+    name: 'Section Header',
+    variants: [
+      'Default usage',
+    ]
+  },
+  {
+    name: 'Select',
+    variants: [
+      'w/ screen reader label',
+      'w/ screen reader label & value',
+      'w/ screen reader label & placeholder',
+      'w/ screen reader label, placeholder & value',
+      'w/ screen reader label & error',
+      'w/ screen reader label, value & error',
+      'w/ visible label',
+      'w/ visible label & value',
+      'w/ visible label & placeholder',
+      'w/ visible label, placeholder, & value',
+      'w/ visible label & error',
+      'w/ visible label, value & error',
+    ]
+  }
 ]
 
+const formatThreadString = (value) => {
+  let formatted = value.split(' ')
+  return formatted.join('%20')
+}
+
 const threadRoutes = (components) => {
-  return components.map(component => {
-    const formatted = component.replace(' ', '%20')
-    console.log(formatted)
-    return `/iframe.html?selectedKind=${formatted}&selectedStory=Basic%20Usage`
-  })
+
+  const routes = []
+  for (let component of components) {
+    const formattedName = formatThreadString(component.name)
+    for (let variant of component.variants) {
+      const formattedVariant = formatThreadString(variant)
+      routes.push(`/iframe.html?selectedKind=${formattedName}&selectedStory=${formattedVariant}`)
+    }
+  }
+
+  return routes
 }
 
 
 module.exports = {
   customerApp: cleanRoutes, // uniqueRoutes(),
-  thread: threadRoutes(threadComponents),
+  thread: threadRoutes(threadData),
 }

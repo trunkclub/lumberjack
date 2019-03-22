@@ -7,6 +7,7 @@ const argv = require('yargs').argv
 const appRoutes = require('../routes')
 
 // TODO: Move this to env file?
+const APP_ROUTES = appRoutes.thread
 const APP_URL = 'http://localhost:5555'
 const USER_EMAIL = 'gonzoTgreat@testing.com'
 const PASSWORD = 'Test1234'
@@ -59,7 +60,7 @@ const writeReport = (testID, cleanRoute, violations, needsManualCheck = false) =
 
   const auditFolder = `./server/audits/${testID}`
 
-  const auditRoutes = appRoutes.thread
+  const auditRoutes = APP_ROUTES
 
   await fs.access(auditFolder, fs.constants.F_OK, (error) => {
     if (error) {
