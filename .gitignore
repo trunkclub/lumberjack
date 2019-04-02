@@ -11,6 +11,8 @@
 
 # production
 /app/build
+/server/reports
+/server/audits/
 
 # misc
 .DS_Store
