@@ -1,0 +1,8 @@
+{
+  "id": "customer-app",
+  "login": {
+    "email": null,
+    "password": null
+  },
+  "root": "http://localhost:10081"
+}

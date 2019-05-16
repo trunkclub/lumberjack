@@ -1,0 +1,63 @@
+{
+  "params": {
+    "appointmentId": null,
+    "appointmentToken": null,
+    "itemId": null,
+    "pinterestBoardId": null,
+    "pinterestPinId": null,
+    "onboardingGender": ["mens", "womens"],
+    "onboardingStyleId": [1, 2, 3, 4, 5, 6],
+    "reason": null,
+    "salesOrderId": null,
+    "shoppingCartId": null,
+    "styleVariantId": null,
+    "trunkId": null
+  },
+  "routes": [
+    {
+      "feature": "Onboarding",
+      "id": "onboarding",
+      "paths": [
+        "/onboarding",
+        "/onboarding/:onboardingGender/clubhouse-preference",
+        "/onboarding/:onboardingGender/motivation",
+        "/onboarding/:onboardingGender/trunk-schedule",
+        "/onboarding/:onboardingGender/account-info",
+        "/onboarding/:onboardingGender/height-weight",
+        "/onboarding/mens/budget",
+        "/onboarding/mens/fit-issues",
+        "/onboarding/mens/inseam-length",
+        "/onboarding/mens/pants-fit",
+        "/onboarding/mens/shirt-fit",
+        "/onboarding/mens/shirt-size",
+        "/onboarding/mens/shoe-size",
+        "/onboarding/mens/stores",
+        "/onboarding/mens/waist-size",
+        "/onboarding/mens/weekend",
+        "/onboarding/mens/work",
+        "/onboarding/womens/avoid",
+        "/onboarding/womens/bra-band",
+        "/onboarding/womens/bra-cup",
+        "/onboarding/womens/brands",
+        "/onboarding/womens/budget",
+        "/onboarding/womens/conceal",
+        "/onboarding/womens/dislike-patterns",
+        "/onboarding/womens/dress-size",
+        "/onboarding/womens/dresses-style",
+        "/onboarding/womens/heel-height",
+        "/onboarding/womens/jewelry-style",
+        "/onboarding/womens/needs",
+        "/onboarding/womens/pant-rise",
+        "/onboarding/womens/pant-size",
+        "/onboarding/womens/pant-style",
+        "/onboarding/womens/shirt-size",
+        "/onboarding/womens/shoe-size",
+        "/onboarding/womens/shoes-style",
+        "/onboarding/womens/stores",
+        "/onboarding/womens/tops-style",
+        "/onboarding/womens/weekday",
+        "/onboarding/womens/style/:onboardingStyleId"
+      ]
+    }
+  ]
+}
