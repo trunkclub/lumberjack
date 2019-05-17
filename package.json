@@ -15,13 +15,16 @@
   "author": "Beck Kramer",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^2.4.2",
     "express": "^4.16.4"
   },
   "devDependencies": {
     "axe-core": "^3.1.2",
     "axe-puppeteer": "^1.0.0",
     "concurrently": "^4.1.0",
+    "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
+    "placeholders": "^1.0.0",
     "puppeteer": "^1.12.2",
     "yargs": "^13.2.1"
   }
