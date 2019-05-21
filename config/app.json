@@ -1,8 +1,9 @@
 {
   "id": "customer-app",
   "login": {
-    "email": null,
-    "password": null
+    "email": "gonzoTGreat@testing.com",
+    "password": "Test1234",
+    "path": "/login"
   },
   "root": "http://localhost:10081"
 }

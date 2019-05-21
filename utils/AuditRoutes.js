@@ -33,44 +33,17 @@ const AuditReports = async() => {
   let totalViolations = 0
 
   if(argv.feature) {
-    // TODO: Run audit on only arv/feature
+    // Run audit on only arv/feature
+    if(ROUTE_CONFIG.routes[argv.feature]) {
+      const auditStatus = await ReportUtils.auditFeatureRoutes(ROUTE_CONFIG.routes[argv.feature])
+      completedAudits += auditStatus.completedAudit ? 1 : 0
+      totalViolations += auditStatus.numberOfViolations
+    }
   } else {
     for (let feature of ROUTE_CONFIG.routes) {
-      console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes:`))
-      totalAudits += feature.paths.length
-
-      for (let path of feature.paths) {
-
-        if(path.indexOf(':') > 0) {
-          // FIXME: This currently only gets 1 param per path; rewrite to scale
-          
-          const pathArray = path.split(':')
-          const paramPartArray = pathArray[1].split('/')
-
-          const pathParam = paramPartArray.shift()
-
-          if(ROUTE_CONFIG.params[pathParam]) {
-
-            if(typeof ROUTE_CONFIG.params[pathParam] === 'object') {
-
-              for(let param of ROUTE_CONFIG.params[pathParam]) {
-                let newPath = `${pathArray[0]}${param}`
-                if(paramPartArray.length) {
-                  newPath += '/' + paramPartArray.join('/')
-                }
-                const auditStatus = await ReportUtils.runAxeOnPath(newPath)
-              }
-            } else {
-              // Sort out param-as-string
-            }
-          }
-        } else {
-          const auditStatus = await ReportUtils.runAxeOnPath(path)
-          completedAudits += auditStatus.completedAudit ? 1 : 0
-          totalViolations += auditStatus.numberOfViolations
-        }
-
-      }
+      const auditStatus = await ReportUtils.auditFeatureRoutes(feature)
+      completedAudits += auditStatus.completedAudit ? 1 : 0
+      totalViolations += auditStatus.numberOfViolations
     }
   }
 

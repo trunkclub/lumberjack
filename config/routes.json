@@ -15,6 +15,17 @@
   },
   "routes": [
     {
+      "authorized": true,
+      "feature": "Payments and Shipping",
+      "id": "payments-shipping",
+      "paths": [
+        "/account/payment-shipping",
+        "/account/payment-shipping/new-address",
+        "/account/payment-shipping/new-credit-card"
+      ]
+    },
+    {
+      "authorized": false,
       "feature": "Onboarding",
       "id": "onboarding",
       "paths": [
