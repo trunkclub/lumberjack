@@ -10,7 +10,7 @@
     "start": "npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "combine-reports": "node utils/axe/combineReports.js --testID=$TESTID",
-    "check-routes": "node utils/axe/checkRoutes.js --testID=$TESTID"
+    "check-routes": "node utils/AuditRoutes.js --testID=$TESTID"
   },
   "author": "Beck Kramer",
   "license": "ISC",

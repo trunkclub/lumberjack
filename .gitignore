@@ -12,7 +12,7 @@
 # production
 /app/build
 /server/reports
-/server/audits/
+/audits
 
 # misc
 .DS_Store
