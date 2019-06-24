@@ -32,25 +32,29 @@ const AuditReports = async() => {
   let totalAudits = 0
   let totalViolations = 0
 
-  if(argv.feature) {
-    // Run audit on only arv/feature
-    if(ROUTE_CONFIG.routes[argv.feature]) {
-      const auditStatus = await ReportUtils.auditFeatureRoutes(ROUTE_CONFIG.routes[argv.feature])
-      completedAudits += auditStatus.completedAudit ? 1 : 0
-      totalViolations += auditStatus.numberOfViolations
-    }
-  } else {
-    for (let feature of ROUTE_CONFIG.routes) {
+  let routes = ROUTE_CONFIG.routes
+
+  if(argv.feature && ROUTE_CONFIG.routes[argv.feature]) {
+    routes = ROUTE_CONFIG.routes[argv.feature]
+  }
+  
+  for (let feature of routes) {
+    try {
       const auditStatus = await ReportUtils.auditFeatureRoutes(feature)
-      completedAudits += auditStatus.completedAudit ? 1 : 0
-      totalViolations += auditStatus.numberOfViolations
+
+      completedAudits += auditStatus.completedAudits
+      totalAudits += auditStatus.totalAudits
+      totalViolations += auditStatus.totalViolations
+    }
+    catch (error) {
+      console.log(error)
     }
   }
 
   const endTime = new Date()
   const timeDiff = endTime.getTime() - startTime.getTime()
   const timeInSeconds = timeDiff / (1000) % 60
-  console.log(chalk.green(`\nSuccess!`) + ` Completed ${completedAudits} of ${totalAudits} audits in ${timeInSeconds} seconds. ${totalViolations} violations found.\n`)
+  console.log(chalk.green(`\nSuccess!`) + ` Completed ${completedAudits} of ${totalAudits} route audits in ${timeInSeconds} seconds. ${totalViolations} violations found.\n`)
 }
 
 module.exports = AuditReports()

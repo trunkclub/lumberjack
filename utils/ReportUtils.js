@@ -34,12 +34,15 @@ module.exports.isMissingRequiredConfig = () => {
 }
 
 module.exports.auditFeatureRoutes = async(feature) => {
-  console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes:`))
+  console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
 
+  const totalAudits = feature.paths.length
   let completedAudits = 0
-  let totalViolations  = 0
+  let totalViolations = 0
 
-  for (let path of feature.paths) {
+  for (const path of feature.paths) {
+
+    let finalPath = path
 
     if(path.indexOf(':') > 0) {
 
@@ -51,28 +54,32 @@ module.exports.auditFeatureRoutes = async(feature) => {
 
       if(ROUTE_CONFIG.params[pathParam]) {
         if(typeof ROUTE_CONFIG.params[pathParam] === 'object') {
-          for(let param of ROUTE_CONFIG.params[pathParam]) {
+          for(const param of ROUTE_CONFIG.params[pathParam]) {
             let newPath = `${pathArray[0]}${param}`
-            if(paramPartArray.length) {
-              newPath += '/' + paramPartArray.join('/')
+            if(arraySectionWithParam.length) {
+              newPath += '/' + arraySectionWithParam.join('/')
             }
-            const auditStatus = await this.runAxeOnPath(newPath, feature.authorized)
-            completedAudits += auditStatus.completedAudit ? 1 : 0
-            totalViolations += auditStatus.numberOfViolations
+            finalPath = newPath
           }
         } else {
           // TODO: Sort out param-as-string
         }
       }
-    } else {
-      const auditStatus = await this.runAxeOnPath(path, feature.authorized)
+    }
+    
+    try {
+      const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized)
       completedAudits += auditStatus.completedAudit ? 1 : 0
       totalViolations += auditStatus.numberOfViolations
     }
-
-    return {completedAudits, totalViolations}
+    catch (error) {
+      console.log(error)
+    } 
   }
+
+  return ({completedAudits, totalAudits, totalViolations})
 }
+
 module.exports.createAuditDirectory = () => {
 
   return new Promise((resolve,reject) => {
@@ -129,7 +136,7 @@ module.exports.runAxeOnPath = async(path, needsLogin = true) => {
   let completedAudit = false
   let numberOfViolations = 0
 
-  const browser = await puppeteer.launch({headless: false})
+  const browser = await puppeteer.launch({headless: true})
   const page = await browser.newPage()
   await page.setBypassCSP(true)
 
@@ -138,11 +145,17 @@ module.exports.runAxeOnPath = async(path, needsLogin = true) => {
     { timeout: 3000 }
   ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
 
-  if (needsLogin) {
-    await this.login(page)
-  }
-
   console.log(chalk.cyanBright(`\n Auditing ${path}...`))
+
+  if (needsLogin) {
+    try {
+      await this.login(page)
+    }
+    catch (error) {
+      console.log(chalk.red(' Error') + ': Issue with login.')
+      console.log(' ' + error)
+    }
+  }
 
   await page.goto(
     APP_CONFIG.root + path,
