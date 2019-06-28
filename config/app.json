@@ -1,7 +1,7 @@
 {
   "id": "customer-app",
   "login": {
-    "email": "gonzoTGreat@testing.com",
+    "email": "test-exp-1@testink.com",
     "password": "Test1234",
     "path": "/login"
   },

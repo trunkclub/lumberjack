@@ -33,7 +33,7 @@ module.exports.isMissingRequiredConfig = () => {
   return false
 }
 
-module.exports.auditFeatureRoutes = async(feature) => {
+module.exports.auditFeatureRoutes = async(feature, headless) => {
   console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
 
   const totalAudits = feature.paths.length
@@ -68,7 +68,7 @@ module.exports.auditFeatureRoutes = async(feature) => {
     }
     
     try {
-      const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized)
+      const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized, headless)
       completedAudits += auditStatus.completedAudit ? 1 : 0
       totalViolations += auditStatus.numberOfViolations
     }
@@ -131,12 +131,12 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   })
 }
 
-module.exports.runAxeOnPath = async(path, needsLogin = true) => {
+module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true) => {
 
   let completedAudit = false
   let numberOfViolations = 0
 
-  const browser = await puppeteer.launch({headless: true})
+  const browser = await puppeteer.launch({headless: headless})
   const page = await browser.newPage()
   await page.setBypassCSP(true)
 

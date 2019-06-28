@@ -25,6 +25,71 @@
       ]
     },
     {
+      "authorized": true,
+      "feature": "Appointments",
+      "id": "appointments",
+      "paths": [
+        "/account/appointments",
+        "/account/appointments/schedule",
+        "/account/appointments/schedule/call"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Budget",
+      "id": "budget",
+      "paths": [
+        "/account/budget"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Gift Cards",
+      "id": "gift-cards",
+      "paths": [
+        "/account/gift-cards"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Measurements",
+      "id": "measurements",
+      "paths": [
+        "/account/measurements"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Pinterest",
+      "id": "pinterest",
+      "paths": [
+        "/account/pinterest",
+        "/account/pinterest/authorize"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Wardrobe",
+      "id": "wardrobe",
+      "paths": [
+        "/account/wardrobe",
+        "/account/wardrobe/outfits"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Misc Account",
+      "id": "misc-account",
+      "paths": [
+        "/account/redeem",
+        "/account/referrals",
+        "/account/support",
+        "/account/schedule-trunk",
+        "/account/trunk-request",
+        "/account/order-history"
+      ]
+    },
+    {
       "authorized": false,
       "feature": "Onboarding",
       "id": "onboarding",
