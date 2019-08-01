@@ -16,12 +16,12 @@ Currently, it:
 - Combines violation data found in route-specific json files into one report file
 
 TODOs:
-- Display this in an incredibly basic React app allows results to be copy/pasted into a Paper doc or Jira ticket
+- Display this in an incredibly basic app allows results to be copy/pasted into a Paper doc or Jira ticket
 
 ## Setup:
 Running reports depends on the following:
 * You've run `yarn install` in the root directory
-* You've application and route info to the files found in the `./config` folder
+* You've added application and route info to the files found in the `./config` folder
 
 ## Commands
 Once the above is set up, you can run the following:
@@ -30,7 +30,7 @@ _To test routes:_
 ```js
 yarn check-routes
 ```
-To see additional options, like how to run on a single feature or to take screenshots, append with `--help`
+To see additional options, like how to run on a single feature or to take screenshots, append with ` --help`
 
 
 _To combine reports into one file:_
