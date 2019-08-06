@@ -225,7 +225,7 @@ module.exports.login = async(page) => {
     console.log(' Issue with submit button. \n\n' + error)
   })
 
-  await page.waitForNavigation({waitUntil: 'load'}).catch((error) => {
+  await page.waitForNavigation({waitUntil: 'networkidle2'}).catch((error) => {
     console.log(' Issue with navigation. \n\n' + error)
   })
 }
