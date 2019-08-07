@@ -33,6 +33,41 @@ module.exports.isMissingRequiredConfig = () => {
   return false
 }
 
+module.exports.combineReportFiles = () => {
+  // look in audit folder
+
+  // fetch all json files
+
+  // combine into one json file named with test id
+
+  // save that file.... somewhere.
+}
+
+module.exports.getUniqueViolations = () => {
+
+  // create unique violation array
+
+  const uniqueViolations = []
+
+  // look in audit folder
+
+  // fetch all json files
+
+  // loop through each json file
+
+  // loop through each violation entry
+
+  // check if violation is in unique array already
+
+  // if not, add to unique array
+
+  // if is present, move on to next violation
+
+  // after all routes have been checked, return array
+
+  return uniqueViolations // OR create / write to a new JSON file right away
+}
+
 module.exports.auditFeatureRoutes = async(feature, headless) => {
   console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
 
