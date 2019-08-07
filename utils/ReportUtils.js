@@ -118,12 +118,13 @@ module.exports.auditFeatureRoutes = async(feature, headless) => {
 module.exports.createAuditDirectory = () => {
 
   return new Promise((resolve,reject) => {
-    mkdirp(AUDIT_FOLDER, (error) => {
+
+    mkdirp(`${AUDIT_FOLDER}/route-reports`, (error) => {
       if (error) {
-        console.log(`${chalk.red('\nError:')} There was an issue making the audit directory: ${error}`)
+        console.log(`${chalk.red('\nError:')} There was an issue making the report directories: ${error}`)
         reject()
       } else {
-        console.log(chalk.cyanBright('\nAudit folder is ready...'))
+        console.log(chalk.cyanBright('\Report directories are ready...'))
         resolve()
       }
     })
@@ -145,12 +146,16 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
 
     const payload = {
       id: moment().format('MMDYYYY'),
+      route: {
+        id: this.prettyRoute(path),
+        path: path,
+      },
       needsManualCheck,
       violations,
     }
-
+    
     fs.writeFile(
-      `${AUDIT_FOLDER}/axe-audit--${this.prettyRoute(path)}.json`,
+      `${AUDIT_FOLDER}/route-reports/${this.prettyRoute(path)}.json`,
       JSON.stringify([payload]),
       'utf8',
       (error, result) => {
