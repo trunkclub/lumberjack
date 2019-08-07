@@ -27,8 +27,7 @@ const AuditReports = async() => {
   // Audit provided routes
 
   console.log(chalk.cyanBright('\nAudit started...'))
-  const startTime = new Date()
-
+  
   // Create audit folder directory if it does not exist
   await ReportUtils.createAuditDirectory()
 
@@ -64,11 +63,7 @@ const AuditReports = async() => {
     }
   }
 
-  const endTime = new Date()
-  const timeDiff = endTime.getTime() - startTime.getTime()
-  
-  const timeInSeconds = timeDiff / 1000 % 60
-  console.log(chalk.green(`\nSuccess!`) + ` Completed ${completedAudits} of ${totalAudits} route audits in ${timeInSeconds} seconds. ${totalViolations} violations found.\n`)
+  console.log(chalk.green(`\nSuccess!`) + ` Completed ${completedAudits} of ${totalAudits} route audits. ${totalViolations} violations found.\n`)
 }
 
 module.exports = AuditReports()
