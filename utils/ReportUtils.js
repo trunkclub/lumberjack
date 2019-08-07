@@ -5,7 +5,7 @@ const mkdirp = require('mkdirp')
 const moment = require('moment')
 const puppeteer = require('puppeteer')
 
-const APP_CONFIG = require('../config/app.json') 
+const APP_CONFIG = require('../config/app.json')
 const ROUTE_CONFIG = require('../config/routes.json')
 
 const AUDIT_FOLDER = `./audits/${APP_CONFIG.id}`
@@ -33,38 +33,54 @@ module.exports.isMissingRequiredConfig = () => {
   return false
 }
 
-module.exports.combineReportFiles = () => {
+module.exports.combineReportFiles = async() => {
+  const combinedViolations = []
   // look in audit folder
+  const filenames = fs.readdirSync(AUDIT_FOLDER)
 
   // fetch all json files
+  for(const i in filenames){
+    const file = fs.readFileSync(`${AUDIT_FOLDER}/${filenames[i]}`)
+    var temp = JSON.parse(file)
 
-  // combine into one json file named with test id
-
+    // combine into one json file named with test id
+    for(const param of temp){
+      combinedViolations.push(param)
+    }
+  }
   // save that file.... somewhere.
+  return combinedViolations
+}
+
+module.exports.pareDownViolation = (violation) => {
+  
+
+  return violation
 }
 
 module.exports.getUniqueViolations = () => {
 
   // create unique violation array
-
   const uniqueViolations = []
 
-  // look in audit folder
+  // look in audit folder and fetch all json files
+  const combinedViolations = this.combineReportFiles()
 
-  // fetch all json files
-
-  // loop through each json file
 
   // loop through each violation entry
+  for(const violation of combinedViolations){
+    //Remove unnecessary information from violation
+    const paredViolation = this.pareDownViolation(violation)
 
-  // check if violation is in unique array already
+    // check if violation is in unique array already
 
-  // if not, add to unique array
+    // if not, add to unique array
 
-  // if is present, move on to next violation
+    // if is present, add route and html to found violation
+  }
+
 
   // after all routes have been checked, return array
-
   return uniqueViolations // OR create / write to a new JSON file right away
 }
 
@@ -101,7 +117,7 @@ module.exports.auditFeatureRoutes = async(feature, headless) => {
         }
       }
     }
-    
+
     try {
       const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized, headless)
       completedAudits += auditStatus.completedAudit ? 1 : 0
@@ -109,7 +125,7 @@ module.exports.auditFeatureRoutes = async(feature, headless) => {
     }
     catch (error) {
       console.log(error)
-    } 
+    }
   }
 
   return ({completedAudits, totalAudits, totalViolations})
@@ -212,7 +228,7 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true) =>
       if (results.violations && results.violations.length) {
 
         numberOfViolations = results.violations.length
-        
+
         console.log(` ${numberOfViolations} violations found.`)
         violations = results.violations
       } else if (results.violations.length === 0 && results.passes.length > 0) {
@@ -227,7 +243,7 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true) =>
       console.log(' No results returned- there may be an issue with this audit.')
       console.log(error)
     })
-  }).catch(error => { 
+  }).catch(error => {
     console.log(' Error with waiting.')
     console.log(error)
   })
