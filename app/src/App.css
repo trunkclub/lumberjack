@@ -6,19 +6,48 @@ body {
   padding: 2rem;
 }
 
+pre {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  overflow-x: scroll;
+  padding: 1rem;
+}
+
+.button-set {
+  background: #C2C2C2;
+  padding: 0.5rem 1rem;
+}
+
+.button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+
 .violation {
   border: 1px solid #CCC;
   margin: 2rem 0;
-  padding: 0 1rem 1rem;
+}
+
+.violation .summary {
+  padding: 1rem;
+}
+
+.violation .summary > *:first-child {
+  margin-top: 0;
+}
+.violation .summary > *:last-child {
+  margin-bottom: 0;
+}
+
+.summary__title {
+  border-bottom: 1px dashed #CCC;
+  padding-bottom: 0.5rem;
 }
 
 .violation footer {
   border-top: 1px solid #CCC;
-  padding: 1rem;
-}
-
-.violation__instances {
-  margin: 1rem 0;
+  margin-top: 1rem;
 }
 
 /* .violation__instance {
@@ -30,25 +59,4 @@ body {
 dt {
   font-weight: 600;
   margin-top: 2rem;
-}
-
-pre {
-  border: 1px solid #CCC;
-  overflow-x: scroll;
-  padding: 1rem;
-}
-
-h1 {
-  font-size: 3rem;
-}
-
-h2 {
-  font-size: 2rem;
-  margin: 0 0 1rem;
-  padding: 2rem 0 0;
-}
-
-h5 {
-  font-size: 1rem;
-  font-style: italic;
 }

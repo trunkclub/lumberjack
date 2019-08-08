@@ -13,7 +13,6 @@ export default class ElementInstance extends Component {
   render() {
     return (
       <div className="violation__instance">
-  
         <h5>Element:</h5>
         <pre>{this.props.html}</pre>
         <pre>{this.props.target}</pre>

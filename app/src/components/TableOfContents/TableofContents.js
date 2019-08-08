@@ -9,9 +9,9 @@ export default class TableOfContents extends Component {
 
         return (
           <li
-            key={`toc-${type.id}`}
+            key={`toc-${type.route.id}`}
           >
-            <a href={`#${type.id}`}>{type.title}</a>
+            <a href={`#${type.route.id}`}>{type.title}</a>
           </li>
         )
       })
