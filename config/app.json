@@ -5,5 +5,5 @@
     "password": "Test1234",
     "path": "/login"
   },
-  "root": "http://localhost:10081"
+  "root": "https://www.stagingclub.com"
 }
