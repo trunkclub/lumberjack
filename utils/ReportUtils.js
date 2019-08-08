@@ -41,8 +41,6 @@ module.exports.getUniqueViolations = () => {
   const uniqueViolations = {}
   // loop through each violation entry
   for(const violations of violationGenerator()){
-
-
     for(const violation of violations.violations){
 
       if (!uniqueViolations[violation.id]) {
@@ -67,6 +65,7 @@ module.exports.getUniqueViolations = () => {
     }
 
   }
+  
   fs.writeFile(
     `${AUDIT_FOLDER}/uniqueViolations.json`,
     JSON.stringify([uniqueViolations]),
