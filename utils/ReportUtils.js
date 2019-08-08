@@ -48,9 +48,10 @@ module.exports.pareViolation = (violation, route) => {
 module.exports.getUniqueViolations = () => {
   // create unique violation array
   const uniqueViolations = {}
-
   // loop through each violation entry
   for(const violations of violationGenerator()){
+
+
     for(const violation of violations.violations){
 
       if (!uniqueViolations[violation.id]) {
@@ -67,15 +68,28 @@ module.exports.getUniqueViolations = () => {
 
           if (!alreadyPresent) {
             uniqueViolations[violation.id].nodes.push(node)
-
           }
         })
       }
     }
-  }
 
+  }
+  fs.writeFile(
+    `${AUDIT_FOLDER}/uniqueViolations.json`,
+    JSON.stringify([uniqueViolations]),
+    'utf8',
+    (error, result) => {
+      if (error) {
+        console.log(' There was an issue writing the report.')
+
+      } else {
+        console.log(' Report created.')
+        
+      }
+    }
+  )
   // after all routes have been checked, return object
-  return uniqueViolations // OR create / write to a new JSON file right away
+  // return uniqueViolations // OR create / write to a new JSON file right away
 }
 
 
