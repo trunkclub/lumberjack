@@ -10,6 +10,75 @@ const ROUTE_CONFIG = require('../config/routes.json')
 
 const AUDIT_FOLDER = `./audits/${APP_CONFIG.id}`
 
+
+var violationGenerator = function* () {
+  // look in audit folder
+  const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
+
+  // fetch all json files
+  for(const i in filenames){
+    const file = fs.readFileSync(`${AUDIT_FOLDER}/route-reports/${filenames[i]}`)
+    var json = JSON.parse(file)
+
+    // combine into one json file named with test id
+    for(const violation of json){
+      yield violation
+    }
+  }
+}
+
+
+module.exports.pareViolation = (violation, route) => {
+  delete violation.tags
+  for(const node in violation.nodes){
+    delete violation.nodes[node].none
+    delete violation.nodes[node].impact
+    //make route array
+    route.html = violation.nodes[node].html
+    delete violation.nodes[node].html
+    route.target = violation.nodes[node].target
+    delete violation.nodes[node].target
+    violation.nodes[node].route = [route]
+  }
+  violation = this.collaspeViolationNodes(violation)
+  return violation
+}
+
+
+module.exports.getUniqueViolations = () => {
+  // create unique violation array
+  const uniqueViolations = {}
+
+  // loop through each violation entry
+  for(const violations of violationGenerator()){
+    for(const violation of violations.violations){
+
+      if (!uniqueViolations[violation.id]) {
+        uniqueViolations[violation.id] = violation
+      } else {
+
+        const uniqueTargets = uniqueViolations[violation.id].nodes.map(node => {
+          return node.target[0]
+        })
+
+        violation.nodes.forEach(node => {
+          const currentTarget = node.target[0]
+          const alreadyPresent = uniqueTargets.includes(currentTarget)
+
+          if (!alreadyPresent) {
+            uniqueViolations[violation.id].nodes.push(node)
+
+          }
+        })
+      }
+    }
+  }
+
+  // after all routes have been checked, return object
+  return uniqueViolations // OR create / write to a new JSON file right away
+}
+
+
 module.exports.isMissingRequiredConfig = () => {
   if(!APP_CONFIG.id) {
     console.log(`${chalk.red('\nError:')} An application id needs to be provided. Please check your config/app.json file.\n`)
@@ -33,56 +102,6 @@ module.exports.isMissingRequiredConfig = () => {
   return false
 }
 
-module.exports.combineReportFiles = async() => {
-  const combinedViolations = []
-  // look in audit folder
-  const filenames = fs.readdirSync(AUDIT_FOLDER)
-
-  // fetch all json files
-  for(const i in filenames){
-    const file = fs.readFileSync(`${AUDIT_FOLDER}/${filenames[i]}`)
-    var temp = JSON.parse(file)
-
-    // combine into one json file named with test id
-    for(const param of temp){
-      combinedViolations.push(param)
-    }
-  }
-  // save that file.... somewhere.
-  return combinedViolations
-}
-
-module.exports.pareDownViolation = (violation) => {
-  
-
-  return violation
-}
-
-module.exports.getUniqueViolations = () => {
-
-  // create unique violation array
-  const uniqueViolations = []
-
-  // look in audit folder and fetch all json files
-  const combinedViolations = this.combineReportFiles()
-
-
-  // loop through each violation entry
-  for(const violation of combinedViolations){
-    //Remove unnecessary information from violation
-    const paredViolation = this.pareDownViolation(violation)
-
-    // check if violation is in unique array already
-
-    // if not, add to unique array
-
-    // if is present, add route and html to found violation
-  }
-
-
-  // after all routes have been checked, return array
-  return uniqueViolations // OR create / write to a new JSON file right away
-}
 
 module.exports.auditFeatureRoutes = async(feature, headless) => {
   console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
@@ -169,7 +188,7 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
       needsManualCheck,
       violations,
     }
-    
+
     fs.writeFile(
       `${AUDIT_FOLDER}/route-reports/${this.prettyRoute(path)}.json`,
       JSON.stringify([payload]),
