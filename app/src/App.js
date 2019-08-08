@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 
-import TableOfContents from './components/TableOfContents/TableofContents'
 import Violation from './components/Violation/Violation'
 
 import './App.css';
@@ -53,14 +52,12 @@ class App extends Component {
 
       return (
         <Violation
-          id={id}
           key={`${id}-${index}`}
           description={description}
           help={help}
           helpUrl={helpUrl}
           impact={impact}
           instances={nodes}
-          route={route}
         />
       )
     })
@@ -72,8 +69,6 @@ class App extends Component {
         {this.state.reportData && (
           <div>
             Audit found {this.state.reportData.length} violation types:
-
-            {/* <TableOfContents data={this.state.reportData} /> */}
 
             <div>
               {this.state.reportData.map((entry, index) => {
