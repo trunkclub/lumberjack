@@ -13,6 +13,17 @@ pre {
   padding: 1rem;
 }
 
+.hide {
+  overflow: hidden;
+  position: absolute;
+  height: 0;
+  width: 0;
+}
+
+.show {
+  display: block;
+}
+
 .button-set {
   background: #C2C2C2;
   padding: 0.5rem 1rem;
@@ -50,13 +61,7 @@ pre {
   margin-top: 1rem;
 }
 
-/* .violation__instance {
-  border: 1px solid #CCC;
-  padding: 0 1rem;
-  margin: 1rem 0 0;
-} */
-
-dt {
-  font-weight: 600;
-  margin-top: 2rem;
+.content-status {
+  font-style: italic;
+  margin-left: 1rem;
 }
