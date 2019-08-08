@@ -9,73 +9,42 @@ import './App.css';
 class App extends Component {
 
   state = {
+    rootViolations: 0,
+    violationInstances: 0,
     reportData: null,
-    reportId: '031119'
   }
 
   componentDidMount() {
-    this.getReport(this.state.reportId)
+    this.getReport()
   }
 
   getReport = (reportId) => {
-    axios.get(`/api/reports/${reportId}`)
+    axios
+      .get(`/api/reports/`)
       .then((response) => {
 
-        const report = []
-
-        for (let type of Object.keys(response.data)) {
-
-          const violations = response.data[type]
-          const formatted = {
-            id: type,
-            title: type.split('-').join(' '),
-            violations,
-          }
-
-          report.push(formatted)
-        }
+        console.log(response)
 
         this.setState({
-          reportData: report,
+          reportData: response.data,
         })
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
   }
 
-  prettyRoute = (route) => {
-    const splitRoute = route.split('_')
-  
-    if (splitRoute[0] !== '') {
-      return splitRoute.join('/')
+  renderViolations(violations, route) {
+
+    if (!violations) {
+      return null
     }
 
-    return route
-  }
-
-  renderViolations(violations) {
-
-    const alreadyReported = []
-    const violationsWithUniqueRoutes = violations.filter(violation => {
-
-      console.log('!')
-      if(alreadyReported.indexOf(violation.route) === -1) {
-        alreadyReported.push(violation.route)
-        //console.log(violation.route + ' not found yet, adding to array')
-        return violation
-      }
-    })
-
-    return violationsWithUniqueRoutes.map((details, index) => {
-
-      const {
-        route,
-        violation,
-      } = details
+    return violations.map((violation, index) => {
 
       const {
         description,
+        help,
         helpUrl,
         id,
         impact,
@@ -84,12 +53,14 @@ class App extends Component {
 
       return (
         <Violation
+          id={id}
           key={`${id}-${index}`}
           description={description}
+          help={help}
           helpUrl={helpUrl}
           impact={impact}
           instances={nodes}
-          route={this.prettyRoute(route)}
+          route={route}
         />
       )
     })
@@ -97,44 +68,29 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Customer App ({this.state.reportId}): </h1>
+      <>
         {this.state.reportData && (
           <div>
             Audit found {this.state.reportData.length} violation types:
 
-            <TableOfContents data={this.state.reportData} />
-
-            <hr />
+            {/* <TableOfContents data={this.state.reportData} /> */}
 
             <div>
-              {this.state.reportData.map((violationType, index) => {
-
+              {this.state.reportData.map((entry, index) => {
                 return (
                   <section
-                    id={violationType.id}
-                    key={violationType.id}
+                    id={entry.route.id}
+                    key={entry.route.id}
                   >
-                    <h2>Violation type: {violationType.title}</h2>
-
-                    <h3>{violationType.violations.length} Routes with violations:</h3>
-                    <ul>
-                    {
-                      violationType.violations.map(violation => {
-                        return <li key={`route-violation--${violation.id}`}>{violation.route}</li>
-                      })
-                    }
-                    </ul>
-
-                    {this.renderViolations(violationType.violations)}
-
+                    <h2>Violations for {entry.route.path}</h2>
+                    {this.renderViolations(entry.violations, entry.route)}
                   </section>
                 )
               })}
             </div>
           </div>
         )}
-      </div>
+      </>
     );
   }
 }
