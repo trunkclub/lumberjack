@@ -30,7 +30,7 @@ var violationGenerator = function* () {
 
 module.exports.addRouteToViolation = (violation, route) => {
   for(const node in violation.nodes){
-    violation.nodes[node].route = route
+    violation.nodes[node].routes = [route]
   }
   return violation
 }
@@ -57,15 +57,21 @@ module.exports.getUniqueViolations = () => {
           const alreadyPresent = uniqueTargets.includes(currentTarget)
 
           if (!alreadyPresent) {
-            node.route = violations.route
+            node.routes = [violations.route]
             uniqueViolations[violation.id].nodes.push(node)
+          }else{
+            function isTarget(x){
+              return x.target[0] === node.target[0]
+            }
+            const nodeX = uniqueViolations[violation.id].nodes.find(isTarget)
+            nodeX.routes.push(violations.route)
           }
         })
       }
     }
 
   }
-  
+
   fs.writeFile(
     `${AUDIT_FOLDER}/uniqueViolations.json`,
     JSON.stringify([uniqueViolations]),
