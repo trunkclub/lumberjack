@@ -28,19 +28,10 @@ var violationGenerator = function* () {
 }
 
 
-module.exports.pareViolation = (violation, route) => {
-  delete violation.tags
+module.exports.addRouteToViolation = (violation, route) => {
   for(const node in violation.nodes){
-    delete violation.nodes[node].none
-    delete violation.nodes[node].impact
-    //make route array
-    route.html = violation.nodes[node].html
-    delete violation.nodes[node].html
-    route.target = violation.nodes[node].target
-    delete violation.nodes[node].target
-    violation.nodes[node].route = [route]
+    violation.nodes[node].routes = [route]
   }
-  violation = this.collaspeViolationNodes(violation)
   return violation
 }
 
@@ -50,14 +41,13 @@ module.exports.getUniqueViolations = () => {
   const uniqueViolations = {}
   // loop through each violation entry
   for(const violations of violationGenerator()){
-
-
     for(const violation of violations.violations){
-
+      //Does this violation already exist in the uniqueViolations? No, add it
       if (!uniqueViolations[violation.id]) {
+        const routeAdded = this.addRouteToViolation(violation, violations.route)
         uniqueViolations[violation.id] = violation
       } else {
-
+        //Yes, lets see if a matching target is in the unique violations
         const uniqueTargets = uniqueViolations[violation.id].nodes.map(node => {
           return node.target[0]
         })
@@ -66,8 +56,17 @@ module.exports.getUniqueViolations = () => {
           const currentTarget = node.target[0]
           const alreadyPresent = uniqueTargets.includes(currentTarget)
 
+          //If node target is not in unique violations add route to node and add to uniques
           if (!alreadyPresent) {
+            node.routes = [violations.route]
             uniqueViolations[violation.id].nodes.push(node)
+          }else{
+            //if it is in unique violations add route to the unique violation
+            function isTarget(x){
+              return x.target[0] === node.target[0]
+            }
+            const nodeX = uniqueViolations[violation.id].nodes.find(isTarget)
+            nodeX.routes.push(violations.route)
           }
         })
       }
@@ -84,7 +83,7 @@ module.exports.getUniqueViolations = () => {
 
       } else {
         console.log(' Report created.')
-        
+
       }
     }
   )
