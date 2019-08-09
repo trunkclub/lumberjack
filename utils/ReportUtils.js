@@ -42,12 +42,12 @@ module.exports.getUniqueViolations = () => {
   // loop through each violation entry
   for(const violations of violationGenerator()){
     for(const violation of violations.violations){
-
+      //Does this violation already exist in the uniqueViolations? No, add it
       if (!uniqueViolations[violation.id]) {
         const routeAdded = this.addRouteToViolation(violation, violations.route)
         uniqueViolations[violation.id] = violation
       } else {
-
+        //Yes, lets see if a matching target is in the unique violations
         const uniqueTargets = uniqueViolations[violation.id].nodes.map(node => {
           return node.target[0]
         })
@@ -56,10 +56,12 @@ module.exports.getUniqueViolations = () => {
           const currentTarget = node.target[0]
           const alreadyPresent = uniqueTargets.includes(currentTarget)
 
+          //If node target is not in unique violations add route to node and add to uniques
           if (!alreadyPresent) {
             node.routes = [violations.route]
             uniqueViolations[violation.id].nodes.push(node)
           }else{
+            //if it is in unique violations add route to the unique violation
             function isTarget(x){
               return x.target[0] === node.target[0]
             }
@@ -71,7 +73,6 @@ module.exports.getUniqueViolations = () => {
     }
 
   }
-
   fs.writeFile(
     `${AUDIT_FOLDER}/uniqueViolations.json`,
     JSON.stringify([uniqueViolations]),
