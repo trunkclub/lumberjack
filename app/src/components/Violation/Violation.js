@@ -13,26 +13,27 @@ const Violation = (props) => {
     id,
     impact,
     index,
-    // instances,
     node,
   } = props
 
   const {
-    html,
-    target,
+    all,
     any,
-    all
+    html,
+    routes,
+    target,
   } = node
 
   const capsImpact = impact.toUpperCase()
   const panelId = `jira--${id}`
+  const routesList = routes.map(route => route.path)
 
   return (
     <article className="violation">
       <div className="summary">
         <h3 className="summary__title">Violation: {help}</h3>
         <p><b>User Impact:</b> {impact}</p>
-        {/* <p><b>Number of Instances:</b> {instances.length}</p> */}
+        <p><b>Routes Impacted ({routesList.length} total):</b> {routesList.join(', ')}</p>
         <p><b>Description:</b> {description}</p>
 
         <ElementInstance
