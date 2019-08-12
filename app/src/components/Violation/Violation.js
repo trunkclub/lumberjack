@@ -28,12 +28,17 @@ const Violation = (props) => {
   const panelId = `jira--${id}`
   const routesList = routes.map(route => route.path)
 
+  const routesInfo = {
+    list: routesList.join(', '),
+    total: routesList.length,
+  }
+
   return (
     <article className="violation">
       <div className="summary">
         <h3 className="summary__title">Violation: {help}</h3>
         <p><b>User Impact:</b> {impact}</p>
-        <p><b>Routes Impacted ({routesList.length} total):</b> {routesList.join(', ')}</p>
+        <p><b>Routes Impacted ({routesInfo.total} total):</b> {routesInfo.list}</p>
         <p><b>Description:</b> {description}</p>
 
         <ElementInstance
@@ -42,35 +47,6 @@ const Violation = (props) => {
           html={html}
           target={target[0]}
         />
-
-
-        {/* <h3>Fixes:</h3>
-        {node.any.length && (
-          <>
-            <h4>Fix any of the following:</h4>
-            <ul>
-              {node.any.map((fix, index) => {
-                console.log(fix)
-                return (
-                  <li key={`${id}-${fix.id}-any-${index}`}>
-                    {fix.message}
-                    {fix.data && (
-                      
-                      <table>
-                        {Object.keys(fix.data).map(id => {
-                          return (<tr><th>{id}</th><td>{fix.data[id]}</td></tr>)
-                        })}
-                      </table>
-                    )}
-                    
-                  </li>
-                )
-              })}  
-            </ul>
-          </>
-        )} */}
-        
-        
 
         <p><a href={helpUrl}>Read more about how to fix this issue >></a></p>
       </div>
@@ -83,7 +59,7 @@ const Violation = (props) => {
           // instances={instances}
           node={node}
           panelId={panelId}
-          routes={['/route/1', '/route/2']}
+          routesInfo= {routesInfo}
           title={`[${capsImpact}]: ${help}`}
         />
       </footer>
