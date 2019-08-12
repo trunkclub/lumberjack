@@ -12,8 +12,9 @@ const renderIssueList = (issues, type) => {
 const JiraElementInstance = (props) => {
   return (
     <div className="violation__instance">
-      &#123;panel&#125;
-      <p>h3. Instance {props.number}:</p>
+      {/* &#123;panel&#125; */}
+      {/* <p>h4. Instance Details:</p> */}
+      <p>h2. Instance Details:</p>
       <p>&#123;code&#125;{props.html}&#123;code&#125;</p>
       <p>&#123;code&#125;{props.target}&#123;code&#125;</p>
       \\
@@ -30,7 +31,7 @@ const JiraElementInstance = (props) => {
         </div>
       )}
       \\
-      &#123;panel&#125;
+      {/* &#123;panel&#125; */}
     </div>
   )
 }
