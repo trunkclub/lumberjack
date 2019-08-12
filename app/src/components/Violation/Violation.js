@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import JiraDisplay from '../JiraDisplay/JiraDisplay'
+import ElementInstance from '../ElementInstance'
 
 const Violation = (props) => {
-
   
   const {
     description,
@@ -12,8 +12,17 @@ const Violation = (props) => {
     helpUrl,
     id,
     impact,
-    instances,
+    index,
+    // instances,
+    node,
   } = props
+
+  const {
+    html,
+    target,
+    any,
+    all
+  } = node
 
   const capsImpact = impact.toUpperCase()
   const panelId = `jira--${id}`
@@ -23,8 +32,45 @@ const Violation = (props) => {
       <div className="summary">
         <h3 className="summary__title">Violation: {help}</h3>
         <p><b>User Impact:</b> {impact}</p>
-        <p><b>Number of Instances:</b> {instances.length}</p>
+        {/* <p><b>Number of Instances:</b> {instances.length}</p> */}
         <p><b>Description:</b> {description}</p>
+
+        <ElementInstance
+          all={all}
+          any={any}
+          html={html}
+          target={target[0]}
+        />
+
+
+        {/* <h3>Fixes:</h3>
+        {node.any.length && (
+          <>
+            <h4>Fix any of the following:</h4>
+            <ul>
+              {node.any.map((fix, index) => {
+                console.log(fix)
+                return (
+                  <li key={`${id}-${fix.id}-any-${index}`}>
+                    {fix.message}
+                    {fix.data && (
+                      
+                      <table>
+                        {Object.keys(fix.data).map(id => {
+                          return (<tr><th>{id}</th><td>{fix.data[id]}</td></tr>)
+                        })}
+                      </table>
+                    )}
+                    
+                  </li>
+                )
+              })}  
+            </ul>
+          </>
+        )} */}
+        
+        
+
         <p><a href={helpUrl}>Read more about how to fix this issue >></a></p>
       </div>
       <footer>
@@ -32,7 +78,9 @@ const Violation = (props) => {
           description={description}
           helpUrl={helpUrl}
           impact={impact}
-          instances={instances}
+          index={index}
+          // instances={instances}
+          node={node}
           panelId={panelId}
           routes={['/route/1', '/route/2']}
           title={`[${capsImpact}]: ${help}`}

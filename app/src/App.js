@@ -21,11 +21,8 @@ class App extends Component {
     axios
       .get(`/api/reports/`)
       .then((response) => {
-
-        console.log(response)
-
         this.setState({
-          reportData: response.data,
+          reportData: response.data[0],
         })
       })
       .catch((error) => {
@@ -33,52 +30,57 @@ class App extends Component {
       })
   }
 
-  renderViolations(violations, route) {
-
-    if (!violations) {
-      return null
-    }
-
-    return violations.map((violation, index) => {
-
-      const {
-        description,
-        help,
-        helpUrl,
-        id,
-        impact,
-        nodes,
-      } = violation
-
-      return (
-        <Violation
-          key={`${id}-${index}`}
-          description={description}
-          help={help}
-          helpUrl={helpUrl}
-          impact={impact}
-          instances={nodes}
-        />
-      )
-    })
-  }
-
   render() {
+
+    const { reportData } = this.state
+
     return (
       <>
-        {this.state.reportData && (
+        <aside>
+          <h1>A11y Report</h1>
+        </aside>
+        {reportData && (
           <div>
-            Audit found {this.state.reportData.length} violation types:
-
+            <ul>
+              {Object.keys(reportData).map((id, index) => {
+                return (<li><a href={`#${id}`}>{id}</a></li>)
+              })}
+            </ul>
+            <hr />
             <div>
-              {this.state.reportData.map((entry, index) => {
+              {Object.keys(reportData).map((id, index) => {
+
                 return (
                   <section
-                    id={entry.route.id}
-                    key={entry.route.id}
+                    id={id}
+                    key={id}
                   >
-                    <h2>Violations for {entry.route.path}</h2>
-                    {this.renderViolations(entry.violations, entry.route)}
+                    <h2 id={id}>Violation Type: {id}</h2>
+                    <p><b>Total Unique Violations:</b> {reportData[id].nodes.length}</p>
+                    
+                    {reportData[id].nodes.map((node, index) => {
+
+                      console.log(node)
+
+                      const {
+                        description,
+                        help,
+                        helpUrl,
+                        impact,
+                        nodes,
+                      } = reportData[id]
+
+                      return (<Violation           
+                        key={`${id}-${index}`}
+                        description={description}
+                        help={help}
+                        helpUrl={helpUrl}
+                        impact={impact}
+                        index={index}
+                        node={node}
+                        // instances={nodes}
+                      />)
+                    })}
                   </section>
                 )
               })}

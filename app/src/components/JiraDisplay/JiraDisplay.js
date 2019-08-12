@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import JiraInstanceSet from './components/JiraInstanceSet'
+import JiraElementInstance from './components/JiraElementInstance'
 
 
 const JiraDisplay = (props) => {
@@ -33,11 +33,20 @@ const JiraDisplay = (props) => {
   const {
     description,
     helpUrl,
+    id,
     impact,
-    instances,
+    index,
+    node,
     routes,
     title,
   } = props
+
+  const {
+    all,
+    any,
+    html,
+    target
+  } = node
 
   return (
     <div>
@@ -50,13 +59,23 @@ const JiraDisplay = (props) => {
       </div>
       <pre ref={panelRef} aria-hidden={!showMarkup} className={showMarkup ? 'show' : 'hide'}>
         <p>h1. {title}</p>
-        <p>*Routes:* {routes}</p>
+        <p>*Routes where this violation appears:* {routes}</p>
         <p>*User Impact:* {impact}</p>
         <p>*Description:* {description}</p>
         <p>[Read more about how to fix this issue|{helpUrl}]</p>
         \\
         <p>----</p>
-        <JiraInstanceSet instances={instances} />
+        
+        <JiraElementInstance
+          all={all}
+          any={any}
+          html={html}
+          key={`${id}-instance-${index}`}
+          number={index+1}
+          target={target[0]}
+        />
+
+        {/* <JiraInstanceSet instances={instances} /> */}
       </pre>
     </div>
   )
