@@ -37,7 +37,7 @@ const JiraDisplay = (props) => {
     impact,
     index,
     node,
-    routes,
+    routesInfo,
     title,
   } = props
 
@@ -59,8 +59,8 @@ const JiraDisplay = (props) => {
       </div>
       <pre ref={panelRef} aria-hidden={!showMarkup} className={showMarkup ? 'show' : 'hide'}>
         <p>h1. {title}</p>
-        <p>*Routes where this violation appears:* {routes}</p>
         <p>*User Impact:* {impact}</p>
+        <p>*Routes Impacted ({routesInfo.total} total):* {routesInfo.list}</p>
         <p>*Description:* {description}</p>
         <p>[Read more about how to fix this issue|{helpUrl}]</p>
         \\

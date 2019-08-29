@@ -43,7 +43,7 @@ class App extends Component {
           <div>
             <ul>
               {Object.keys(reportData).map((id, index) => {
-                return (<li><a href={`#${id}`}>{id}</a></li>)
+                return (<li key={id}><a href={`#${id}`}>{id}</a></li>)
               })}
             </ul>
             <hr />
@@ -60,14 +60,12 @@ class App extends Component {
                     
                     {reportData[id].nodes.map((node, index) => {
 
-                      console.log(node)
 
                       const {
                         description,
                         help,
                         helpUrl,
                         impact,
-                        nodes,
                       } = reportData[id]
 
                       return (<Violation           
@@ -78,7 +76,6 @@ class App extends Component {
                         impact={impact}
                         index={index}
                         node={node}
-                        // instances={nodes}
                       />)
                     })}
                   </section>
