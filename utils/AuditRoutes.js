@@ -12,6 +12,12 @@ const argv = require('yargs')
   default: true,
 })
 .boolean('headless')
+.option('screenshot', {
+  alias: 'screen',
+  describe: 'Take a mobile and desktop screenshot of every route',
+  default: false,
+})
+.boolean('screenshot')
 .argv
 
 const APP_CONFIG = require('../config/app.json') 
@@ -49,10 +55,10 @@ const AuditReports = async() => {
       routes = featureEntry
     }
   }
-  
+
   for (let feature of routes) {
     try {
-      const auditStatus = await ReportUtils.auditFeatureRoutes(feature, argv.headless)
+      const auditStatus = await ReportUtils.auditFeatureRoutes(feature, argv.headless, argv.screenshot)
 
       completedAudits += auditStatus.completedAudits
       totalAudits += auditStatus.totalAudits

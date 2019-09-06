@@ -116,7 +116,8 @@ module.exports.isMissingRequiredConfig = () => {
 }
 
 
-module.exports.auditFeatureRoutes = async(feature, headless) => {
+module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot = false) => {
+
   console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
 
   const totalAudits = feature.paths.length
@@ -151,7 +152,7 @@ module.exports.auditFeatureRoutes = async(feature, headless) => {
     }
 
     try {
-      const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized, headless)
+      const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized, headless, screenshot)
       completedAudits += auditStatus.completedAudit ? 1 : 0
       totalViolations += auditStatus.numberOfViolations
     }
@@ -189,6 +190,36 @@ module.exports.prettyRoute = (route) => {
   return splitRoute.join('_')
 }
 
+module.exports.takeScreenshot = async(page, path) => {
+
+  mkdirp(`${AUDIT_FOLDER}/screenshots`, (error) => {
+    if (error) {
+      console.log(`${chalk.red('\nError:')} There was an issue making the screenshot directory: ${error}`)
+    }
+  })
+
+  console.log(' Taking screenshots...')
+
+  await page.setViewport({
+    width: 480,
+    height: 1024,
+  })
+
+  await page.screenshot({
+    fullPage: true,
+    path: `${AUDIT_FOLDER}/screenshots/${this.prettyRoute(path)}--mobile.png`
+  })
+  console.log(' Mobile screenshot created.')
+
+  await page.setViewport({
+    width: 1048,
+    height: 1024,
+  })
+
+  await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${this.prettyRoute(path)}--desktop.png`})
+  console.log(' Desktop screenshot created.')
+}
+
 module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   return new Promise((resolve, reject) => {
 
@@ -219,7 +250,7 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   })
 }
 
-module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true) => {
+module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true, screenshot = false) => {
 
   let completedAudit = false
   let numberOfViolations = 0
@@ -227,6 +258,12 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true) =>
   const browser = await puppeteer.launch({headless: headless})
   const page = await browser.newPage()
   await page.setBypassCSP(true)
+
+  // TODO: Figure out how to set this based on content
+  await page.setViewport({
+    width: 1024,
+    height: 1024,
+  })
 
   await page.goto(
     APP_CONFIG.root + APP_CONFIG.login.path,
@@ -260,7 +297,11 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true) =>
   await page.waitFor('html').then(async() => {
 
     let violations = []
-
+    
+    if (screenshot) {
+      await this.takeScreenshot(page, path)
+    }
+    
     await new AxePuppeteer(page).analyze().then(async(results) => {
       if (results.violations && results.violations.length) {
 
