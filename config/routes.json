@@ -11,7 +11,7 @@
     "salesOrderId": null,
     "shoppingCartId": null,
     "styleVariantId": null,
-    "trunkId": null
+    "trunkId": [261980]
   },
   "routes": [
     {
@@ -44,6 +44,18 @@
     },
     {
       "authorized": true,
+      "feature": "Express Preview",
+      "id": "express-preview",
+      "paths": [
+        "/get-started/intro",
+        "/get-started/details",
+        "/get-started/meet-your-stylist",
+        "/get-started/shipping",
+        "/get-started/payment"
+      ]
+    },
+    {
+      "authorized": true,
       "feature": "Gift Cards",
       "id": "gift-cards",
       "paths": [
@@ -60,11 +72,77 @@
     },
     {
       "authorized": true,
+      "feature": "Messenger",
+      "id": "messenger",
+      "paths": [
+        "/messenger"
+      ]
+    },
+    {
+      "authorized": true,
       "feature": "Pinterest",
       "id": "pinterest",
       "paths": [
         "/account/pinterest",
         "/account/pinterest/authorize"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Style Preferences",
+      "id": "style-preferences",
+      "paths": [
+        "/account/preferences",
+        "/account/preferences/avoid",
+        "/account/preferences/bra-band",
+        "/account/preferences/bra-cup",
+        "/account/preferences/brands",
+        "/account/preferences/budget",
+        "/account/preferences/conceal",
+        "/account/preferences/fit-issues",
+        "/account/preferences/dislike-patterns",
+        "/account/preferences/dress-size",
+        "/account/preferences/dresses-style",
+        "/account/preferences/heel-height",
+        "/account/preferences/inseam-length",
+        "/account/preferences/jewelry-style",
+        "/account/preferences/needs",
+        "/account/preferences/pants-fit",
+        "/account/preferences/pant-rise",
+        "/account/preferences/pant-size",
+        "/account/preferences/pant-style",
+        "/account/preferences/shirt-fit",
+        "/account/preferences/shirt-size",
+        "/account/preferences/shoe-size",
+        "/account/preferences/shoes-style",
+        "/account/preferences/stores",
+        "/account/preferences/tops-style",
+        "/account/preferences/waist-size",
+        "/account/preferences/weekday",
+        "/account/preferences/weekend",
+        "/account/preferences/work"
+      ]
+    },
+    {
+      "authorized": true,
+      "feature": "Trunks",
+      "id": "trunks",
+      "paths": [
+        "/trunks/:trunkId",
+        "/trunks/:trunkId/addons",
+        "/trunks/:trunkId/checkout",
+        "/trunks/:trunkId/confirm",
+        "/trunks/:trunkId/confirmed",
+        "/trunks/:trunkId/confirm/payment",
+        "/trunks/:trunkId/confirm/shipping",
+        "/trunks/:trunkId/decline",
+        "/trunks/:trunkId/payment/new",
+        "/trunks/:trunkId/rating",
+        "/trunks/:trunkId/schedule-pickup",
+        "/trunks/:trunkId/shipping/new",
+        "/trunks/:trunkId/select-return-method",
+        "/trunks/:trunkId/update-payment",
+        "/trunks/:trunkId/update-payment/new"
       ]
     },
     {
