@@ -9,7 +9,7 @@
     "server": "node server/index.js",
     "start": "npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "combine-reports": "node -e 'require(\"./utils/ReportUtils\").getUniqueViolations()'",
+    "combine-reports": "node -e 'require(\"./utils/ViolationUtils\").getUniqueViolations()'",
     "check-routes": "node utils/AuditRoutes.js"
   },
   "author": "Beck Kramer",
