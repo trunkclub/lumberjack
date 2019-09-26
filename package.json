@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "app": "cd app && yarn start",
-    "develop": "concurrently \"npm run server\" \"npm run app\"",
+    "develop": "concurrently \"yarn server\" \"yarn app\"",
     "server": "node server/index.js",
-    "start": "npm run server",
+    "start": "yarn server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "combine-reports": "node -e 'require(\"./utils/ViolationUtils\").getUniqueViolations()'",
-    "check-routes": "node utils/AuditRoutes.js"
+    "tally-reports": "node -e 'require(\"./utils/ViolationUtils\").createViolationTallyReport()'",
+    "check-routes": "node utils/AuditRoutes.js",
+    "full-crawl": "yarn check-routes && yarn combine-reports"
   },
   "author": "Beck Kramer",
   "license": "ISC",
