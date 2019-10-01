@@ -41,7 +41,6 @@ const getUniqueViolations = () => {
   return uniqueViolations // OR create / write to a new JSON file right away
 }
 
-
 module.exports.createUniqueViolationReport = () => {
   // create unique violation array
   const uniqueViolations = getUniqueViolations()
@@ -88,6 +87,11 @@ module.exports.createUniqueViolationReport = () => {
       }
     }
   )
+}
+
+module.exports.getViolationTallyData = () => {
+  const file = fs.readFileSync(`${AUDIT_FOLDER}/violationTally.json`)
+  return JSON.parse(file)
 }
 
 module.exports.createViolationTallyReport = async() => {
@@ -150,6 +154,20 @@ module.exports.createViolationTallyReport = async() => {
     byId: violationsById,
     byImpact: violationInstancesByImpact,
   }
+  const currentTallyData = this.getViolationTallyData()
 
-  console.log(violationTally)
+  currentTallyData.push(violationTally)
+
+  fs.writeFile(
+    `${AUDIT_FOLDER}/violationTally.json`,
+    JSON.stringify(currentTallyData),
+    'utf8',
+    (error) => {
+      if (error) {
+        console.log(' There was an issue writing the tally data.')
+      } else {
+        console.log(' Tally data added.')
+      }
+    }
+  )
 }
