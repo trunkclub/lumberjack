@@ -290,3 +290,22 @@ module.exports.login = async(page) => {
     console.log(' Issue with navigation. \n\n' + error)
   })
 }
+
+module.exports.getReportIds = () => {
+  const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
+  const reportIds = []
+
+  filenames.forEach(filename => {
+    const file = fs.readFileSync(`${AUDIT_FOLDER}/route-reports/${filename}`)
+    const reports = JSON.parse(file)
+
+    reports.map((report) => {
+      const idInArray = reportIds.find(entry => report.id === entry)
+      if (!idInArray) {
+        reportIds.push(report.id)
+      }
+    })
+  })
+
+  return reportIds
+}
