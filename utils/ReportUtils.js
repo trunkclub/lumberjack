@@ -12,12 +12,12 @@ const AUDIT_FOLDER = `./audits/${APP_CONFIG.id}`
 
 module.exports.isMissingRequiredConfig = () => {
   if(!APP_CONFIG.id) {
-    console.log(`${chalk.red('\nError:')} An application id needs to be provided. Please check your config/app.json file.\n`)
+    console.log(`${chalk.red.bgBlack('\nError:')} An application id needs to be provided. Please check your config/app.json file.\n`)
     return true
   }
 
   if(!APP_CONFIG.root) {
-    console.log(`${chalk.red('\nError:')} An application root needs to be provided. Please check your config/app.json file.\n`)
+    console.log(`${chalk.red.bgBlack('\nError:')} An application root needs to be provided. Please check your config/app.json file.\n`)
     return true
   }
 
@@ -26,7 +26,7 @@ module.exports.isMissingRequiredConfig = () => {
     || ROUTE_CONFIG.routes.length === 0
     || ROUTE_CONFIG.routes[0] && !ROUTE_CONFIG.routes[0].paths
   ) {
-    console.log(`${chalk.red('\nError:')} Routes need to be provided. Please check your config/routes.json file.\n`)
+    console.log(`${chalk.red.bgBlack('\nError:')} Routes need to be provided. Please check your config/routes.json file.\n`)
     return true
   }
 
@@ -36,7 +36,7 @@ module.exports.isMissingRequiredConfig = () => {
 
 module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot = false) => {
 
-  console.log(chalk.cyanBright(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
+  console.log(chalk.cyanBright.bgBlack(`\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`))
 
   const totalAudits = feature.paths.length
   let completedAudits = 0
@@ -88,10 +88,10 @@ module.exports.createAuditDirectory = () => {
 
     mkdirp(`${AUDIT_FOLDER}/route-reports`, (error) => {
       if (error) {
-        console.log(`${chalk.red('\nError:')} There was an issue making the report directories: ${error}`)
+        console.log(`${chalk.red.bgBlack('\nError:')} There was an issue making the report directories: ${error}`)
         reject()
       } else {
-        console.log(chalk.cyanBright('\Report directories are ready...'))
+        console.log(chalk.cyanBright.bgBlack('\Report directories are ready...'))
         resolve()
       }
     })
@@ -112,7 +112,7 @@ module.exports.takeScreenshot = async(page, path) => {
 
   mkdirp(`${AUDIT_FOLDER}/screenshots`, (error) => {
     if (error) {
-      console.log(`${chalk.red('\nError:')} There was an issue making the screenshot directory: ${error}`)
+      console.log(`${chalk.red.bgBlack('\nError:')} There was an issue making the screenshot directory: ${error}`)
     }
   })
 
@@ -141,8 +141,9 @@ module.exports.takeScreenshot = async(page, path) => {
 module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   return new Promise((resolve, reject) => {
 
-    const payload = {
-      id: moment().format('MMDYYYY'),
+    const reportPath = `${AUDIT_FOLDER}/route-reports/${this.prettyRoute(path)}.json`
+    const thisReportData = {
+      id: moment().format('YYYYMMDD'),
       route: {
         id: this.prettyRoute(path),
         path: path,
@@ -150,10 +151,23 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
       needsManualCheck,
       violations,
     }
+    let combinedData = []
 
+    // Check if there is currently a report file for this route
+    // and, if so, add new data onto it
+    try {
+      const existing = fs.readFileSync(reportPath)
+      // combinedData = combinedData.concat(JSON.parse(existing))
+
+      const filteredData = JSON.parse(existing).filter(entry => entry.id !== thisReportData.id)
+      combinedData = filteredData
+    } catch (error) {}
+
+    combinedData.push(thisReportData)
+    
     fs.writeFile(
-      `${AUDIT_FOLDER}/route-reports/${this.prettyRoute(path)}.json`,
-      JSON.stringify([payload]),
+      reportPath,
+      JSON.stringify(combinedData),
       'utf8',
       (error, result) => {
         if (error) {
@@ -188,7 +202,7 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true, sc
     { timeout: 3000 }
   ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
 
-  console.log(chalk.cyanBright(`\n Auditing ${path}...`))
+  console.log(chalk.cyanBright.bgBlack(`\n Auditing ${path}...`))
 
   if (needsLogin) {
     try {
@@ -205,7 +219,7 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true, sc
     { timeout: 3000 }
   ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
 
-  const url = await page.evaluate('location.href').catch(error => { console.log(chalk.red('Error') + ': There was an issue evaluating the route location.') })
+  const url = await page.evaluate('location.href').catch(error => { console.log(chalk.red.bgBlack('Error') + ': There was an issue evaluating the route location.') })
 
   // FIXME: There should be something more ironclad than this
   await page.waitFor(2000, { timeout: 2000 }).catch(error => {

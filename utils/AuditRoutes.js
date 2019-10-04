@@ -32,7 +32,7 @@ const AuditReports = async() => {
 
   // Audit provided routes
 
-  console.log(chalk.cyanBright('\nAudit started...'))
+  console.log(chalk.cyanBright.bgBlack('\nAudit started...'))
   
   // Create audit folder directory if it does not exist
   await ReportUtils.createAuditDirectory()
@@ -51,7 +51,7 @@ const AuditReports = async() => {
     })
 
     if (featureEntry) {
-      console.log(chalk.cyanBright(`\nAudit will only run on ${featureEntry[0].feature}...`))
+      console.log(chalk.cyanBright.bgBlack(`\nAudit will only run on ${featureEntry[0].feature}...`))
       routes = featureEntry
     }
   }
