@@ -127,7 +127,7 @@ module.exports.takeScreenshot = async(page, path) => {
     fullPage: true,
     path: `${AUDIT_FOLDER}/screenshots/${this.prettyRoute(path)}--mobile.png`
   })
-  console.log(' Mobile screenshot created.')
+  console.log(' - Mobile screenshot created.')
 
   await page.setViewport({
     width: 1048,
@@ -135,7 +135,7 @@ module.exports.takeScreenshot = async(page, path) => {
   })
 
   await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${this.prettyRoute(path)}--desktop.png`})
-  console.log(' Desktop screenshot created.')
+  console.log(' - Desktop screenshot created.')
 }
 
 module.exports.writeReport = (path, violations, needsManualCheck = false) => {
