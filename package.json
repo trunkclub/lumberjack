@@ -9,8 +9,9 @@
     "server": "node server/index.js",
     "start": "yarn server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "combine-reports": "node -e 'require(\"./utils/ViolationUtils\").getUniqueViolations()'",
-    "tally-reports": "node -e 'require(\"./utils/ViolationUtils\").createViolationTallyReport()'",
+    "get-report-ids": "node -e 'require(\"./utils/ReportUtils\").getReportIds()'",
+    "combine-violations:unique": "node utils/violations/UniqueViolations.js",
+    "combine-violations:tally": "node -e 'require(\"./utils/ViolationUtils\").createViolationTallyReport()'",
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
     "check-routes": "node utils/AuditRoutes.js",
     "full-crawl": "yarn check-routes && yarn combine-reports"
