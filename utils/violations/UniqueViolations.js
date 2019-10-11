@@ -63,8 +63,6 @@ const CreateUniqueViolationReport = async() => {
             })
 
             nodeToUpdate.routes ? nodeToUpdate.routes.push(route) : nodeToUpdate.routes = [route]
-
-            console.log(nodeToUpdate.routes)
           }
         })
       }

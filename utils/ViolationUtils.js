@@ -64,8 +64,12 @@ module.exports.createViolationTallyReport = async() => {
   }
 
   const violationsById = {}
+  let reportId
 
-  for(const report of violationGenerator()){
+  for(const report of this.violationGenerator()){
+
+    reportId = report.id
+
     for(const violation of report.violations){
       const {
         id,
@@ -102,13 +106,23 @@ module.exports.createViolationTallyReport = async() => {
   }
 
   const violationTally = {
-    date: new Date(),
+    reportId: reportId,
     byId: violationsById,
     byImpact: violationInstancesByImpact,
   }
   const currentTallyData = this.getViolationTallyData()
 
-  currentTallyData.push(violationTally)
+  const indexOfReportId = currentTallyData.find((data, index) => {
+    if (data.reportId === reportId) {
+      return index
+    }
+  })
+
+  if (indexOfReportId >= 0) {
+    currentTallyData[indexOfReportId] = violationTally
+  } else {
+    currentTallyData.push(violationTally)
+  }
 
   fs.writeFile(
     `${AUDIT_FOLDER}/violationTally.json`,
@@ -122,4 +136,7 @@ module.exports.createViolationTallyReport = async() => {
       }
     }
   )
+
+  console.log('Tally:')
+  console.log(currentTallyData[currentTallyData.length-1])
 }
