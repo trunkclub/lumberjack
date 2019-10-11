@@ -42,6 +42,26 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
   let completedAudits = 0
   let totalViolations = 0
 
+  const browser = await puppeteer.launch({headless: headless})
+  const page = await browser.newPage()
+  await page.setBypassCSP(true)
+
+  if (feature.authorized) {
+
+    await page.goto(
+      APP_CONFIG.root + APP_CONFIG.login.path,
+      { timeout: 3000 }
+    ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
+
+    try {
+      await this.login(page)
+    }
+    catch (error) {
+      console.log(chalk.red(' Error') + ': Issue with login.')
+      console.log(' ' + error)
+    }
+  }
+
   for (const path of feature.paths) {
 
     let finalPath = path
@@ -70,7 +90,7 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
     }
 
     try {
-      const auditStatus = await this.runAxeOnPath(finalPath, feature.authorized, headless, screenshot)
+      const auditStatus = await this.runAxeOnPath(page, finalPath, screenshot)
       completedAudits += auditStatus.completedAudit ? 1 : 0
       totalViolations += auditStatus.numberOfViolations
     }
@@ -78,6 +98,9 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
       console.log(error)
     }
   }
+
+  await page.close()
+  await browser.close()
 
   return ({completedAudits, totalAudits, totalViolations})
 }
@@ -182,14 +205,10 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   })
 }
 
-module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true, screenshot = false) => {
+module.exports.runAxeOnPath = async(page, path, headless = true, screenshot = false) => {
 
   let completedAudit = false
   let numberOfViolations = 0
-
-  const browser = await puppeteer.launch({headless: headless})
-  const page = await browser.newPage()
-  await page.setBypassCSP(true)
 
   // TODO: Figure out how to set this based on content
   await page.setViewport({
@@ -197,34 +216,19 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true, sc
     height: 1024,
   })
 
-  await page.goto(
-    APP_CONFIG.root + APP_CONFIG.login.path,
-    { timeout: 3000 }
-  ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
-
   console.log(chalk.cyanBright.bgBlack(`\n Auditing ${path}...`))
-
-  if (needsLogin) {
-    try {
-      await this.login(page)
-    }
-    catch (error) {
-      console.log(chalk.red(' Error') + ': Issue with login.')
-      console.log(' ' + error)
-    }
-  }
 
   await page.goto(
     APP_CONFIG.root + path,
-    { timeout: 3000 }
+    { waitUntil: 'networkidle2' }
   ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
 
   const url = await page.evaluate('location.href').catch(error => { console.log(chalk.red.bgBlack('Error') + ': There was an issue evaluating the route location.') })
 
   // FIXME: There should be something more ironclad than this
-  await page.waitFor(2000, { timeout: 2000 }).catch(error => {
-    console.log(' Error with waiting.')
-  })
+  // await page.waitFor(2000, { timeout: 2000 }).catch(error => {
+  //   console.log(' Error with waiting.')
+  // })
 
   await page.waitFor('html').then(async() => {
 
@@ -257,9 +261,6 @@ module.exports.runAxeOnPath = async(path, needsLogin = true, headless = true, sc
     console.log(' Error with waiting.')
     console.log(error)
   })
-
-  await page.close()
-  await browser.close()
 
   return({
     completedAudit,

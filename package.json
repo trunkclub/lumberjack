@@ -14,7 +14,7 @@
     "combine-violations:tally": "node -e 'require(\"./utils/ViolationUtils\").createViolationTallyReport()'",
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
     "check-routes": "node utils/AuditRoutes.js",
-    "full-crawl": "yarn check-routes && yarn combine-reports"
+    "full-crawl": "yarn check-routes && yarn combine-violations:unique"
   },
   "author": "Beck Kramer",
   "license": "ISC",
