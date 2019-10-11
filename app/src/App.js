@@ -37,7 +37,7 @@ class App extends Component {
     return (
       <>
         <aside>
-          <h1>A11y Report</h1>
+          <h1>Lumberjack</h1>
         </aside>
         {reportData && (
           <div>
