@@ -50,7 +50,7 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
 
     await page.goto(
       APP_CONFIG.root + APP_CONFIG.login.path,
-      { timeout: 3000 }
+      { waitUntil: 'networkidle2' } // TODO: Wait for form elements to be rendered
     ).catch(error => { console.log(chalk.red(' Error') + ': Issue with initial route loading.') })
 
     try {
@@ -83,8 +83,6 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
             }
             finalPath = newPath
           }
-        } else {
-          // TODO: Sort out param-as-string
         }
       }
     }
