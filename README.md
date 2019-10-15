@@ -7,7 +7,6 @@ Lumberjack is a project concerned with helping efforts to report and remediate a
 Currently, it:
 
 1. Consolidates violations into a set of unique instances that can be tallied for additional reporting
-
 2. Loads unique violations in a simple web client that can assist in the creation of remediation tickets in Jira
 
 Currently, this application is very Customer App-centric, but is being developed with the intent that any application could use it with its own configuration files in place.
@@ -40,4 +39,7 @@ Logs tally of current unique violations to the console by severity and by violat
 
 `yarn full-crawl`
 Runs `yarn check-routes` and `yarn combine-violations:unique` in one step.
+
+`yarn develop`
+Launches the client to view unique issues found once reports have been run.
 
