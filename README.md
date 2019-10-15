@@ -1,22 +1,16 @@
-# A11y Report
+# Lumberjack
 
-This is a first pass at automating a11y testing of a given app. Tons of this could stand to be automated or cleaned up.
-
-Currently, this application is very Customer App centric, but is being developed with the intent that any application could use it with its own configuration files in place.
-
-### Customer App Coverage
-
-58 routes are available for testing for Customer App. This is every route that doesn't leverage a parameter in its URL. Given that, this creates an incomplete audit, but it's somewhere to start.
+Lumberjack is a project concerned with helping efforts to report and remediate accessibility issues in our applications. It uses [Deque Labs' Axe Puppeteer package](https://github.com/dequelabs/axe-puppeteer) to audit sets of routes and create reports.
 
 ## What this app does:
 
 Currently, it:
 
-- Runs a test per route and generates a route-specific json file and screenshot of that route
-- Combines violation data found in route-specific json files into one report file
+1. Consolidates violations into a set of unique instances that can be tallied for additional reporting
 
-TODOs:
-- Display this in an incredibly basic app allows results to be copy/pasted into a Paper doc or Jira ticket
+2. Loads unique violations in a simple web client that can assist in the creation of remediation tickets in Jira
+
+Currently, this application is very Customer App-centric, but is being developed with the intent that any application could use it with its own configuration files in place.
 
 ## Setup:
 Running reports depends on the following:
@@ -26,14 +20,24 @@ Running reports depends on the following:
 ## Commands
 Once the above is set up, you can run the following:
 
-_To test routes:_
-```js
-yarn check-routes
-```
-To see additional options, like how to run on a single feature or to take screenshots, append with ` --help`
+`yarn check-routes`
+Checks all the routes in the routes config folder. Append with ` --help` to see additional settings.
 
+`yarn combine-violations:unique`
+*Depends on the reports from `yarn check-routes` being available.*
+Combines all of the violation data for all routes into one JSON file.
 
-_To combine reports into one file:_
-```js
-yarn combine-reports
-```
+`yarn combine-violations:tally`
+*Depends on the reports from `yarn check-routes` being available.*
+Goes over the data in violation reports and tallies violations found by severity and violation category. This data is then saved to a JSON file.
+
+`yarn get-report-ids`
+Logs all available IDs for test data currently available to the console.
+
+`yarn get-tally`
+*Depends on the tally data file from `yarn combine-violations:tally` being available.*
+Logs tally of current unique violations to the console by severity and by violation category.
+
+`yarn full-crawl`
+Runs `yarn check-routes` and `yarn combine-violations:unique` in one step.
+
