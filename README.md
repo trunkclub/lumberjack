@@ -12,12 +12,17 @@ Currently, it:
 Currently, this application is very Customer App-centric, but is being developed with the intent that any application could use it with its own configuration files in place.
 
 ## Setup:
+
 Running reports depends on the following:
 * You've run `yarn install` in the root directory
 * You've added application and route info to the files found in the `./config` folder
 
+Viewing results in the client app requires:
+* The above report steps are done
+* You've run `yarn install` inside the `./app` folder
+
 ## Commands
-Once the above is set up, you can run the following:
+Once the above is set up, you can run any and all of the following:
 
 `yarn check-routes`
 Checks all the routes in the routes config folder. Append with ` --help` to see additional settings.
