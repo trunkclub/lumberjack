@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import Violation from './components/Violation/Violation'
 
-import './App.css'
+import './styles/main.scss';
 
 class App extends Component {
   state = {
@@ -36,51 +36,45 @@ class App extends Component {
       <>
         <aside>
           <h1>Lumberjack</h1>
+          {reportData && (
+            <ul>
+            {Object.keys(reportData).map((id, index) => {
+              return (<li key={id}><a href={`#${id}`}>{id}</a></li>)
+            })}
+          </ul>
+          )}
         </aside>
         {reportData && (
-          <div>
-            <ul>
-              {Object.keys(reportData).map((id, index) => {
-                return (
-                  <li key={id}>
-                    <a href={`#${id}`}>{id}</a>
-                  </li>
-                )
-              })}
-            </ul>
-            <hr />
+          <main>
             <div>
-              {Object.keys(reportData).map((id, index) => {
-                return (
-                  <section id={id} key={id}>
-                    <h2 id={id}>Violation Type: {id}</h2>
-                    <p>
-                      <b>Total Unique Violations:</b>{' '}
-                      {reportData[id].nodes.length}
-                    </p>
+              {Object.keys(reportData).map(id => (
+                <section key={id}>
+                  <h2 id={id}>Violation Type: {id}</h2>
+                  <p><b>Total Unique Violations:</b> {reportData[id].nodes.length}</p>
+                  
+                  {reportData[id].nodes.map((node, index) => {
 
-                    {reportData[id].nodes.map((node, index) => {
-                      const { description, help, helpUrl, impact } = reportData[
-                        id
-                      ]
+                    const {
+                      description,
+                      help,
+                      helpUrl,
+                      impact,
+                    } = reportData[id]
 
-                      return (
-                        <Violation
-                          key={`${id}-${index}`}
-                          description={description}
-                          help={help}
-                          helpUrl={helpUrl}
-                          impact={impact}
-                          index={index}
-                          node={node}
-                        />
-                      )
-                    })}
-                  </section>
-                )
-              })}
+                    return (<Violation           
+                      key={`${id}-${index}`}
+                      description={description}
+                      help={help}
+                      helpUrl={helpUrl}
+                      impact={impact}
+                      index={index}
+                      node={node}
+                    />)
+                  })}
+                </section>
+              ))}
             </div>
-          </div>
+          </main>
         )}
       </>
     )

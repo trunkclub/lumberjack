@@ -1,23 +1,13 @@
-
-body {
-  font-family: Arial;
-  margin: 2rem auto;
-  max-width: 60rem;
-  padding: 2rem;
-}
-
-pre {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-  overflow-x: scroll;
-  padding: 1rem;
-}
+@import 'variables';
+@import 'global';
 
 .hide {
+  position: absolute !important;
+  height: 1px; 
+  width: 1px;
   overflow: hidden;
-  position: absolute;
-  height: 0;
-  width: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 
 .show {
@@ -25,18 +15,16 @@ pre {
 }
 
 .button-set {
-  background: #C2C2C2;
+  background: $color-grey--medium;
   padding: 0.5rem 1rem;
 }
 
 .button {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
+  margin: 0 1rem 0 0;
 }
 
-
 .violation {
-  border: 1px solid #CCC;
+  border: 1px solid $color-grey--medium;
   margin: 2rem 0;
 }
 
