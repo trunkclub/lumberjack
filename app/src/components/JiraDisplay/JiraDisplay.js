@@ -58,11 +58,7 @@ const JiraDisplay = props => {
         </button>
         <span className="content-status">{contentStatus}</span>
       </div>
-      <pre
-        ref={panelRef}
-        aria-hidden={!showMarkup}
-        className={showMarkup ? 'show' : 'hide'}
-      >
+      <pre ref={panelRef} aria-hidden={!showMarkup} tabIndex={showMarkup ? 0 : null} className={showMarkup ? 'show' : 'hide'}>
         <p>h1. {title}</p>
         <p>*User Impact:* {impact}</p>
         <p>

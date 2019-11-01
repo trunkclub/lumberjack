@@ -10,9 +10,9 @@ export default class ElementInstance extends Component {
   render() {
     return (
       <div className="violation__instance">
-        <h5>Element:</h5>
-        <pre>{this.props.html}</pre>
-        <pre>{this.props.target}</pre>
+        <h4>Element:</h4>
+        <pre tabIndex="0">{this.props.html}</pre>
+        <pre tabIndex="0">{this.props.target}</pre>
         {this.props.any.length > 0 && (
           <div>
             <h5>Fix any of the following:</h5>
