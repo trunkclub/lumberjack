@@ -66,7 +66,7 @@ const AuditReports = async() => {
       totalViolations += auditStatus.totalViolations
 
       if (auditStatus.routesNotValidated.length) {
-        routesNotValidated.length ? routesNotValidated.push(auditStatus.routesNotValidated) : routesNotValidated = auditStatus.routesNotValidated
+        routesNotValidated = routesNotValidated.concat(auditStatus.routesNotValidated)
       }
     }
     catch (error) {

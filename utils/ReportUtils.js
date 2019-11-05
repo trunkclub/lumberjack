@@ -208,7 +208,17 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   })
 }
 
-module.exports.hasValidContent = async(page) => {
+module.exports.hasValidContent = async(page, path) => {
+
+  let is404 = false
+
+  ROUTE_CONFIG.routes.filter(route => {
+    if (route.id === 'invalid' && route.paths.includes(path)) {
+      is404 = true
+    }
+  })
+
+  if (is404) return true
 
   console.log(' Checking route for error content...')
   
@@ -254,7 +264,7 @@ module.exports.runAxeOnPath = async(page, path, headless = true, screenshot = fa
 
   await page.waitFor('html').then(async() => {
 
-    const hasValidContent = await this.hasValidContent(page)
+    const hasValidContent = await this.hasValidContent(page, path)
     
     if (hasValidContent) {
 

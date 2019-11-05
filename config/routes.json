@@ -15,6 +15,14 @@
   },
   "routes": [
     {
+      "authorized": true,
+      "feature": "Invalid / 404 Routes",
+      "id": "invalid",
+      "paths": [
+        "/404"
+      ]
+    },
+    {
       "authorized": false,
       "feature": "Authorization",
       "id": "authorization",
