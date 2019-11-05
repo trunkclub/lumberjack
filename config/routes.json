@@ -15,6 +15,15 @@
   },
   "routes": [
     {
+      "authorized": false,
+      "feature": "Authorization",
+      "id": "authorization",
+      "paths": [
+        "/login",
+        "/logout"
+      ]
+    },
+    {
       "authorized": true,
       "feature": "Payments and Shipping",
       "id": "payments-shipping",
