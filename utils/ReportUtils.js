@@ -41,6 +41,7 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
   const totalAudits = feature.paths.length
   let completedAudits = 0
   let totalViolations = 0
+  let routesNotValidated = []
 
   const browser = await puppeteer.launch({headless: headless})
   const page = await browser.newPage()
@@ -89,8 +90,12 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
 
     try {
       const auditStatus = await this.runAxeOnPath(page, finalPath, screenshot)
+
       completedAudits += auditStatus.completedAudit ? 1 : 0
       totalViolations += auditStatus.numberOfViolations
+      if (auditStatus.routeNotValidated) {
+        routesNotValidated.push(auditStatus.routeNotValidated)
+      }
     }
     catch (error) {
       console.log(error)
@@ -100,7 +105,7 @@ module.exports.auditFeatureRoutes = async(feature, headless = true, screenshot =
   await page.close()
   await browser.close()
 
-  return ({completedAudits, totalAudits, totalViolations})
+  return ({completedAudits, totalAudits, totalViolations, routesNotValidated})
 }
 
 module.exports.createAuditDirectory = () => {
@@ -203,10 +208,34 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   })
 }
 
+module.exports.hasValidContent = async(page) => {
+
+  console.log(' Checking route for error content...')
+  
+  const pageContent = await page.$eval('main', e => e.outerHTML)
+    
+  const results = APP_CONFIG.errorContent.map(error => {
+    if (pageContent.indexOf(error) !== -1) {
+      console.log(' - ' + chalk.red('Error Content Found') + ': "' + error + '"')
+      return false
+    }
+    return true
+  })
+
+  const hasOnlyValidContent = !results.includes(false)
+
+  if (!hasOnlyValidContent) {
+    console.log(' This route will be skipped.')
+  }
+
+  return hasOnlyValidContent
+}
+
 module.exports.runAxeOnPath = async(page, path, headless = true, screenshot = false) => {
 
   let completedAudit = false
   let numberOfViolations = 0
+  let routeNotValidated
 
   // TODO: Figure out how to set this based on content
   await page.setViewport({
@@ -223,38 +252,42 @@ module.exports.runAxeOnPath = async(page, path, headless = true, screenshot = fa
 
   const url = await page.evaluate('location.href').catch(error => { console.log(chalk.red.bgBlack('Error') + ': There was an issue evaluating the route location.') })
 
-  // FIXME: There should be something more ironclad than this
-  // await page.waitFor(2000, { timeout: 2000 }).catch(error => {
-  //   console.log(' Error with waiting.')
-  // })
-
   await page.waitFor('html').then(async() => {
 
-    let violations = []
+    const hasValidContent = await this.hasValidContent(page)
     
-    if (screenshot) {
-      await this.takeScreenshot(page, path)
-    }
+    if (hasValidContent) {
+
+      let violations = []
     
-    await new AxePuppeteer(page).analyze().then(async(results) => {
-      if (results.violations && results.violations.length) {
-
-        numberOfViolations = results.violations.length
-
-        console.log(` ${numberOfViolations} violations found.`)
-        violations = results.violations
-      } else if (results.violations.length === 0 && results.passes.length > 0) {
-        console.log(' No violations found!')
+      if (screenshot) {
+        await this.takeScreenshot(page, path)
       }
+      
+      await new AxePuppeteer(page).analyze().then(async(results) => {
+        if (results.violations && results.violations.length) {
 
-      await this.writeReport(path, violations)
+          numberOfViolations = results.violations.length
 
-      completedAudit = true
-    }).catch(async(error) => {
-      await this.writeReport(path, violations, true)
-      console.log(' No results returned- there may be an issue with this audit.')
-      console.log(error)
-    })
+          console.log(` ${numberOfViolations} violations found.`)
+          violations = results.violations
+        } else if (results.violations.length === 0 && results.passes.length > 0) {
+          console.log(' No violations found!')
+        }
+
+        await this.writeReport(path, violations)
+
+        completedAudit = true
+      }).catch(async(error) => {
+        await this.writeReport(path, violations, true)
+
+        routeNotValidated = path
+        console.log(' No results returned- there may be an issue with this audit.')
+        console.log(error)
+      })
+    } else {
+      routeNotValidated = path
+    }
   }).catch(error => {
     console.log(' Error with waiting.')
     console.log(error)
@@ -263,6 +296,7 @@ module.exports.runAxeOnPath = async(page, path, headless = true, screenshot = fa
   return({
     completedAudit,
     numberOfViolations,
+    routeNotValidated,
   })
 }
 
