@@ -64,10 +64,7 @@ const AuditReports = async() => {
       completedAudits += auditStatus.completedAudits
       totalAudits += auditStatus.totalAudits
       totalViolations += auditStatus.totalViolations
-
-      if (auditStatus.routesNotValidated.length) {
-        routesNotValidated = routesNotValidated.concat(auditStatus.routesNotValidated)
-      }
+      routesNotValidated = routesNotValidated.concat(auditStatus.routesNotValidated)
     }
     catch (error) {
       console.log(error)
