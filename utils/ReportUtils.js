@@ -210,12 +210,10 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
 
 module.exports.hasValidContent = async(page, path) => {
 
-  let is404 = false
+  const { featureId, content } = APP_CONFIG.errors
 
-  ROUTE_CONFIG.routes.filter(route => {
-    if (route.id === 'invalid' && route.paths.includes(path)) {
-      is404 = true
-    }
+  const is404 = ROUTE_CONFIG.routes.some(route => {
+    return route.id === featureId && route.paths.includes(path)
   })
 
   if (is404) return true
@@ -224,7 +222,7 @@ module.exports.hasValidContent = async(page, path) => {
   
   const pageContent = await page.$eval('main', e => e.outerHTML)
     
-  const results = APP_CONFIG.errorContent.map(error => {
+  const results = content.map(error => {
     if (pageContent.indexOf(error) !== -1) {
       console.log(' - ' + chalk.red('Error Content Found') + ': "' + error + '"')
       return false
