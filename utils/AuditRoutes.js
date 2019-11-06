@@ -42,6 +42,7 @@ const AuditReports = async() => {
   let completedAudits = 0
   let totalAudits = 0
   let totalViolations = 0
+  let routesNotValidated = []
 
   let routes = ROUTE_CONFIG.routes
 
@@ -63,13 +64,20 @@ const AuditReports = async() => {
       completedAudits += auditStatus.completedAudits
       totalAudits += auditStatus.totalAudits
       totalViolations += auditStatus.totalViolations
+      routesNotValidated = routesNotValidated.concat(auditStatus.routesNotValidated)
     }
     catch (error) {
       console.log(error)
     }
   }
 
-  console.log(chalk.green(`\nSuccess!`) + ` Completed ${completedAudits} of ${totalAudits} route audits. ${totalViolations} violations found.\n`)
+  console.log(chalk.green.bgBlack(`\n Success! `))
+  console.log(chalk.white.bgBlack(` Completed ${completedAudits} of ${totalAudits} route audits. ${totalViolations} violations found. `))
+  console.log(`\nThe following routes were not validated:`)
+  routesNotValidated.forEach(route => {
+    console.log(`- ${route}`)
+  })
+  console.log('\n')
 }
 
 module.exports = AuditReports()
