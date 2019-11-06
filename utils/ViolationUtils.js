@@ -46,69 +46,102 @@ module.exports.getViolationTallyData = () => {
   return JSON.parse(file)
 }
 
-module.exports.createViolationTallyReport = async() => {
+module.exports.tallyViolations = (violations) => {
 
-  // Order of severity: minor -> moderate -> serious -> critical
-  const violationsInstancesByRouteByImpact = {
-    critical: 0,
-    minor: 0,
-    moderate: 0,
-    serious: 0,
-  }
+  let testViolations
 
-  const violationInstancesByImpact = {
-    critical: 0,
-    minor: 0,
-    moderate: 0,
-    serious: 0,
+  if (violations[0] && violations[0].id) {
+    testViolations = violations
+  } else {
+    testViolations = Object.keys(violations).map(violation => {
+      return violations[violation]
+    })
   }
 
   const violationsById = {}
+  // Order of severity: minor -> moderate -> serious -> critical
+  const violationsByImpact = {
+    critical: 0,
+    minor: 0,
+    moderate: 0,
+    serious: 0,
+  }
+
+  for(const violation of testViolations) {
+
+
+    const {
+      id,
+      impact,
+      tags,
+      description,
+      help,
+      helpUrl,
+      nodes
+    } = violation
+
+    if (!Object.keys(violationsById).includes(id)) {
+      violationsById[id] = nodes.length
+    } else {
+      violationsById[id] += nodes.length
+    }
+
+    nodes.forEach(node => {
+      const {
+        any,
+        all,
+        none,
+        impact,
+        html,
+        target,
+        failureSummary
+      } = node
+
+      violationsByImpact[impact]++
+    })
+  }
+
+  return {
+    byId: violationsById,
+    byImpact: violationsByImpact,
+  }
+}
+
+module.exports.createViolationTallyReport = async() => {
+
+  const uniqueViolationsFile = fs.readFileSync(`${AUDIT_FOLDER}/uniqueViolations.json`)
+  const uniqueViolationsData = JSON.parse(uniqueViolationsFile)
+  const elementViolations = this.tallyViolations(uniqueViolationsData[0])
+
+  let routeViolations = {
+    byId: {},
+    byImpact: {
+      critical: 0,
+      minor: 0,
+      moderate: 0,
+      serious: 0,
+    }
+  }
   let reportId
 
-  for(const report of this.violationGenerator()){
-
+  for (const report of this.violationGenerator()) {
     reportId = report.id
 
-    for(const violation of report.violations){
-      const {
-        id,
-        impact,
-        tags,
-        description,
-        help,
-        helpUrl,
-        nodes
-      } = violation
+    const currentRouteViolations = this.tallyViolations(report.violations)
 
-      if (!Object.keys(violationsById).includes(id)) {
-        violationsById[id] = nodes.length
-      } else {
-        violationsById[id] += nodes.length
-      }
+    Object.keys(currentRouteViolations.byImpact).forEach(impact => {
+      routeViolations.byImpact[impact] += currentRouteViolations.byImpact[impact]
+    })
 
-      violationsInstancesByRouteByImpact[impact]++
-
-      nodes.forEach(node => {
-        const {
-          any,
-          all,
-          none,
-          impact,
-          html,
-          target,
-          failureSummary
-        } = node
-
-        violationInstancesByImpact[impact]++
-      })
-    }
+    Object.keys(currentRouteViolations.byId).forEach(id => {
+      routeViolations.byId[id] ? routeViolations.byId[id] += currentRouteViolations.byId[id] : routeViolations.byId[id] = currentRouteViolations.byId[id]
+    })
   }
 
   const violationTally = {
     reportId: reportId,
-    byId: violationsById,
-    byImpact: violationInstancesByImpact,
+    byTotalInstances: routeViolations,
+    byElement: elementViolations
   }
   const currentTallyData = this.getViolationTallyData()
 
