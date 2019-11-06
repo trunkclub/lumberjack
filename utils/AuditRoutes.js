@@ -74,7 +74,7 @@ const AuditReports = async() => {
   console.log(chalk.green.bgBlack(`\n Success! `))
   console.log(chalk.white.bgBlack(` Completed ${completedAudits} of ${totalAudits} route audits. ${totalViolations} violations found. `))
   console.log(`\nThe following routes were not validated:`)
-  routesNotValidated.map(route => {
+  routesNotValidated.forEach(route => {
     console.log(`- ${route}`)
   })
   console.log('\n')

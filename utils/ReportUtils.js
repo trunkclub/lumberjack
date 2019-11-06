@@ -220,10 +220,10 @@ module.exports.hasValidContent = async(page, path) => {
 
   console.log(' Checking route for error content...')
   
-  const pageContent = await page.$eval('main', e => e.outerHTML)
+  const pageContent = await page.$eval('main', element => element.outerHTML)
     
   const results = content.map(error => {
-    if (pageContent.indexOf(error) !== -1) {
+    if (pageContent.includes(error)) {
       console.log(' - ' + chalk.red('Error Content Found') + ': "' + error + '"')
       return false
     }
