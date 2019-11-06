@@ -6,11 +6,14 @@
     "path": "/login"
   },
   "root": "http://localhost:10081",
-  "errorContent": [
-    "Oops!",
-    "Something went wrong",
-    "Oh no!",
-    "That page doesn't exist",
-    "you do not have permission to"
-  ]
+  "errors": {
+    "content": [
+      "Oops!",
+      "Something went wrong",
+      "Oh no!",
+      "That page doesn't exist",
+      "you do not have permission to"
+    ],
+    "featureId": "invalid"
+  }
 }
