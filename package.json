@@ -15,7 +15,9 @@
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
     "check-routes": "node utils/AuditRoutes.js",
     "full-crawl": "yarn check-routes && yarn combine-violations:unique",
-    "prettier": "prettier --write '{app,utils}/**/*.{js,json,scss,md}'"
+    "prettier": "prettier --write '{app,utils}/**/*.{js,json,scss,md}'",
+    "lint": "eslint 'utils/**/*.js' --max-warnings=0",
+    "lint-init": "eslint --init"
   },
   "author": "Beck Kramer",
   "license": "ISC",
@@ -28,6 +30,12 @@
     "axe-core": "^3.1.2",
     "axe-puppeteer": "^1.0.0",
     "concurrently": "^4.1.0",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "placeholders": "^1.0.0",
