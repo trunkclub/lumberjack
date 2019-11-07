@@ -4,25 +4,10 @@ import PropTypes from 'prop-types'
 import JiraDisplay from '../JiraDisplay/JiraDisplay'
 import ElementInstance from '../ElementInstance'
 
-const Violation = (props) => {
-  
-  const {
-    description,
-    help,
-    helpUrl,
-    id,
-    impact,
-    index,
-    node,
-  } = props
+const Violation = props => {
+  const { description, help, helpUrl, id, impact, index, node } = props
 
-  const {
-    all,
-    any,
-    html,
-    routes,
-    target,
-  } = node
+  const { all, any, html, routes, target } = node
 
   const capsImpact = impact.toUpperCase()
   const panelId = `jira--${id}`
@@ -37,18 +22,21 @@ const Violation = (props) => {
     <article className="violation">
       <div className="summary">
         <h3 className="summary__title">Violation: {help}</h3>
-        <p><b>User Impact:</b> {impact}</p>
-        <p><b>Routes Impacted ({routesInfo.total} total):</b> {routesInfo.list}</p>
-        <p><b>Description:</b> {description}</p>
+        <p>
+          <b>User Impact:</b> {impact}
+        </p>
+        <p>
+          <b>Routes Impacted ({routesInfo.total} total):</b> {routesInfo.list}
+        </p>
+        <p>
+          <b>Description:</b> {description}
+        </p>
 
-        <ElementInstance
-          all={all}
-          any={any}
-          html={html}
-          target={target[0]}
-        />
+        <ElementInstance all={all} any={any} html={html} target={target[0]} />
 
-        <p><a href={helpUrl}>Read more about how to fix this issue >></a></p>
+        <p>
+          <a href={helpUrl}>Read more about how to fix this issue >></a>
+        </p>
       </div>
       <footer>
         <JiraDisplay
@@ -59,7 +47,7 @@ const Violation = (props) => {
           // instances={instances}
           node={node}
           panelId={panelId}
-          routesInfo= {routesInfo}
+          routesInfo={routesInfo}
           title={`[${capsImpact}]: ${help}`}
         />
       </footer>

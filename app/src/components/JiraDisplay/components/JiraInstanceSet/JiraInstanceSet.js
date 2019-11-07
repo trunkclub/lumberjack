@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JiraElementInstance from '../JiraElementInstance'
 
-const JiraInstanceSet = (props) => {
+const JiraInstanceSet = props => {
   return (
     <div>
       <p>h2. Violation Instances:</p>
@@ -15,7 +15,7 @@ const JiraInstanceSet = (props) => {
               any={instance.any}
               html={instance.html}
               key={`violation_${instance.impact}-${index}`}
-              number={index+1}
+              number={index + 1}
               target={instance.target[0]}
             />
           )

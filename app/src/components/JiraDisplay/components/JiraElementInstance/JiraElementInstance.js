@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 
 const renderIssueList = (issues, type) => {
   return issues.map((issue, index) => {
-    return (
-      <p key={`fix-${type}-${index}`}>* {issue.message}</p>
-    )
+    return <p key={`fix-${type}-${index}`}>* {issue.message}</p>
   })
 }
 
-const JiraElementInstance = (props) => {
+const JiraElementInstance = props => {
   return (
     <div className="violation__instance">
       {/* &#123;panel&#125; */}
