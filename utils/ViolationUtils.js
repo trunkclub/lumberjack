@@ -3,35 +3,37 @@ const fs = require('fs')
 const APP_CONFIG = require('../config/app.json')
 const AUDIT_FOLDER = `./audits/${APP_CONFIG.id}`
 
-module.exports.violationGenerator = function* (reportId) {
+module.exports.violationGenerator = function*(reportId) {
   // look in audit folder
   const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
 
   // fetch all json files
-  for(const i in filenames){
-    const file = fs.readFileSync(`${AUDIT_FOLDER}/route-reports/${filenames[i]}`)
+  for (const i in filenames) {
+    const file = fs.readFileSync(
+      `${AUDIT_FOLDER}/route-reports/${filenames[i]}`,
+    )
     const data = JSON.parse(file)
 
     // TODO: Have this check reportId arg
-    const mostRecentData = data[data.length-1]
+    const mostRecentData = data[data.length - 1]
 
     yield mostRecentData
   }
 }
 
 module.exports.addRouteToViolation = (violation, route) => {
-  for(const node in violation.nodes){
+  for (const node in violation.nodes) {
     violation.nodes[node].routes = [route]
   }
   return violation
 }
 
-module.exports.getUniqueViolations = (reportId) => {
+module.exports.getUniqueViolations = reportId => {
   // create unique violation array
   const uniqueViolations = {}
   // loop through each violation entry
-  for(const data of this.violationGenerator(reportId)){
-    for(const violation of data.violations){
+  for (const data of this.violationGenerator(reportId)) {
+    for (const violation of data.violations) {
       //Does this violation already exist in the uniqueViolations? No, add it
       if (!uniqueViolations[violation.id]) {
         uniqueViolations[violation.id] = violation
@@ -46,8 +48,7 @@ module.exports.getViolationTallyData = () => {
   return JSON.parse(file)
 }
 
-module.exports.tallyViolations = (violations) => {
-
+module.exports.tallyViolations = violations => {
   let testViolations
 
   if (violations[0] && violations[0].id) {
@@ -67,18 +68,8 @@ module.exports.tallyViolations = (violations) => {
     serious: 0,
   }
 
-  for(const violation of testViolations) {
-
-
-    const {
-      id,
-      impact,
-      tags,
-      description,
-      help,
-      helpUrl,
-      nodes
-    } = violation
+  for (const violation of testViolations) {
+    const { id, impact, tags, description, help, helpUrl, nodes } = violation
 
     if (!Object.keys(violationsById).includes(id)) {
       violationsById[id] = nodes.length
@@ -87,15 +78,7 @@ module.exports.tallyViolations = (violations) => {
     }
 
     nodes.forEach(node => {
-      const {
-        any,
-        all,
-        none,
-        impact,
-        html,
-        target,
-        failureSummary
-      } = node
+      const { any, all, none, impact, html, target, failureSummary } = node
 
       violationsByImpact[impact]++
     })
@@ -107,9 +90,10 @@ module.exports.tallyViolations = (violations) => {
   }
 }
 
-module.exports.createViolationTallyReport = async() => {
-
-  const uniqueViolationsFile = fs.readFileSync(`${AUDIT_FOLDER}/uniqueViolations.json`)
+module.exports.createViolationTallyReport = async () => {
+  const uniqueViolationsFile = fs.readFileSync(
+    `${AUDIT_FOLDER}/uniqueViolations.json`,
+  )
   const uniqueViolationsData = JSON.parse(uniqueViolationsFile)
   const elementViolations = this.tallyViolations(uniqueViolationsData[0])
 
@@ -120,7 +104,7 @@ module.exports.createViolationTallyReport = async() => {
       minor: 0,
       moderate: 0,
       serious: 0,
-    }
+    },
   }
   let reportId
 
@@ -130,18 +114,21 @@ module.exports.createViolationTallyReport = async() => {
     const currentRouteViolations = this.tallyViolations(report.violations)
 
     Object.keys(currentRouteViolations.byImpact).forEach(impact => {
-      routeViolations.byImpact[impact] += currentRouteViolations.byImpact[impact]
+      routeViolations.byImpact[impact] +=
+        currentRouteViolations.byImpact[impact]
     })
 
     Object.keys(currentRouteViolations.byId).forEach(id => {
-      routeViolations.byId[id] ? routeViolations.byId[id] += currentRouteViolations.byId[id] : routeViolations.byId[id] = currentRouteViolations.byId[id]
+      routeViolations.byId[id]
+        ? (routeViolations.byId[id] += currentRouteViolations.byId[id])
+        : (routeViolations.byId[id] = currentRouteViolations.byId[id])
     })
   }
 
   const violationTally = {
     reportId: reportId,
     byTotalInstances: routeViolations,
-    byElement: elementViolations
+    byElement: elementViolations,
   }
   const currentTallyData = this.getViolationTallyData()
 
@@ -161,15 +148,15 @@ module.exports.createViolationTallyReport = async() => {
     `${AUDIT_FOLDER}/violationTally.json`,
     JSON.stringify(currentTallyData),
     'utf8',
-    (error) => {
+    error => {
       if (error) {
         console.log(' There was an issue writing the tally data.')
       } else {
         console.log(' Tally data added.')
       }
-    }
+    },
   )
 
   console.log('Tally:')
-  console.log(currentTallyData[currentTallyData.length-1])
+  console.log(currentTallyData[currentTallyData.length - 1])
 }
