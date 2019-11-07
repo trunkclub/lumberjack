@@ -15,7 +15,7 @@
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
     "check-routes": "node utils/AuditRoutes.js",
     "full-crawl": "yarn check-routes && yarn combine-violations:unique",
-    "prettier": "prettier --write 'utils/**/*.{js,json,scss,md}'"
+    "prettier": "prettier --write '{app,utils}/**/*.{js,json,scss,md}'"
   },
   "author": "Beck Kramer",
   "license": "ISC",
