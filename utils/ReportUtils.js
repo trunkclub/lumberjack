@@ -14,8 +14,8 @@ module.exports.isMissingRequiredConfig = () => {
   if (!APP_CONFIG.id) {
     console.log(
       `${chalk.red.bgBlack(
-        '\nError:',
-      )} An application id needs to be provided. Please check your config/app.json file.\n`,
+        '\nError:'
+      )} An application id needs to be provided. Please check your config/app.json file.\n`
     )
     return true
   }
@@ -23,8 +23,8 @@ module.exports.isMissingRequiredConfig = () => {
   if (!APP_CONFIG.root) {
     console.log(
       `${chalk.red.bgBlack(
-        '\nError:',
-      )} An application root needs to be provided. Please check your config/app.json file.\n`,
+        '\nError:'
+      )} An application root needs to be provided. Please check your config/app.json file.\n`
     )
     return true
   }
@@ -36,8 +36,8 @@ module.exports.isMissingRequiredConfig = () => {
   ) {
     console.log(
       `${chalk.red.bgBlack(
-        '\nError:',
-      )} Routes need to be provided. Please check your config/routes.json file.\n`,
+        '\nError:'
+      )} Routes need to be provided. Please check your config/routes.json file.\n`
     )
     return true
   }
@@ -48,18 +48,18 @@ module.exports.isMissingRequiredConfig = () => {
 module.exports.auditFeatureRoutes = async (
   feature,
   headless = true,
-  screenshot = false,
+  screenshot = false
 ) => {
   console.log(
     chalk.cyanBright.bgBlack(
-      `\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`,
-    ),
+      `\nAuditing ${feature.feature} Routes (${feature.paths.length} total):`
+    )
   )
 
+  const routesNotValidated = []
   const totalAudits = feature.paths.length
   let completedAudits = 0
   let totalViolations = 0
-  let routesNotValidated = []
 
   const browser = await puppeteer.launch({ headless: headless })
   const page = await browser.newPage()
@@ -69,10 +69,11 @@ module.exports.auditFeatureRoutes = async (
     await page
       .goto(
         APP_CONFIG.root + APP_CONFIG.login.path,
-        { waitUntil: 'networkidle2' }, // TODO: Wait for form elements to be rendered
+        { waitUntil: 'networkidle2' } // TODO: Wait for form elements to be rendered
       )
       .catch(error => {
-        console.log(chalk.red(' Error') + ': Issue with initial route loading.')
+        console.log(chalk.red(' Error') + ': Issue with initial route loading. ')
+        console.log(' ' + error)
       })
 
     try {
@@ -131,10 +132,10 @@ module.exports.createAuditDirectory = () => {
       if (error) {
         console.log(
           `${chalk.red.bgBlack(
-            '\nError:',
-          )} There was an issue making the report directories: ${error}`,
+            '\nError:'
+          )} There was an issue making the report directories: ${error}`
         )
-        reject()
+        reject(error)
       } else {
         console.log(chalk.cyanBright.bgBlack('Report directories are ready...'))
         resolve()
@@ -147,7 +148,7 @@ module.exports.prettyRoute = route => {
   const splitRoute = route.split('/')
 
   if (splitRoute[0] === '') {
-    const emptyEntry = splitRoute.shift()
+    splitRoute.shift()
   }
 
   return splitRoute.join('_')
@@ -158,8 +159,8 @@ module.exports.takeScreenshot = async (page, path) => {
     if (error) {
       console.log(
         `${chalk.red.bgBlack(
-          '\nError:',
-        )} There was an issue making the screenshot directory: ${error}`,
+          '\nError:'
+        )} There was an issue making the screenshot directory: ${error}`
       )
     }
   })
@@ -191,7 +192,7 @@ module.exports.takeScreenshot = async (page, path) => {
 module.exports.writeReport = (path, violations, needsManualCheck = false) => {
   return new Promise((resolve, reject) => {
     const reportPath = `${AUDIT_FOLDER}/route-reports/${this.prettyRoute(
-      path,
+      path
     )}.json`
     const thisReportData = {
       id: moment().format('YYYYMMDD'),
@@ -211,7 +212,7 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
       // combinedData = combinedData.concat(JSON.parse(existing))
 
       const filteredData = JSON.parse(existing).filter(
-        entry => entry.id !== thisReportData.id,
+        entry => entry.id !== thisReportData.id
       )
       combinedData = filteredData
     } catch (error) {}
@@ -230,7 +231,7 @@ module.exports.writeReport = (path, violations, needsManualCheck = false) => {
           console.log(' Report created.')
           return resolve()
         }
-      },
+      }
     )
   })
 }
@@ -251,7 +252,7 @@ module.exports.hasValidContent = async (page, path) => {
   const results = content.map(error => {
     if (pageContent.includes(error)) {
       console.log(
-        ' - ' + chalk.red('Error Content Found') + ': "' + error + '"',
+        ' - ' + chalk.red('Error Content Found') + ': "' + error + '"'
       )
       return false
     }
@@ -271,7 +272,7 @@ module.exports.runAxeOnPath = async (
   page,
   path,
   headless = true,
-  screenshot = false,
+  screenshot = false
 ) => {
   let completedAudit = false
   let numberOfViolations = 0
@@ -289,13 +290,15 @@ module.exports.runAxeOnPath = async (
     .goto(APP_CONFIG.root + path, { waitUntil: 'networkidle2' })
     .catch(error => {
       console.log(chalk.red(' Error') + ': Issue with initial route loading.')
+      console.log(' ' + error)
     })
 
-  const url = await page.evaluate('location.href').catch(error => {
+  await page.evaluate('location.href').catch(error => {
     console.log(
       chalk.red.bgBlack('Error') +
-        ': There was an issue evaluating the route location.',
+        ': There was an issue evaluating the route location.'
     )
+    console.log(' ' + error)
   })
 
   await page
@@ -334,7 +337,7 @@ module.exports.runAxeOnPath = async (
 
             routeNotValidated = path
             console.log(
-              ' No results returned- there may be an issue with this audit.',
+              ' No results returned- there may be an issue with this audit.'
             )
             console.log(error)
           })

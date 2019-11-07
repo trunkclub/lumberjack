@@ -19,7 +19,7 @@ const JiraDisplay = props => {
           },
           () => {
             setContentStatus('Unable to copy content :(')
-          },
+          }
         )
       }
     })

@@ -47,7 +47,7 @@ const CreateUniqueViolationReport = async () => {
         const currentTarget = node.target[0]
         const alreadyPresent = uniqueTargets.includes(currentTarget)
 
-        //If node target is not in unique violations add route to node and add to uniques
+        // If node target is not in unique violations add route to node and add to uniques
         if (!alreadyPresent) {
           node.routes = [route]
           uniqueViolations[violation.id].nodes.push(node)
@@ -56,7 +56,7 @@ const CreateUniqueViolationReport = async () => {
           const nodeToUpdate = uniqueViolations[violation.id].nodes.find(
             existingNode => {
               return node.target[0] === existingNode.target[0]
-            },
+            }
           )
 
           nodeToUpdate.routes
@@ -77,7 +77,7 @@ const CreateUniqueViolationReport = async () => {
       } else {
         console.log(' Report created.')
       }
-    },
+    }
   )
   // }
 }

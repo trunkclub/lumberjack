@@ -15,5 +15,12 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }],
   }
 }

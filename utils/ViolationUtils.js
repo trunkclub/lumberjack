@@ -3,14 +3,14 @@ const fs = require('fs')
 const APP_CONFIG = require('../config/app.json')
 const AUDIT_FOLDER = `./audits/${APP_CONFIG.id}`
 
-module.exports.violationGenerator = function*(reportId) {
+module.exports.violationGenerator = function * (reportId) {
   // look in audit folder
   const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
 
   // fetch all json files
   for (const i in filenames) {
     const file = fs.readFileSync(
-      `${AUDIT_FOLDER}/route-reports/${filenames[i]}`,
+      `${AUDIT_FOLDER}/route-reports/${filenames[i]}`
     )
     const data = JSON.parse(file)
 
@@ -34,7 +34,7 @@ module.exports.getUniqueViolations = reportId => {
   // loop through each violation entry
   for (const data of this.violationGenerator(reportId)) {
     for (const violation of data.violations) {
-      //Does this violation already exist in the uniqueViolations? No, add it
+      // Does this violation already exist in the uniqueViolations? No, add it
       if (!uniqueViolations[violation.id]) {
         uniqueViolations[violation.id] = violation
       }
@@ -69,7 +69,7 @@ module.exports.tallyViolations = violations => {
   }
 
   for (const violation of testViolations) {
-    const { id, impact, tags, description, help, helpUrl, nodes } = violation
+    const { id, nodes } = violation
 
     if (!Object.keys(violationsById).includes(id)) {
       violationsById[id] = nodes.length
@@ -78,9 +78,7 @@ module.exports.tallyViolations = violations => {
     }
 
     nodes.forEach(node => {
-      const { any, all, none, impact, html, target, failureSummary } = node
-
-      violationsByImpact[impact]++
+      violationsByImpact[node.impact]++
     })
   }
 
@@ -92,12 +90,12 @@ module.exports.tallyViolations = violations => {
 
 module.exports.createViolationTallyReport = async () => {
   const uniqueViolationsFile = fs.readFileSync(
-    `${AUDIT_FOLDER}/uniqueViolations.json`,
+    `${AUDIT_FOLDER}/uniqueViolations.json`
   )
   const uniqueViolationsData = JSON.parse(uniqueViolationsFile)
   const elementViolations = this.tallyViolations(uniqueViolationsData[0])
 
-  let routeViolations = {
+  const routeViolations = {
     byId: {},
     byImpact: {
       critical: 0,
@@ -154,7 +152,7 @@ module.exports.createViolationTallyReport = async () => {
       } else {
         console.log(' Tally data added.')
       }
-    },
+    }
   )
 
   console.log('Tally:')

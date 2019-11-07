@@ -1,5 +1,4 @@
 const chalk = require('chalk')
-const mkdirp = require('mkdirp')
 
 const argv = require('yargs')
   .option('feature', {
@@ -20,7 +19,6 @@ const argv = require('yargs')
   })
   .boolean('screenshot').argv
 
-const APP_CONFIG = require('../config/app.json')
 const ROUTE_CONFIG = require('../config/routes.json')
 
 const ReportUtils = require('./ReportUtils.js')
@@ -36,8 +34,6 @@ const AuditReports = async () => {
   // Create audit folder directory if it does not exist
   await ReportUtils.createAuditDirectory()
 
-  const params = ROUTE_CONFIG.params || {}
-  const placeholders = require('placeholders')(params)
   let completedAudits = 0
   let totalAudits = 0
   let totalViolations = 0
@@ -53,39 +49,39 @@ const AuditReports = async () => {
     if (featureEntry) {
       console.log(
         chalk.cyanBright.bgBlack(
-          `\nAudit will only run on ${featureEntry[0].feature}...`,
-        ),
+          `\nAudit will only run on ${featureEntry[0].feature}...`
+        )
       )
       routes = featureEntry
     }
   }
 
-  for (let feature of routes) {
+  for (const feature of routes) {
     try {
       const auditStatus = await ReportUtils.auditFeatureRoutes(
         feature,
         argv.headless,
-        argv.screenshot,
+        argv.screenshot
       )
 
       completedAudits += auditStatus.completedAudits
       totalAudits += auditStatus.totalAudits
       totalViolations += auditStatus.totalViolations
       routesNotValidated = routesNotValidated.concat(
-        auditStatus.routesNotValidated,
+        auditStatus.routesNotValidated
       )
     } catch (error) {
       console.log(error)
     }
   }
 
-  console.log(chalk.green.bgBlack(`\n Success! `))
+  console.log(chalk.green.bgBlack('\n Success! '))
   console.log(
     chalk.white.bgBlack(
-      ` Completed ${completedAudits} of ${totalAudits} route audits. ${totalViolations} violations found. `,
-    ),
+      ` Completed ${completedAudits} of ${totalAudits} route audits. ${totalViolations} violations found. `
+    )
   )
-  console.log(`\nThe following routes were not validated:`)
+  console.log('\nThe following routes were not validated:')
   routesNotValidated.forEach(route => {
     console.log(`- ${route}`)
   })

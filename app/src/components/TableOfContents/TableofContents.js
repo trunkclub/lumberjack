@@ -10,7 +10,7 @@ export default class TableOfContents extends Component {
             <a href={`#${type.route.id}`}>{type.title}</a>
           </li>
         )
-      }),
+      })
     )
 
     return links
