@@ -27,8 +27,7 @@
       "feature": "Authorization",
       "id": "authorization",
       "paths": [
-        "/login",
-        "/logout"
+        "/login"
       ]
     },
     {
