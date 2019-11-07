@@ -14,7 +14,8 @@
     "combine-violations:tally": "node -e 'require(\"./utils/ViolationUtils\").createViolationTallyReport()'",
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
     "check-routes": "node utils/AuditRoutes.js",
-    "full-crawl": "yarn check-routes && yarn combine-violations:unique"
+    "full-crawl": "yarn check-routes && yarn combine-violations:unique",
+    "prettier": "prettier --write 'utils/**/*.{js,json,scss,md}'"
   },
   "author": "Beck Kramer",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "placeholders": "^1.0.0",
+    "prettier": "1.18.2",
     "puppeteer": "^1.12.2",
     "yargs": "^13.2.1"
   }

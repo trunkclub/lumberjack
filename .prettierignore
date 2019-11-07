@@ -1,0 +1,8 @@
+# npm/yarn will format package.json, make sure prettier doesn't look at it
+package.json
+
+# We don't own the flow-typed definitions, so don't try to run prettier on them
+flow-typed/
+
+node_modules/
+public/
