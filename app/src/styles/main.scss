@@ -1,9 +1,42 @@
 @import 'variables';
 @import 'global';
 
+
+@media screen and (min-width: $desktop) {
+  .desk-fixed {
+    position: fixed;
+  }
+}
+
+
+.root {
+  margin: 0 auto;
+  max-width: 80rem;
+  width: 100%;
+}
+
+.root {
+  @media screen and (min-width: $desktop) {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 18rem minmax(30rem, 100%);
+  }
+}
+
+
+
+.navigation {
+  background: $color-grey--light;
+  padding: 1rem;
+}
+
+.main-content {
+  padding: 1rem;
+}
+
 .hide {
   position: absolute !important;
-  height: 1px; 
+  height: 1px;
   width: 1px;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
@@ -15,16 +48,17 @@
 }
 
 .button-set {
-  background: $color-grey--medium;
-  padding: 0.5rem 1rem;
-}
+  background: $color-grey--light;
+  padding: 1rem;
 
-.button {
-  margin: 0 1rem 0 0;
+  &__button {
+    margin: 0 1rem 0 0;
+  }
 }
 
 .violation {
   border: 1px solid $color-grey--medium;
+  border-radius: 3px;
   margin: 2rem 0;
 }
 
@@ -40,12 +74,12 @@
 }
 
 .summary__title {
-  border-bottom: 1px dashed #CCC;
+  border-bottom: 1px dashed #ccc;
   padding-bottom: 0.5rem;
 }
 
 .violation footer {
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
   margin-top: 1rem;
 }
 

@@ -45,11 +45,11 @@ const JiraDisplay = props => {
   return (
     <div>
       <div className="button-set">
-        <button className="button" onClick={copyContent}>
+        <button className="button-set__button" onClick={copyContent}>
           Copy Jira Content
         </button>
         <button
-          className="button"
+          className="button-set__button"
           onClick={e => {
             toggleShowMarkup(!showMarkup)
           }}
@@ -58,7 +58,12 @@ const JiraDisplay = props => {
         </button>
         <span className="content-status">{contentStatus}</span>
       </div>
-      <pre ref={panelRef} aria-hidden={!showMarkup} tabIndex={showMarkup ? 0 : null} className={showMarkup ? 'show' : 'hide'}>
+      <pre
+        ref={panelRef}
+        aria-hidden={!showMarkup}
+        tabIndex={showMarkup ? 0 : null}
+        className={showMarkup ? 'show' : 'hide'}
+      >
         <p>h1. {title}</p>
         <p>*User Impact:* {impact}</p>
         <p>
