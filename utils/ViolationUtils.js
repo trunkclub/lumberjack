@@ -3,7 +3,7 @@ const fs = require('fs')
 const APP_CONFIG = require('../config/app.json')
 const AUDIT_FOLDER = `./audits/${APP_CONFIG.id}`
 
-module.exports.violationGenerator = function * (reportId) {
+module.exports.violationGenerator = function*(reportId) {
   // look in audit folder
   const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
 

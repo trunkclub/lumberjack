@@ -72,7 +72,9 @@ module.exports.auditFeatureRoutes = async (
         { waitUntil: 'networkidle2' } // TODO: Wait for form elements to be rendered
       )
       .catch(error => {
-        console.log(chalk.red(' Error') + ': Issue with initial route loading. ')
+        console.log(
+          chalk.red(' Error') + ': Issue with initial route loading. '
+        )
         console.log(' ' + error)
       })
 
