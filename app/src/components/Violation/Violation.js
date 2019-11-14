@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import JiraDisplay from '../JiraDisplay/JiraDisplay'
-import ElementInstance from '../ElementInstance'
+import TabbedContent from '../TabbedContent'
 
 const Violation = props => {
   const { description, help, helpUrl, id, impact, index, node } = props
@@ -20,25 +20,24 @@ const Violation = props => {
 
   return (
     <article className="violation">
-      <div className="summary">
-        <h3 className="summary__title">Violation: {help}</h3>
-        <p>
+      <div className="violation__topper">
+        <div>
           <b>User Impact:</b> {impact}
-        </p>
+        </div>
+        <div>
+          <b>{routesList.length}</b> Routes Impacted
+        </div>
+      </div>
+      <div className="violation__summary">
+        <h3 className="violation__title">{help}</h3>
+        
+        <p>{description}</p>
         <p>
-          <b>Routes Impacted ({routesInfo.total} total):</b> {routesInfo.list}
-        </p>
-        <p>
-          <b>Description:</b> {description}
-        </p>
-
-        <ElementInstance all={all} any={any} html={html} target={target[0]} />
-
-        <p>
-          <a href={helpUrl}>Read more about how to fix this issue >></a>
+          <a className="axeLink" href={helpUrl}>Learn more ></a>
         </p>
       </div>
-      <footer>
+      <div className="violation__tabs">
+
         <JiraDisplay
           description={description}
           helpUrl={helpUrl}
@@ -50,7 +49,9 @@ const Violation = props => {
           routesInfo={routesInfo}
           title={`[${capsImpact}]: ${help}`}
         />
-      </footer>
+
+        <TabbedContent all={all} any={any} html={html} routesList={routesList} target={target[0]} />
+      </div>
     </article>
   )
 }

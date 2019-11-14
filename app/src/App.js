@@ -34,16 +34,16 @@ class App extends Component {
 
     return (
       <>
-        <header className="navigation">
+        <header className="sidebar">
           <div className="desk-fixed">
             <h1>Lumberjack</h1>
             {reportData && (
-              <nav>
+              <nav className="navigation">
                 <ul>
                   {Object.keys(reportData).map((id, index) => {
                     return (
-                      <li key={id}>
-                        <a href={`#${id}`}>{id}</a>
+                      <li className="navigation__item" key={id}>
+                        <a className="navigation__link" href={`#${id}`}>{id}</a>
                       </li>
                     )
                   })}

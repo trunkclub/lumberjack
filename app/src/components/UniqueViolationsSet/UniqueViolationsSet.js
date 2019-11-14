@@ -7,10 +7,10 @@ const UniqueViolationsSet = reportData => (
   
   <>
     {Object.keys(reportData).map(id => (
-      <section key={id}>
-        <h2 id={id}>Violation Type: {id}</h2>
-        <p>
-          <b>Total Unique Violations:</b> {reportData[id].nodes.length}
+      <section className="violationSet" key={id}>
+        <h2 id={id} className="violationSet__title">Violation Type: {id}</h2>
+        <p className="violationSet__summary">
+          Total Unique Violations: <b>{reportData[id].nodes.length}</b>
         </p>
 
         {reportData[id].nodes.map((node, index) => {

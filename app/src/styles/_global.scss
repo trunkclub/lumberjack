@@ -1,12 +1,15 @@
 // Global HTML Element CSS
 
+@import url('https://fonts.googleapis.com/css?family=Cairo:400,600,700&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
+  background: $color-blue--medium;;
   color: $color-grey--dark;
-  font-family: Arial;
+  font-family: 'Cairo', sans-serif;
   padding: 0;
   margin: 0;
 }
@@ -14,33 +17,28 @@ body {
 pre {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-  font-size: 1rem;
+  font-size: 0.9rem;
   overflow-x: scroll;
   padding: 0.8rem;
 }
 
-h1,
-h2,
-h3,
-h4,
 h5 {
-  color: $color-black;
+  font-size: 1rem;
 }
 
 a {
-  color: $color-blue;
+  color: $color-blue--dark;
   font-weight: bold;
 }
 
 button {
-  background: $color-blue;
-  border: 2px solid;
-  border-color: $color-blue $color-blue $color-grey--dark $color-blue;
-  border-radius: 3px;
-  color: $color-grey--light;
+  background: $color-blue--dark;
+  border: 2px solid $color-blue--dark;
+  color: $color-white;
   cursor: pointer;
+  font-family: 'Cairo', sans-serif;
   font-size: 0.9rem;
-  font-weight: bold;
-  outline: 0;
-  padding: 0.5rem 1rem;
+  font-weight: normal;
+  padding: 0.25rem 1rem;
+  text-transform: uppercase;
 }

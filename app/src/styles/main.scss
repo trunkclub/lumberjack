@@ -11,7 +11,6 @@
 
 .root {
   margin: 0 auto;
-  max-width: 80rem;
   width: 100%;
 }
 
@@ -23,11 +22,35 @@
   }
 }
 
-
+.sidebar {
+  background: $color-blue--dark;
+  color: $color-grey--light;
+  padding: 1rem;
+}
 
 .navigation {
-  background: $color-grey--light;
-  padding: 1rem;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link {
+    
+    color: $color-white;
+    font-weight: normal;
+    text-decoration: none;
+
+    &.active {
+      font-weight: bold;
+    }
+    
+  }
 }
 
 .main-content {
@@ -47,43 +70,135 @@
   display: block;
 }
 
-.button-set {
-  background: $color-grey--light;
-  padding: 1rem;
-
-  &__button {
-    margin: 0 1rem 0 0;
+.violationSet {
+  &__title,
+  &__summary {
+    color: $color-grey--light;
   }
 }
 
 .violation {
-  border: 1px solid $color-grey--medium;
-  border-radius: 3px;
-  margin: 2rem 0;
+  
+  background: $color-green--gradient;
+  margin: 3rem auto;
+  max-width: 50rem;
+  padding: 0 1.5rem 1.5rem;
+
+  .axeLink,
+  &__topper {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .axeLink {
+    color: $color-black;
+    font-weight: normal;
+    text-decoration: none;
+  }
+
+  &__button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+
+    .content-status {
+      margin-right: 1rem;
+    }
+  }
+
+  &__summary {
+
+    font-size: 1.2rem;
+    line-height: 140%;
+    padding: 3rem;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__tabs {
+    position: relative;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  &__topper {
+    background: $color-white;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -1.5rem;
+    padding: 0.5rem 1.5rem;
+  }
 }
 
-.violation .summary {
-  padding: 1rem;
-}
+.tabs {
 
-.violation .summary > *:first-child {
-  margin-top: 0;
-}
-.violation .summary > *:last-child {
-  margin-bottom: 0;
-}
+  // TODO: have min-width for tabs be around 540px, otherwise have content stack
 
-.summary__title {
-  border-bottom: 1px dashed #ccc;
-  padding-bottom: 0.5rem;
-}
+  position: relative;
+  z-index: 1;
 
-.violation footer {
-  border-top: 1px solid #ccc;
-  margin-top: 1rem;
-}
+  button {
+    background: transparentize($color-white, 0.5);
+    border: none;
+    color: $color-black;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    text-transform: none;
+  }
+  
+  &__tabset {
 
-.content-status {
-  font-style: italic;
-  margin-left: 1rem;
+    display: flex;
+    list-style-type: none;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &__tab {
+
+      font-weight: bold;
+      margin: 0;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+
+      &.is-active button{
+        background: $color-white;
+      }
+    }
+  }
+
+  &__contentset {
+    background: $color-white;
+    padding: 1.5rem;
+
+    &__content {
+
+      display: none;
+
+      & > :first-child {
+        margin-top: 0;
+      }
+      & > :last-child {
+        margin-bottom: 0;
+      }
+
+      &.is-active {
+        display: block;
+      }
+    }
+  }
 }

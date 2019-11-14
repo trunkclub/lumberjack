@@ -1,10 +1,15 @@
 $color-black: #14141a;
-$color-blue: #3d4c8c;
+
+$color-blue--dark: #18396B;
+$color-blue--medium: #577594;
+
 $color-grey--dark: #2b2d42;
 $color-grey--medium: #6a7792;
 $color-grey--light: #edf0f4;
-$color-red: #d80032;
+
 $color-white: #fff;
+
+$color-green--gradient: linear-gradient(180deg, rgba(212, 240, 227, 0.79) 0%, rgba(255, 255, 255, 0) 100%), rgb(68, 171, 167);
 
 
 $desktop: 60rem;

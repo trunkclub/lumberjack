@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import JiraElementInstance from './components/JiraElementInstance'
 
 const JiraDisplay = props => {
-  const [showMarkup, toggleShowMarkup] = useState(false)
+  
   const [contentStatus, setContentStatus] = useState('')
   const panelRef = React.createRef()
 
@@ -43,27 +43,15 @@ const JiraDisplay = props => {
   const { all, any, html, target } = node
 
   return (
-    <div>
-      <div className="button-set">
-        <button className="button-set__button" onClick={copyContent}>
-          Copy Jira Content
-        </button>
-        <button
-          className="button-set__button"
-          onClick={e => {
-            toggleShowMarkup(!showMarkup)
-          }}
-        >
-          {showMarkup ? 'Hide' : 'Show'} Jira Content
-        </button>
-        <span className="content-status">{contentStatus}</span>
-      </div>
-      <pre
-        ref={panelRef}
-        aria-hidden={!showMarkup}
-        tabIndex={showMarkup ? 0 : null}
-        className={showMarkup ? 'show' : 'hide'}
-      >
+    <div className="violation__button">
+
+      <span className="content-status">{contentStatus}</span>
+      
+      <button className="button" onClick={copyContent}>
+        Copy Jira Content
+      </button>
+      
+      <pre aria-hidden={true} className="hide" ref={panelRef}>
         <p>h1. {title}</p>
         <p>*User Impact:* {impact}</p>
         <p>
