@@ -1,11 +1,11 @@
 {
   "id": "customer-app",
   "login": {
-    "email": "gonzoTGreat@testing.com",
+    "email": "fozzieBear@testink.com",
     "password": "Test1234",
     "path": "/login"
   },
-  "root": "http://localhost:10081",
+  "root": "http://stagingclub.com",
   "errors": {
     "content": [
       "Oops!",

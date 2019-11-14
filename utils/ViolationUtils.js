@@ -7,6 +7,8 @@ module.exports.violationGenerator = function*(reportId) {
   // look in audit folder
   const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
 
+  console.log('Number of routes: ', filenames.length)
+
   // fetch all json files
   for (const i in filenames) {
     const file = fs.readFileSync(

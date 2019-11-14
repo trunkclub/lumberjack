@@ -57,7 +57,7 @@ module.exports.auditFeatureRoutes = async (
   )
 
   const routesNotValidated = []
-  const totalAudits = feature.paths.length
+  let totalAudits = 0
   let completedAudits = 0
   let totalViolations = 0
 
@@ -87,8 +87,6 @@ module.exports.auditFeatureRoutes = async (
   }
 
   for (const path of feature.paths) {
-    let finalPath = path
-
     if (path.indexOf(':') > 0) {
       // FIXME:
       // This currently only gets 1 param per path; rewrite to scale
@@ -103,22 +101,34 @@ module.exports.auditFeatureRoutes = async (
             if (arraySectionWithParam.length) {
               newPath += '/' + arraySectionWithParam.join('/')
             }
-            finalPath = newPath
+            try {
+              const auditStatus = await this.runAxeOnPath(page, newPath, headless, screenshot)
+
+              completedAudits += auditStatus.completedAudit ? 1 : 0
+              totalAudits++
+              totalViolations += auditStatus.numberOfViolations
+              if (auditStatus.routeNotValidated) {
+                routesNotValidated.push(auditStatus.routeNotValidated)
+              }
+            } catch (error) {
+              console.log(error)
+            }
           }
         }
       }
-    }
+    } else {
+      try {
+        const auditStatus = await this.runAxeOnPath(page, path, headless, screenshot)
 
-    try {
-      const auditStatus = await this.runAxeOnPath(page, finalPath, screenshot)
-
-      completedAudits += auditStatus.completedAudit ? 1 : 0
-      totalViolations += auditStatus.numberOfViolations
-      if (auditStatus.routeNotValidated) {
-        routesNotValidated.push(auditStatus.routeNotValidated)
+        completedAudits += auditStatus.completedAudit ? 1 : 0
+        totalAudits++
+        totalViolations += auditStatus.numberOfViolations
+        if (auditStatus.routeNotValidated) {
+          routesNotValidated.push(auditStatus.routeNotValidated)
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -169,19 +179,19 @@ module.exports.takeScreenshot = async (page, path) => {
 
   console.log(' Taking screenshots...')
 
-  await page.setViewport({
-    width: 480,
-    height: 1024,
-  })
+  // await page.setViewport({
+  //   width: 480,
+  //   height: 1024,
+  // })
 
-  await page.screenshot({
-    fullPage: true,
-    path: `${AUDIT_FOLDER}/screenshots/${this.prettyRoute(path)}--mobile.png`,
-  })
-  console.log(' - Mobile screenshot created.')
+  // await page.screenshot({
+  //   fullPage: true,
+  //   path: `${AUDIT_FOLDER}/screenshots/${this.prettyRoute(path)}--mobile.png`,
+  // })
+  // console.log(' - Mobile screenshot created.')
 
   await page.setViewport({
-    width: 1048,
+    width: 1400,
     height: 1024,
   })
 
@@ -280,9 +290,8 @@ module.exports.runAxeOnPath = async (
   let numberOfViolations = 0
   let routeNotValidated
 
-  // TODO: Figure out how to set this based on content
   await page.setViewport({
-    width: 1024,
+    width: 1400,
     height: 1024,
   })
 
