@@ -22,6 +22,13 @@ pre {
   padding: 0.8rem;
 }
 
+hr {
+  background: $color-grey--light;
+  border: none;
+  height: 1px;
+  margin: 4rem 0;
+}
+
 h5 {
   font-size: 1rem;
 }
@@ -42,3 +49,21 @@ button {
   padding: 0.25rem 1rem;
   text-transform: uppercase;
 }
+
+table {
+
+  border-top: 1px solid $color-blue--medium;
+
+  th, td {
+    padding: 0.5rem;
+  }
+  
+  tbody th {
+    text-align: right;
+  }
+  
+  td {
+    text-align: center;
+  }  
+}
+

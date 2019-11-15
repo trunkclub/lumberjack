@@ -1,6 +1,12 @@
 @import 'variables';
 @import 'global';
 
+@mixin mainContainer() {
+  margin: 3rem auto;
+  max-width: 50rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
 
 @media screen and (min-width: $desktop) {
   .desk-fixed {
@@ -79,10 +85,9 @@
 
 .violation {
   
+  @include mainContainer;
+
   background: $color-green--gradient;
-  margin: 3rem auto;
-  max-width: 50rem;
-  padding: 0 1.5rem 1.5rem;
 
   .axeLink,
   &__topper {
@@ -201,4 +206,16 @@
       }
     }
   }
+}
+
+.tally {
+  @include mainContainer;
+
+  background: linear-gradient(#FFF, rgba(255,255,255,0.7));
+}
+
+.tableSet {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
 }
