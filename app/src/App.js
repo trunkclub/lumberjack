@@ -7,10 +7,12 @@ import TallyTable from './components/TallyTable'
 import './styles/main.scss'
 
 class App extends Component {
+  
   state = {
     rootViolations: 0,
     violationInstances: 0,
     reportData: null,
+    tallyData: null,
   }
 
   componentDidMount() {
@@ -35,8 +37,6 @@ class App extends Component {
     axios
       .get(`/api/reports/tally`)
       .then(response => {
-
-        console.log(response.data)
         this.setState({
           tallyData: response.data,
         })
@@ -84,7 +84,6 @@ class App extends Component {
         </header>
         <main className="main-content">
           {tallyData && <TallyTable {...tally} />}
-          <hr />
           {reportData && <UniqueViolationsSet {...reportData} />}
         </main>
       </>

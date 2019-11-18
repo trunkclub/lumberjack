@@ -14,7 +14,7 @@ router.get('/unique', (request, response, next) => {
 
 router.get('/tally', (request, response, next) => {
   const tallyData = auditFiles.tally
-  response.status(200).json(tallyData[tallyData])
+  response.status(200).json(tallyData)
 })
 
 module.exports = router
