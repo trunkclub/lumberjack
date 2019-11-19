@@ -22,6 +22,10 @@ Viewing results in the client app requires:
 * You've run `yarn install` inside the `./app` folder
 * The `yarn check-routes`, `yarn combine-violations:unique` and `yarn combine-violations:tally` commands have been run in root
 
+### Running the Client App
+
+Once all Setup steps have completed, run `yarn develop`, which will start up the project's server and React app in the same terminal window.
+
 ## Commands
 Once the above is set up, you can run any and all of the following:
 
