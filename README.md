@@ -9,7 +9,7 @@ Currently, it:
 1. Consolidates violations into a set of unique instances that can be tallied for additional reporting
 2. Loads unique violations in a simple web client that can assist in the creation of remediation tickets in Jira
 
-Currently, this application is very Customer App-centric, but is being developed with the intent that any application could use it with its own configuration files in place.
+This application has very Customer App-centric configuration in place, but is being developed with the intent that any application could use it with its own configuration files.
 
 ## Setup:
 
