@@ -20,6 +20,7 @@ Running reports depends on the following:
 Viewing results in the client app requires:
 * The above report steps are done
 * You've run `yarn install` inside the `./app` folder
+* The `yarn check-routes`, `yarn combine-violations:unique` and `yarn combine-violations:tally` commands have been run in root
 
 ## Commands
 Once the above is set up, you can run any and all of the following:
