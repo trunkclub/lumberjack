@@ -15,7 +15,6 @@
   },
   "routes": [
     {
-      "authorized": true,
       "feature": "Invalid / 404 Routes",
       "id": "invalid",
       "paths": [
@@ -23,7 +22,6 @@
       ]
     },
     {
-      "authorized": false,
       "feature": "Authorization",
       "id": "authorization",
       "paths": [
@@ -31,7 +29,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Payments and Shipping",
       "id": "payments-shipping",
       "paths": [
@@ -41,7 +38,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Appointments",
       "id": "appointments",
       "paths": [
@@ -51,7 +47,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Budget",
       "id": "budget",
       "paths": [
@@ -59,7 +54,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Express Preview",
       "id": "express-preview",
       "paths": [
@@ -73,7 +67,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Gift Cards",
       "id": "cards",
       "paths": [
@@ -81,7 +74,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Measurements",
       "id": "measurements",
       "paths": [
@@ -89,7 +81,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Messenger",
       "id": "messenger",
       "paths": [
@@ -97,7 +88,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Pinterest",
       "id": "pinterest",
       "paths": [
@@ -106,7 +96,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Style Preferences",
       "id": "style-preferences",
       "paths": [
@@ -131,7 +120,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Trunks",
       "id": "trunks",
       "paths": [
@@ -154,7 +142,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Wardrobe",
       "id": "wardrobe",
       "paths": [
@@ -163,7 +150,6 @@
       ]
     },
     {
-      "authorized": true,
       "feature": "Misc Account",
       "id": "misc-account",
       "paths": [
@@ -177,7 +163,6 @@
       ]
     },
     {
-      "authorized": false,
       "feature": "Onboarding",
       "id": "onboarding",
       "paths": [
