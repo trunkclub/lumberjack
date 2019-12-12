@@ -65,27 +65,6 @@ module.exports.auditFeatureRoutes = async (
   const page = await browser.newPage()
   await page.setBypassCSP(true)
 
-  if (feature.authorized) {
-    await page
-      .goto(
-        APP_CONFIG.root + APP_CONFIG.login.path,
-        { waitUntil: 'networkidle2' } // TODO: Wait for form elements to be rendered
-      )
-      .catch(error => {
-        console.log(
-          chalk.red(' Error') + ': Issue with initial route loading. '
-        )
-        console.log(' ' + error)
-      })
-
-    try {
-      await this.login(page)
-    } catch (error) {
-      console.log(chalk.red(' Error') + ': Issue with login.')
-      console.log(' ' + error)
-    }
-  }
-
   for (const path of feature.paths) {
     if (path.indexOf(':') > 0) {
       // FIXME:
@@ -102,7 +81,12 @@ module.exports.auditFeatureRoutes = async (
               newPath += '/' + arraySectionWithParam.join('/')
             }
             try {
-              const auditStatus = await this.runAxeOnPath(page, newPath, headless, screenshot)
+              const auditStatus = await this.runAxeOnPath(
+                page,
+                newPath,
+                headless,
+                screenshot
+              )
 
               completedAudits += auditStatus.completedAudit ? 1 : 0
               totalAudits++
@@ -118,7 +102,12 @@ module.exports.auditFeatureRoutes = async (
       }
     } else {
       try {
-        const auditStatus = await this.runAxeOnPath(page, path, headless, screenshot)
+        const auditStatus = await this.runAxeOnPath(
+          page,
+          path,
+          headless,
+          screenshot
+        )
 
         completedAudits += auditStatus.completedAudit ? 1 : 0
         totalAudits++
@@ -280,6 +269,35 @@ module.exports.hasValidContent = async (page, path) => {
   return hasOnlyValidContent
 }
 
+const loadUrl = async (page, path) => {
+  const destinationUrl = APP_CONFIG.root + path
+
+  await page
+    .goto(destinationUrl, { waitUntil: 'networkidle2' })
+    .catch(error => {
+      console.log(chalk.red(' Error') + ': Issue with initial route loading.')
+      console.log(' ' + error)
+
+      throw error
+    })
+
+  let currentUrl = page.url()
+
+  const isAtLogin = currentUrl.includes(APP_CONFIG.login.path)
+  const isScanningLoginPath = path === APP_CONFIG.login.path
+
+  if (isAtLogin && !isScanningLoginPath) {
+    await this.login(page)
+  }
+
+  currentUrl = page.url()
+  if (currentUrl !== destinationUrl) {
+    throw new Error(
+      `Unable to go to ${destinationUrl}. Current URL is ${currentUrl}.`
+    )
+  }
+}
+
 module.exports.runAxeOnPath = async (
   page,
   path,
@@ -297,20 +315,19 @@ module.exports.runAxeOnPath = async (
 
   console.log(chalk.cyanBright.bgBlack(`\n Auditing ${path}...`))
 
-  await page
-    .goto(APP_CONFIG.root + path, { waitUntil: 'networkidle2' })
-    .catch(error => {
-      console.log(chalk.red(' Error') + ': Issue with initial route loading.')
-      console.log(' ' + error)
-    })
+  try {
+    await loadUrl(page, path)
+  } catch (error) {
+    console.log('Error loading route.\n', error)
 
-  await page.evaluate('location.href').catch(error => {
-    console.log(
-      chalk.red.bgBlack('Error') +
-        ': There was an issue evaluating the route location.'
-    )
-    console.log(' ' + error)
-  })
+    routeNotValidated = path
+
+    return {
+      completedAudit,
+      numberOfViolations,
+      routeNotValidated,
+    }
+  }
 
   await page
     .waitFor('html')
@@ -371,25 +388,22 @@ module.exports.runAxeOnPath = async (
 module.exports.login = async page => {
   console.log(' Redirected to login screen. Logging in...')
 
-  await page.click('input[type="email"]').catch(error => {
-    console.log(' Issue with email field. \n\n' + error)
-  })
+  try {
+    await page.click('input[type="email"]')
+    await page.keyboard.type(APP_CONFIG.login.email)
 
-  await page.keyboard.type(APP_CONFIG.login.email)
+    await page.click('input[type="password"]')
+    await page.keyboard.type(APP_CONFIG.login.password)
 
-  await page.click('input[type="password"]').catch(error => {
-    console.log(' Issue with password field. \n\n' + error)
-  })
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 }),
+      page.click('button[type="submit"]'),
+    ])
+  } catch (error) {
+    console.log(' Unable to login. \n\n' + error)
 
-  await page.keyboard.type(APP_CONFIG.login.password)
-
-  await page.click('button[type="submit"]').catch(error => {
-    console.log(' Issue with submit button. \n\n' + error)
-  })
-
-  await page.waitForNavigation({ waitUntil: 'networkidle2' }).catch(error => {
-    console.log(' Issue with navigation. \n\n' + error)
-  })
+    throw error
+  }
 }
 
 module.exports.getReportIds = () => {
