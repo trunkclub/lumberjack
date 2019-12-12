@@ -44,6 +44,8 @@ const CreateUniqueViolationReport = async () => {
       })
 
       violation.nodes.forEach(node => {
+        const regex = /nth-child.[0-9]*./g
+        node.target[0] = node.target[0].replace(regex, '')
         const currentTarget = node.target[0]
         const alreadyPresent = uniqueTargets.includes(currentTarget)
 

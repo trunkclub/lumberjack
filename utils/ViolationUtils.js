@@ -38,6 +38,10 @@ module.exports.getUniqueViolations = reportId => {
     for (const violation of data.violations) {
       // Does this violation already exist in the uniqueViolations? No, add it
       if (!uniqueViolations[violation.id]) {
+        violation.nodes.forEach(node => {
+          const regex = /nth-child.[0-9]*./g
+          node.target = [node.target[0].replace(regex, '')]
+        })
         uniqueViolations[violation.id] = violation
       }
     }
