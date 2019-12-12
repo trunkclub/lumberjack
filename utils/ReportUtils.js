@@ -318,7 +318,7 @@ module.exports.runAxeOnPath = async (
   try {
     await loadUrl(page, path)
   } catch (error) {
-    console.log('Error loading route.\n', error)
+    console.log(' Error loading route.\n', error)
 
     routeNotValidated = path
 
