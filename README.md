@@ -1,47 +1,57 @@
-# A11y Report
+# Lumberjack
 
-This is a first pass at automating a11y testing of a given app. Tons of this could stand to be automated or cleaned up.
+Lumberjack is a project concerned with helping efforts to report and remediate accessibility issues in our applications. It uses [Deque Labs' Axe Puppeteer package](https://github.com/dequelabs/axe-puppeteer) to audit sets of routes and create reports.
 
-Currently, 58 routes are available for testing for Customer App. This is every route that doesn't leverage a parameter in its URL. Given that, this creates an incomplete audit, but it's somewhere to start.
-
-## What this reporting app does:
+## What this app does:
 
 Currently, it:
 
-- Runs a test per route and generates a route-specific json file and screenshot of that route
-- Combines violation data found in route-specific json files into one report file
-- Displays this in an incredibly basic React app that can be copy/pasted into a Paper doc
+1.  Consolidates violations into a set of unique instances that can be tallied for additional reporting
+2.  Loads unique violations in a simple web client that provides content for remediation tickets
+
+This application has very Customer App-centric configuration in place, but is being developed with the intent that any application could use it with its own configuration files.
 
 ## Setup:
-Currently, running reports depends on the following:
 
-* Customer App is currently running at `localhost:10081`
-* Customer App's login page form fields have been updated with IDs for puppeteer to find:
-  * `#login-email`
-  * `#login-password`
-  * `#login-submit`
+Running reports depends on the following:
 
-- A folder cooresponding to the `testID` you want to use has been created in the `./server/audits` and `./server/screenshots` folders
-- No file with the `testID` is currently present in the `./server/reports` folder; if one is present delete it before combining reports
+-   You've run `yarn install` in the root directory
+-   You've added application and route info to the files found in the `./config` folder
+
+Viewing results in the client app requires:
+
+-   The above report steps are done
+-   You've run `yarn install` inside the `./app` folder
+-   The `yarn check-routes`, `yarn combine-violations:unique` and `yarn combine-violations:tally` commands have been run in root
+
+### Running the Client App
+
+Once all Setup steps have completed, run `yarn develop`, which will start up the project's server and React app in the same terminal window.
 
 ## Commands
-Once the above is set up, you can run the following:
 
-_To test routes:_
-```js
-npm run check-routes --testID=[your test ID]
-```
+Once the above is set up, you can run any and all of the following:
 
-_To combine reports into one file:_
-```js
-npm run combine-reports --testID=[your test ID]
-```
+`yarn check-routes`
+Checks all the routes in the routes config folder. Append with `--help` to see additional settings.
 
-## View Reports:
+`yarn combine-violations:unique`
+_Depends on the reports from `yarn check-routes` being available._
+Combines all of the violation data for all routes into one JSON file.
 
-Viewing reports requires updating the `./server/api/reports.js` file with info for your `testID`
+`yarn combine-violations:tally`
+_Depends on the reports from `yarn check-routes` being available._
+Goes over the data in violation reports and tallies violations found by severity and violation category. This data is then saved to a JSON file.
 
-Then, run 
-```js
-npm run develop
-```
+`yarn get-report-ids`
+Logs all available IDs for test data currently available to the console.
+
+`yarn get-tally`
+_Depends on the tally data file from `yarn combine-violations:tally` being available._
+Logs tally of current unique violations to the console by severity and by violation category.
+
+`yarn full-crawl`
+Runs `yarn check-routes` and `yarn combine-violations:unique` in one step.
+
+`yarn develop`
+Launches the client to view unique issues found once reports have been run.

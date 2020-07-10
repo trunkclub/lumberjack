@@ -1,0 +1,16 @@
+{
+  "id": "app-id",
+  "login": {
+    "path": "/login"
+  },
+  "root": "https://staging.yoursite.com",
+  "errors": {
+    "content": [
+      "404",
+      "Something went wrong",
+      "That page doesn't exist",
+      "you do not have permission to"
+    ],
+    "featureId": "invalid"
+  }
+}

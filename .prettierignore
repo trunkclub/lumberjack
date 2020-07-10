@@ -1,0 +1,5 @@
+# npm/yarn will format package.json, make sure prettier doesn't look at it
+package.json
+
+node_modules/
+public/

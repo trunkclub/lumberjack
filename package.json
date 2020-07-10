@@ -1,28 +1,68 @@
 {
-  "name": "a11y-report",
-  "version": "1.0.0",
+  "name": "lumberjack",
+  "version": "0.0.0-development",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "client": "cd client && yarn start",
-    "develop": "concurrently \"npm run server\" \"npm run client\"",
+    "app": "cd app && yarn start",
+    "develop": "concurrently \"yarn server\" \"yarn app\"",
+    "get-report-ids": "node -e 'require(\"./utils/ReportUtils\").getReportIds()'",
+    "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
+    "lint": "eslint 'utils/**/*.ts' --max-warnings=0",
+    "lumberjack": "ts-node utils/index.ts",
+    "prettier": "prettier --write '{app,utils}/**/*.{ts,js,json,scss,md}'",
+    "semantic-release": "semantic-release",
     "server": "node server/index.js",
-    "start": "npm run server",
+    "start": "yarn server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "combine-reports": "node utils/axe/combineReports.js",
-    "check-routes": "node utils/axe/checkRoutes.js"
+    "commitizen": "commitizen",
+    "generate-docs": "jsdoc -c ./jsdoc.json"
   },
   "author": "Beck Kramer",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "@types/inquirer": "^6.5.0",
+    "@types/mkdirp": "^1.0.0",
+    "chalk": "^2.4.2",
+    "cli-color": "^2.0.0",
+    "express": "^4.16.4",
+    "inquirer": "^7.0.4",
+    "typedoc": "^0.17.4",
+    "typescript": "^3.9.3"
   },
   "devDependencies": {
+    "@types/node": "^13.13.0",
+    "@types/puppeteer": "^2.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "axe-core": "^3.1.2",
     "axe-puppeteer": "^1.0.0",
+    "better-docs": "^2.0.1",
+    "commitizen": "^4.0.3",
     "concurrently": "^4.1.0",
+    "cz-conventional-changelog": "3.1.0",
+    "docdash": "^1.2.0",
+    "eslint": "5.12.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsdoc": "^25.4.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jsdoc": "^3.6.4",
+    "mkdirp": "^1.0.4",
     "moment": "^2.24.0",
+    "nodemon": "^2.0.3",
+    "placeholders": "^1.0.0",
+    "prettier": "1.18.2",
     "puppeteer": "^1.12.2",
+    "semantic-release": "^17.0.4",
+    "ts-node": "^8.10.1",
     "yargs": "^13.2.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
