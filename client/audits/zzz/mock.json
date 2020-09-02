@@ -1,0 +1,376 @@
+[
+    {"id":"0872019","route":{"id":"account_appointments_schedule_call","path":"/account/appointments/schedule/call"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA ErrorPage_footer__2YBkK\" type=\"button\"><span class=\"Button_child__1wcjK\">Go to messenger</span></button>","target":[".Button_main__3Ru5s"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Go to messenger</span>","target":[".Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {"id":"0872019","route":{"id":"account_appointments_schedule","path":"/account/appointments/schedule"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<header class=\"Header_header__21fQc\">","target":[".Header_header__21fQc"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span>Appointments</span>","target":[".Header_back__171GK > span"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {"id":"0872019","route":{"id":"account_appointments","path":"/account/appointments"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA\" type=\"button\"><span class=\"Button_child__1wcjK\">Schedule an appointment</span></button>","target":[".Button_primary__1XKaA"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Schedule an appointment</span>","target":[".Button_primary__1XKaA > .Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {"id":"0872019","route":{"id":"account_budget","path":"/account/budget"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA LoadingButton_button__1CCYu\" type=\"submit\" data-qa=\"saveBudget\"><span class=\"Button_child__1wcjK\">Update budget</span></button>","target":[".Button_main__3Ru5s"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Update budget</span>","target":[".Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"landmark-main-is-top-level","impact":"moderate","tags":["cat.semantics","best-practice"],"description":"Ensures the main landmark is at top level","help":"Main landmark must not be contained in another landmark","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/landmark-main-is-top-level?application=axe-puppeteer","nodes":[{"any":[{"id":"landmark-is-top-level","data":{"role":"main"},"relatedNodes":[],"impact":"moderate","message":"The main landmark is contained in another landmark."}],"all":[],"none":[],"impact":"moderate","html":"<main class=\"Budget_container___7Pun\">","target":[".Budget_container___7Pun"],"failureSummary":"Fix any of the following:\n  The main landmark is contained in another landmark."}]},{"id":"landmark-one-main","impact":"moderate","tags":["cat.semantics","best-practice"],"description":"Ensures the document has only one main landmark and each iframe in the page has at most one main landmark","help":"Document must have one main landmark","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/landmark-one-main?application=axe-puppeteer","nodes":[{"any":[],"all":[{"id":"page-no-duplicate-main","data":null,"relatedNodes":[{"html":"<main>","target":["div > main"]},{"html":"<main class=\"Budget_container___7Pun\">","target":[".Budget_container___7Pun"]}],"impact":"moderate","message":"Document has more than one main landmark"}],"none":[],"impact":"moderate","html":"<html lang=\"en\" class=\" no-touchevents no-touchevents\">","target":["html"],"failureSummary":"Fix all of the following:\n  Document has more than one main landmark"}]},{"id":"landmark-unique","impact":"moderate","tags":["cat.semantics","best-practice"],"help":"Ensures landmarks are unique","description":"Landmarks must have a unique role or role/label/title (i.e. accessible name) combination","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/landmark-unique?application=axe-puppeteer","nodes":[{"any":[{"id":"landmark-is-unique","data":{"role":"main","accessibleText":null},"relatedNodes":[{"html":"<main class=\"Budget_container___7Pun\">","target":[".Budget_container___7Pun"]}],"impact":"moderate","message":"The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"}],"all":[],"none":[],"impact":"moderate","html":"<main>","target":["div > main"],"failureSummary":"Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {"id":"0872019","route":{"id":"account_gift-cards","path":"/account/gift-cards"},"needsManualCheck":false,"violations":[{"id":"autocomplete-valid","impact":"serious","tags":["cat.forms","wcag21aa","wcag135"],"description":"Ensure the autocomplete attribute is correct and suitable for the form field","help":"autocomplete attribute must be used correctly","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/autocomplete-valid?application=axe-puppeteer","nodes":[{"any":[],"all":[{"id":"autocomplete-appropriate","data":null,"relatedNodes":[],"impact":"serious","message":"the autocomplete value is inappropriate for this type of input"}],"none":[],"impact":"serious","html":"<input type=\"email\" autocomplete=\"username\" name=\"email\" required=\"\" aria-label=\"Email\" class=\"Input_input__23cO2\" placeholder=\"Email\" value=\"\">","target":["input[type=\"email\"]"],"failureSummary":"Fix all of the following:\n  the autocomplete value is inappropriate for this type of input"}]},{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"9.0pt (12px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<div class=\"LoginForm_disclosure__15ueL\">By signing into your account, you agree to our <a href=\"/privacy\">Privacy Policy</a> and <a href=\"/terms-of-service\">Terms and Conditions</a></div>","target":[".LoginForm_disclosure__15ueL"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"9.0pt (12px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<a href=\"/privacy\">Privacy Policy</a>","target":["a[href$=\"privacy\"]"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"9.0pt (12px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<a href=\"/terms-of-service\">Terms and Conditions</a>","target":["a[href$=\"terms-of-service\"]"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA LoginForm_button__1M9Hd LoadingButton_button__1CCYu\" type=\"submit\"><span class=\"Button_child__1wcjK\">Sign in</span></button>","target":["button"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Sign in</span>","target":[".Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<a href=\"/forgot-password\">Forgot your password?</a>","target":["a[href$=\"forgot-password\"]"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<div class=\"Login_additionalInfo__3l9Jy\">New to Trunk Club? <a href=\"/onboarding\">Get Started now</a></div>","target":[".Login_additionalInfo__3l9Jy:nth-child(4)"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<a href=\"/onboarding\">Get Started now</a>","target":["a[href$=\"onboarding\"]"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]}]},
+    {"id":"0872019","route":{"id":"account_measurements","path":"/account/measurements"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<select name=\"waist\" id=\"__select::6735.319153791799\" class=\"Select_select__cv9Pm Select_placeholder__nARW3\">","target":["#__select\\:\\:6735\\.319153791799"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<select name=\"top_size_designation\" id=\"__select::6937.662319380073\" class=\"Select_select__cv9Pm Select_placeholder__nARW3\"><option>Top (Fit)</option><option value=\"regular\">Regular</option><option value=\"petite\">Petite</option><option value=\"plus\">Plus</option></select>","target":["#__select\\:\\:6937\\.662319380073"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<body>","target":["body"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<select name=\"top_size\" id=\"__select::3434.7318920950997\" class=\"Select_select__cv9Pm Select_placeholder__nARW3\"><option>Top (Size)</option><option value=\"Other\">Other</option></select>","target":["#__select\\:\\:3434\\.7318920950997"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA LoadingButton_button__1CCYu\" type=\"submit\"><span class=\"Button_child__1wcjK\">Update sizes</span></button>","target":[".Button_main__3Ru5s"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Update sizes</span>","target":[".Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {"id":"0872019","route":{"id":"account_order-history","path":"/account/order-history"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA\" type=\"button\"><span class=\"Button_child__1wcjK\">Message your stylist</span></button>","target":[".Button_main__3Ru5s"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Message your stylist</span>","target":[".Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {"id":"0872019","route":{"id":"account_payment-shipping_new-address","path":"/account/payment-shipping/new-address"},"needsManualCheck":false,"violations":[{"id":"color-contrast","impact":"serious","tags":["cat.color","wcag2aa","wcag143"],"description":"Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds","help":"Elements must have sufficient color contrast","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer","nodes":[{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<div class=\"AccountNav\">","target":[".AccountNav"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>","target":[".AccountView_button__2yfug"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#b77d64","bgColor":"#ffffff","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<header class=\"Header_header__21fQc\">","target":[".Header_header__21fQc"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span>Back</span>","target":[".Header_back__171GK > span"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<section class=\"Focus_Focus__ujIJT\">","target":["section"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<select name=\"state\" data-qa=\"state_code\" id=\"__select::3354.807200798733\" class=\"Select_select__cv9Pm Select_placeholder__nARW3\">","target":["#__select\\:\\:3354\\.807200798733"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#999999","bgColor":"#ffffff","contrastRatio":2.84,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<section class=\"Focus_Focus__ujIJT\">","target":["section"]}],"impact":"serious","message":"Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<select data-qa=\"home_or_office\" id=\"__select::7442.175369845699\" class=\"Select_select__cv9Pm Select_placeholder__nARW3\"><option>Select Home or Office</option><option value=\"Home\">Home</option><option value=\"Office\">Office</option></select>","target":["#__select\\:\\:7442\\.175369845699"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"},{"any":[{"id":"color-contrast","data":{"fgColor":"#ffffff","bgColor":"#b77d64","contrastRatio":3.42,"fontSize":"12.0pt (16px)","fontWeight":"normal","expectedContrastRatio":"4.5:1"},"relatedNodes":[{"html":"<button class=\"Button_main__3Ru5s Button_primary__1XKaA LoadingButton_button__1CCYu\" type=\"submit\" data-qa=\"saveAddress\"><span class=\"Button_child__1wcjK\">Add new address</span></button>","target":[".Button_main__3Ru5s"]}],"impact":"serious","message":"Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}],"all":[],"none":[],"impact":"serious","html":"<span class=\"Button_child__1wcjK\">Add new address</span>","target":[".Button_child__1wcjK"],"failureSummary":"Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"}]},{"id":"listitem","impact":"serious","tags":["cat.structure","wcag2a","wcag131"],"description":"Ensures <li> elements are used semantically","help":"<li> elements must be contained in a <ul> or <ol>","helpUrl":"https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer","nodes":[{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(1)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(2)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"},{"any":[{"id":"listitem","data":null,"relatedNodes":[],"impact":"serious","message":"List item does not have a <ul>, <ol> or role=\"list\" parent element"}],"all":[],"none":[],"impact":"serious","html":"<li class=\"__navStyles-navItem\">","target":[".__navStyles-navItem:nth-child(3)"],"failureSummary":"Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"}]}]},
+    {
+        "id": "0872019",
+        "route": {
+          "id": "account_payment-shipping_new-credit-card",
+          "path": "/account/payment-shipping/new-credit-card"
+        },
+        "needsManualCheck": false,
+        "violations": [
+          {
+            "id": "color-contrast",
+            "impact": "serious",
+            "tags": ["cat.color", "wcag2aa", "wcag143"],
+            "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
+            "help": "Elements must have sufficient color contrast",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/3.3/color-contrast?application=axe-puppeteer",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "color-contrast",
+                    "data": {
+                      "fgColor": "#b77d64",
+                      "bgColor": "#ffffff",
+                      "contrastRatio": 3.42,
+                      "fontSize": "12.0pt (16px)",
+                      "fontWeight": "normal",
+                      "expectedContrastRatio": "4.5:1"
+                    },
+                    "relatedNodes": [
+                      {
+                        "html": "<div class=\"AccountNav\">",
+                        "target": [".AccountNav"]
+                      }
+                    ],
+                    "impact": "serious",
+                    "message": "Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<button type=\"button\" class=\"AccountView_button__2yfug\">Edit</button>",
+                "target": [".AccountView_button__2yfug"],
+                "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #b77d64, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+              },
+              {
+                "any": [
+                  {
+                    "id": "color-contrast",
+                    "data": {
+                      "fgColor": "#999999",
+                      "bgColor": "#ffffff",
+                      "contrastRatio": 2.84,
+                      "fontSize": "9.8pt (13px)",
+                      "fontWeight": "bold",
+                      "expectedContrastRatio": "4.5:1"
+                    },
+                    "relatedNodes": [
+                      {
+                        "html": "<legend>Cardholder name</legend>",
+                        "target": [".VantivPaymentForm_name__JgFyV > legend"]
+                      }
+                    ],
+                    "impact": "serious",
+                    "message": "Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<legend>Cardholder name</legend>",
+                "target": [".VantivPaymentForm_name__JgFyV > legend"],
+                "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+              },
+              {
+                "any": [
+                  {
+                    "id": "color-contrast",
+                    "data": {
+                      "fgColor": "#999999",
+                      "bgColor": "#ffffff",
+                      "contrastRatio": 2.84,
+                      "fontSize": "9.8pt (13px)",
+                      "fontWeight": "bold",
+                      "expectedContrastRatio": "4.5:1"
+                    },
+                    "relatedNodes": [
+                      {
+                        "html": "<legend>Zip code</legend>",
+                        "target": [".VantivPaymentForm_zip__26cIb > legend"]
+                      }
+                    ],
+                    "impact": "serious",
+                    "message": "Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<legend>Zip code</legend>",
+                "target": [".VantivPaymentForm_zip__26cIb > legend"],
+                "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.84 (foreground color: #999999, background color: #ffffff, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+              },
+              {
+                "any": [
+                  {
+                    "id": "color-contrast",
+                    "data": {
+                      "fgColor": "#ffffff",
+                      "bgColor": "#b77d64",
+                      "contrastRatio": 3.42,
+                      "fontSize": "12.0pt (16px)",
+                      "fontWeight": "normal",
+                      "expectedContrastRatio": "4.5:1"
+                    },
+                    "relatedNodes": [
+                      {
+                        "html": "<button class=\"Button_main__3Ru5s Button_primary__1XKaA LoadingButton_button__1CCYu\" type=\"submit\"><span class=\"Button_child__1wcjK\">Add new card</span></button>",
+                        "target": [".Button_main__3Ru5s"]
+                      }
+                    ],
+                    "impact": "serious",
+                    "message": "Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<span class=\"Button_child__1wcjK\">Add new card</span>",
+                "target": [".Button_child__1wcjK"],
+                "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.42 (foreground color: #ffffff, background color: #b77d64, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ]
+          },
+          {
+            "id": "frame-title",
+            "impact": "serious",
+            "tags": [
+              "cat.text-alternatives",
+              "wcag2a",
+              "wcag241",
+              "wcag412",
+              "section508",
+              "section508.22.i"
+            ],
+            "description": "Ensures <iframe> and <frame> elements contain a non-empty title attribute",
+            "help": "Frames must have title attribute",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/3.3/frame-title?application=axe-puppeteer",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "aria-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "aria-label attribute does not exist or is empty"
+                  },
+                  {
+                    "id": "aria-labelledby",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                  },
+                  {
+                    "id": "non-empty-title",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "Element has no title attribute or the title attribute is empty"
+                  },
+                  {
+                    "id": "role-presentation",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "minor",
+                    "message": "Element's default semantics were not overridden with role=\"presentation\""
+                  },
+                  {
+                    "id": "role-none",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "minor",
+                    "message": "Element's default semantics were not overridden with role=\"none\""
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<iframe id=\"eProtect-iframe\" name=\"eProtect-iframe\" frameborder=\"0\" src=\"https://request.eprotect.vantivprelive.com/eProtect/eProtect_DodXx6g9waU6oa7i_customerf8d8d29_api3_enhancedUx.html\" height=\"224\" width=\"100%\"></iframe>",
+                "target": ["#eProtect-iframe"],
+                "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute or the title attribute is empty\n  Element's default semantics were not overridden with role=\"presentation\"\n  Element's default semantics were not overridden with role=\"none\""
+              }
+            ]
+          },
+          {
+            "id": "label",
+            "impact": "critical",
+            "tags": [
+              "cat.forms",
+              "wcag2a",
+              "wcag332",
+              "wcag131",
+              "section508",
+              "section508.22.n"
+            ],
+            "description": "Ensures every form element has a label",
+            "help": "Form elements must have labels",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/3.3/label?application=axe-puppeteer",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "aria-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "aria-label attribute does not exist or is empty"
+                  },
+                  {
+                    "id": "aria-labelledby",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                  },
+                  {
+                    "id": "implicit-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "critical",
+                    "message": "Form element does not have an implicit (wrapped) <label>"
+                  },
+                  {
+                    "id": "explicit-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "critical",
+                    "message": "Form element does not have an explicit <label>"
+                  },
+                  {
+                    "id": "non-empty-title",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "Element has no title attribute or the title attribute is empty"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "critical",
+                "html": "<input required=\"\" name=\"cardHolderName\" value=\"\">",
+                "target": ["input[name=\"cardHolderName\"]"],
+                "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Form element does not have an implicit (wrapped) <label>\n  Form element does not have an explicit <label>\n  Element has no title attribute or the title attribute is empty"
+              },
+              {
+                "any": [
+                  {
+                    "id": "aria-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "aria-label attribute does not exist or is empty"
+                  },
+                  {
+                    "id": "aria-labelledby",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                  },
+                  {
+                    "id": "implicit-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "critical",
+                    "message": "Form element does not have an implicit (wrapped) <label>"
+                  },
+                  {
+                    "id": "explicit-label",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "critical",
+                    "message": "Form element does not have an explicit <label>"
+                  },
+                  {
+                    "id": "non-empty-title",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "Element has no title attribute or the title attribute is empty"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "critical",
+                "html": "<input required=\"\" name=\"zipCode\" maxlength=\"5\" type=\"text\" value=\"\">",
+                "target": ["input[name=\"zipCode\"]"],
+                "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Form element does not have an implicit (wrapped) <label>\n  Form element does not have an explicit <label>\n  Element has no title attribute or the title attribute is empty"
+              }
+            ]
+          },
+          {
+            "id": "listitem",
+            "impact": "serious",
+            "tags": ["cat.structure", "wcag2a", "wcag131"],
+            "description": "Ensures <li> elements are used semantically",
+            "help": "<li> elements must be contained in a <ul> or <ol>",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/3.3/listitem?application=axe-puppeteer",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "listitem",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "List item does not have a <ul>, <ol> or role=\"list\" parent element"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<li class=\"__navStyles-navItem\">",
+                "target": [".__navStyles-navItem:nth-child(1)"],
+                "failureSummary": "Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"
+              },
+              {
+                "any": [
+                  {
+                    "id": "listitem",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "List item does not have a <ul>, <ol> or role=\"list\" parent element"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<li class=\"__navStyles-navItem\">",
+                "target": [".__navStyles-navItem:nth-child(2)"],
+                "failureSummary": "Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"
+              },
+              {
+                "any": [
+                  {
+                    "id": "listitem",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "List item does not have a <ul>, <ol> or role=\"list\" parent element"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<li class=\"__navStyles-navItem\">",
+                "target": [".__navStyles-navItem:nth-child(3)"],
+                "failureSummary": "Fix any of the following:\n  List item does not have a <ul>, <ol> or role=\"list\" parent element"
+              }
+            ]
+          }
+        ]
+      }
+]

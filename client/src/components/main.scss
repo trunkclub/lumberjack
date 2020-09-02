@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css?family=Squada+One|Karla&display=swap');
+
+$spacing-unit: 1.75rem;
+
+$spacing--small: $spacing-unit/2;
+$spacing--medium: $spacing-unit;
+$spacing--large: $spacing-unit*2;
+$spacing--x-large: $spacing-unit*3;
+
+$color--action: #0a7474;
+
+$color--text-light: #4c6279;
+$color--text-dark: #232b35;
+
+$color--good: #357935;
+$color--bad: #db5151;
+
+$color--violation-critical: #ee8572;
+$color--violation-serious: #35495e;
+$color--violation-moderate: #347474;
+$color--violation-minor: #63b7af;
+
+$color--background-main: #FFF;
+$color--background-alt: #c8d3e0;
+$color--background-gradient: linear-gradient(165deg, #F7F7F7 50%, $color--background-alt 100%);
+
+$color--border-light: #bbcee4;
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+#___gatsby,
+#gatsby-focus-wrapper {
+  height: 100%;
+}
+
+body {
+  font-family: 'Karla';
+  font-size: 1.25rem;
+  height: 100%;
+  line-height: 1.4;
+  margin: 0;
+}
+
+a {
+  color: $color--action;
+}
+
+button {
+  color: #FFF;
+  background: $color--action;
+  border: solid darken($color--action, 15%);
+  border-width: 0;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+}
+
+h1, h2, h3, h4, h5 {
+  color: $color--text-dark;
+  font-family: 'Squada One';
+  font-weight: 200;
+}
+
+h1, h2, h3, h4, h5, p {
+  max-width: 65ch;
+}
+
+pre {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  font-size: 0.9rem;
+  overflow-x: scroll;
+  padding: 0.8rem;
+}
+
+hr {
+  border: solid $color--border-light;
+  border-width: 1px 0 0;
+  margin: 4rem 0;
+  outline: none;
+}
+
+table {
+  background: lighten($color--background-alt, 10%);
+  border-spacing: 0;
+  width: 100%;
+}
+
+th {
+  background: white;
+  font-size: 0.8em;
+  text-transform: uppercase;
+}
+
+th, td {
+  border: 1px solid white;
+  padding: 0.75rem 1rem;
+}
+
+tbody {
+  th {
+    text-align: right;
+  }
+}
+
+.intro {
+  border-bottom: 1px solid $color--border-light;
+  color: $color--text-light;
+  font-size: 1.5rem;
+  margin-bottom: $spacing--x-large;
+  padding-bottom: $spacing--x-large;
+}
+
+.difference {
+  font-size: 0.85em;
+  font-style: italic;
+  &.less {
+    color: $color--good;
+  }
+  &.more {
+    color: $color--bad;
+  }
+}
+
+
+.Layout {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 16rem auto;
+  grid-template-rows: 100%;
+}
+
+.Header {
+  background: linear-gradient(
+    170deg,
+    transparentize($color--violation-serious, 0.65) 5%,
+    transparentize($color--violation-serious, 0.8) 14%,
+    white 14.25%,
+    transparentize($color--violation-serious, 0.9) 14.3%,
+    transparentize($color--violation-serious, 0.7) 90%,
+  );
+  
+  padding: $spacing--medium;
+}
+
+.Main {
+  overflow-y: scroll;
+  padding: $spacing--large;
+}
+
+.impactSummary {
+  border-top: 1px solid $color--border-light;
+  margin: $spacing--medium 0;
+  padding: $spacing--medium 0;
+}
+
+.chartWrapper {
+  height: 600px;
+}
+
+.navigation {
+  ul {
+    margin: 0;
+    padding: 0 0 0 0.5rem;
+    list-style-type: none;
+  }
+  li {
+    padding: 0.25rem 0.5rem;
+  }
+  margin-top: 80px;
+}
+
+@mixin mainContainer() {
+  margin: 3rem auto;
+  max-width: 50rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.hide {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.show {
+  display: block;
+}
+
+.violationSet {
+  &__summary {
+    color: $color--text-light;
+  }
+}
+
+.violation {
+  
+  @include mainContainer;
+  background: $color--background-gradient;
+  border: 1px solid $color--border-light;
+
+  .axeLink,
+  &__topper {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+
+  .axeLink {
+    font-weight: normal;
+    text-decoration: none;
+  }
+
+  &__button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+
+    .content-status {
+      margin-right: 1rem;
+    }
+  }
+
+  &__summary {
+
+    font-size: 1.2rem;
+    line-height: 140%;
+    padding: 3rem;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__tabs {
+    position: relative;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  &__topper {
+    background: $color--background-main;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -1.5rem;
+    padding: 0.5rem 1.5rem;
+  }
+}
+
+.tabs {
+
+  // TODO: have min-width for tabs be around 540px, otherwise have content stack
+
+  position: relative;
+  z-index: 1;
+
+  button {
+    background: $color--background-main;
+    border-color: $color--border-light;
+    border-radius: 0;
+    border-width: 1px;
+    bottom: -1px;
+    color: $color--text-dark;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    position: relative;
+    text-transform: none;
+  }
+  
+  &__tabset {
+
+    display: flex;
+    list-style-type: none;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &__tab {
+
+      font-weight: bold;
+      margin: 0;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+
+      &.is-active button {
+        background: $color--background-main;
+        border-color: $color--border-light $color--border-light $color--background-main;
+      }
+    }
+  }
+
+  &__contentset {
+    background: $color--background-main;
+    border: 1px solid $color--border-light;
+    padding: 1.5rem;
+
+    &__content {
+
+      display: none;
+
+      & > :first-child {
+        margin-top: 0;
+      }
+      & > :last-child {
+        margin-bottom: 0;
+      }
+
+      &.is-active {
+        display: block;
+      }
+    }
+  }
+}
