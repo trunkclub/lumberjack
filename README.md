@@ -1,6 +1,6 @@
 # Lumberjack
 
-Lumberjack is a project concerned with helping efforts to report and remediate accessibility issues in your applications, and to motivate your team by showing progress over time. It uses [Deque Labs' Axe Puppeteer package](https://github.com/dequelabs/axe-puppeteer) to audit sets of routes and create reports, and [GatsbyJS]{https://www.gatsbyjs.org/} to display this information for review.
+Lumberjack is a project concerned with helping efforts to report and remediate accessibility issues in your applications, and to motivate your team by showing progress over time. It uses [Deque Labs' Axe Puppeteer package](https://github.com/dequelabs/axe-puppeteer) to audit sets of routes and create reports, and [GatsbyJS](https://www.gatsbyjs.org/) to display this information for review.
 
 ## What it does:
 
