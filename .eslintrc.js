@@ -7,7 +7,8 @@ module.exports = {
   extends: [
     'standard',
     'plugin:jsdoc/recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'react-app',
   ],
   globals: {
     Atomics: 'readonly',

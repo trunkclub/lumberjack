@@ -400,7 +400,6 @@ export class Audits {
   ): Promise<void> => {
     const summary = []
     const reportId = REPORT_ID
-    
     const users = await getUsers()
 
     mkdirp(`${AUDIT_FOLDER}/route-reports`)

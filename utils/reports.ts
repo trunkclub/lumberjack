@@ -61,7 +61,7 @@ export class Reports {
     reportId: string,
     needsManualCheck = false
   ): Promise<void> => {
-    const pathId = this.prettyRoute(path)
+    const pathId = this.prettyRoute(path) ? this.prettyRoute(path) : 'root'
 
     return new Promise((resolve, reject) => {
       const reportPath = `${AUDIT_FOLDER}/route-reports/${pathId}.json`

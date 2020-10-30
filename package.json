@@ -7,7 +7,6 @@
   "scripts": {
     "app": "cd app && yarn start",
     "commitizen": "commitizen",
-    "develop": "concurrently \"yarn server\" \"yarn app\"",
     "generate-docs": "jsdoc -c ./jsdoc.json",
     "get-report-ids": "node -e 'require(\"./utils/ReportUtils\").getReportIds()'",
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
