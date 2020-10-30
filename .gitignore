@@ -11,9 +11,7 @@
 /docs
 
 # production
-/app/build
-/server/reports
-/audits
+/client/build
 /dist
 
 # misc
