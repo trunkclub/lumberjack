@@ -1,7 +1,8 @@
 {
   "name": "lumberjack",
-  "version": "0.0.0-development",
-  "description": "",
+  "version": "1.0.0",
+  "description": "An automated accessibility crawler.",
+  "author": "Beck Kramer <rebecca.kramer@nordstrom.com>",
   "main": "index.ts",
   "scripts": {
     "app": "cd app && yarn start",
@@ -19,7 +20,6 @@
     "start": "yarn server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Beck Kramer",
   "license": "MIT",
   "dependencies": {
     "@types/inquirer": "^6.5.0",
