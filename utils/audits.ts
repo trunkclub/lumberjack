@@ -50,9 +50,10 @@ export class Audits {
         page.click('button[type="submit"]'),
       ])
     } catch (error) {
-      console.log('Unable to login. \n\n' + error)
-
-      throw error
+      console.log('Unable to login. To troubleshoot:')
+      console.log(`- check the config for ${user.email} or`)
+      console.log('- run Lumberjack with headless mode turned off')
+      process.exit()
     }
   }
 
@@ -138,7 +139,7 @@ export class Audits {
     const destinationUrl = APP_CONFIG.root + currentPath
 
     await page
-      .goto(destinationUrl, { waitUntil: 'networkidle2' })
+      .goto(destinationUrl, { waitUntil: 'load' })
       .catch(error => {
         // error
         console.log('Issue with initial route loading.')
