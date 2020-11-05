@@ -13,7 +13,6 @@
     "lint": "eslint 'utils/**/*.ts' --max-warnings=0",
     "lumberjack": "ts-node utils/index.ts",
     "prettier": "prettier --write '{app,utils}/**/*.{ts,js,json,scss,md}'",
-    "semantic-release": "semantic-release",
     "server": "node server/index.js",
     "setup": "yarn install && cd client && yarn install",
     "start": "yarn server",
@@ -52,7 +51,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "jsdoc": "^3.6.4",
     "prettier": "1.18.2",
-    "semantic-release": "^17.0.4",
     "ts-node": "^8.10.1",
     "yargs": "^13.2.1"
   },
