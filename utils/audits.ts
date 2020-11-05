@@ -104,7 +104,7 @@ export class Audits {
     // info
     console.log('Checking route for error content...')
 
-    const pageContent = await page.$eval('main', element => element.outerHTML)
+    const pageContent = await page.$eval('body', element => element.outerHTML)
 
     const results: boolean[] = content.map((error: string) => {
       if (pageContent.includes(error)) {

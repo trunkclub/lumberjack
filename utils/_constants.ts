@@ -5,13 +5,27 @@ import { Reports } from './reports'
 
 const ReportUtils = new Reports()
 
-const appData = fs.readFileSync('./config/app.json', 'utf8')
-const appConfig: AppConfig = JSON.parse(appData)
+let appConfig: AppConfig
+let routeConfig: RoutesConfig
 
-const routeData = fs.readFileSync('./config/routes.json', 'utf8')
-const routeConfig: RoutesConfig = JSON.parse(routeData)
+try {
+  const appData = fs.readFileSync('./config/app.json', 'utf8')
+  appConfig = JSON.parse(appData)
+} catch (error) {
+  console.log('App config is missing; verify you have a app.json file in the config folder.')
+  process.exit()
+}
+
+try {
+  const routeData = fs.readFileSync('./config/routes.json', 'utf8')
+  routeConfig = JSON.parse(routeData)
+
+} catch (error) {
+  console.log('Route config is missing; verify you have a routes.json file in the config folder.')
+  process.exit()
+}
 
 export const APP_CONFIG = appConfig
+export const ROUTE_CONFIG = routeConfig
 export const AUDIT_FOLDER = './client/audits'
 export const REPORT_ID = ReportUtils.createReportId()
-export const ROUTE_CONFIG = routeConfig

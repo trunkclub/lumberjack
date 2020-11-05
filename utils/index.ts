@@ -5,7 +5,7 @@ import { Feature } from './_types'
 import { Audits } from './audits'
 import { Reports } from './reports'
 import { Violations } from './violations'
-import { getCurrentReportIds } from './settings'
+import { getCurrentReportIds, isMissingRequiredConfig } from './settings'
 
 const AuditUtilities = new Audits()
 const ReportUtilites = new Reports()
@@ -108,6 +108,10 @@ const runGetRouteData = (): void => {
     ]).then((answer) => {
       ViolationUtilities.getRouteData(answer.reportId)
     })
+}
+
+if (isMissingRequiredConfig()) {
+  process.exit()
 }
 
 inquirer

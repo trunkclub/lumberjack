@@ -14,7 +14,7 @@ export type AppConfig = {
     content: string[]
     featureId: string
   }
-}
+} | null
 
 export type Feature = {
   name: string
@@ -25,7 +25,7 @@ export type Feature = {
 export type RoutesConfig = {
   params: any // this will vary by project
   features: Feature[]
-}
+} | null
 
 export type FeatureAuditSummary = {
   completedAudits: number
