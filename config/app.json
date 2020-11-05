@@ -1,9 +1,14 @@
 {
   "id": "app-id",
   "login": {
-    "path": "/login"
+    "path": "/login",
+    "fields": {
+      "username": "input[type='email']",
+      "password": "input[type='password']",
+      "submitButton": "button[type='submit']"
+    }
   },
-  "root": "https://staging.yoursite.com",
+  "root": "https://www.example.com",
   "errors": {
     "content": [
       "404",

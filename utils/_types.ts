@@ -2,6 +2,12 @@ export type AppConfig = {
   id: string
   login: {
     path: string
+    fields: {
+      // Identifiers for each login form field
+      username: string
+      password: string
+      submitButton: string
+    }
   }
   root: string
   errors: {

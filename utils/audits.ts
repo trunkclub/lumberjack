@@ -3,7 +3,7 @@ import puppeteer, { Page } from 'puppeteer'
 
 import fs from 'fs'
 
-import { AxePuppeteer } from 'axe-puppeteer'
+import { AxePuppeteer } from '@axe-core/puppeteer'
 
 import { APP_CONFIG, AUDIT_FOLDER, REPORT_ID, ROUTE_CONFIG } from './_constants'
 import {
@@ -34,21 +34,23 @@ export class Audits {
    * @function
    * @param  {Page} page Puppeteer page
    * @param  {User} user Current user data
+   * @returns {Promise<void>}
    */
   public userLogin = async (page: Page, user: User): Promise<void> => {
     console.log('Redirected to login screen. Logging in...')
 
     try {
-      await page.click('input[type="email"]')
+      await page.click(APP_CONFIG.login.fields.username)
       await page.keyboard.type(user.email)
 
-      await page.click('input[type="password"]')
+      await page.click(APP_CONFIG.login.fields.password)
       await page.keyboard.type(user.password)
 
-      await Promise.all([
-        page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 }),
-        page.click('button[type="submit"]'),
-      ])
+      
+      await page.click(APP_CONFIG.login.fields.submitButton),
+      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 })
+
+      return Promise.resolve()
     } catch (error) {
       console.log('Unable to login. To troubleshoot:')
       console.log(`- check the config for ${user.email} or`)
@@ -206,7 +208,7 @@ export class Audits {
     }
 
     await page
-      .waitFor('html')
+      .waitForSelector('html')
       .then(async () => {
         const contentValid = await this.hasValidContent(page, currentPath)
 
