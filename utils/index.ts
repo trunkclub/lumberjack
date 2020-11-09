@@ -122,6 +122,7 @@ inquirer
       message: 'What would you like to do?',
       choices: [
         { name: 'Generate a11y reports for routes', value: 'audit' },
+        { name: 'Combine and tally report data', value: 'combine' },
         { name: 'Review application route info', value: 'routes' },
       ],
     },
