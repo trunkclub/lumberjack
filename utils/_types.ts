@@ -16,7 +16,12 @@ export type AppConfig = {
   }
 } | null
 
-export type Feature = {
+export type FeatureInfo = {
+  name: string
+  id: string
+}
+
+export type FeatureConfig = {
   name: string
   id: string
   paths: string[]
@@ -24,7 +29,7 @@ export type Feature = {
 
 export type RoutesConfig = {
   params: any // this will vary by project
-  features: Feature[]
+  features: FeatureConfig[]
 } | null
 
 export type FeatureAuditSummary = {
@@ -49,7 +54,7 @@ export type RouteAuditSummary = {
 
 export type ReportEntry = {
   reportId: string
-  featureInfo: any
+  featureInfo: FeatureInfo
   route: {
     id: string
     path: string
@@ -162,13 +167,36 @@ export type ViolationTally = {
 }
 
 export type ViolationReport = {
-  reportId: string
   overview: ViolationOverview
+  reportId: string
 }
 
 export type ViolationTallyReport = {
   reportId: string
   tally: ViolationTally
+}
+
+export type RouteViolationSummaryReport = {
+  numberChecked: number,
+  with: string[],
+  without: string[]
+}
+
+export type FeatureViolationSummaryReport = {
+  reportId: string
+  features: Array<{
+    details: Array<Omit<ReportEntry, 'featureInfo'|'reportId'>>
+    id: string
+    name: string
+    tally: {
+      byImpact: {
+        minor: number
+        moderate: number
+        serious: number
+        critical: number
+      }
+    }
+  }>
 }
 
 // List of maintained Axe rule IDs: https://github.com/dequelabs/axe-core/blob/0dda7338c4e9d50c2dd513dcec4f028c919e2a3a/doc/rule-descriptions.md

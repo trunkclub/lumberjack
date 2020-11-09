@@ -7,7 +7,7 @@
       "name": "Invalid / 404 Routes",
       "id": "invalid",
       "paths": [
-        "/404"
+        "/not-found"
       ]
     },
     {

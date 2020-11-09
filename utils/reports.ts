@@ -3,7 +3,7 @@ import fs from 'fs'
 import dayjs from 'dayjs'
 
 import { AUDIT_FOLDER } from './_constants'
-import { Feature, ReportEntry, Violation, ViolationReport, ViolationTallyReport } from './_types'
+import { FeatureInfo, ReportEntry, Violation, ViolationReport, ViolationTallyReport } from './_types'
 import { Violations } from './Violations'
 
 const ViolationUtilities = new Violations()
@@ -33,14 +33,23 @@ export class Reports {
    * @param {string} route Original route value
    * @returns {string} Route with / replaced with _
    */
-  private prettyRoute = (route: string): string => {
-    const splitRoute = route.split('/')
+  private formatRouteToId = (route: string): string => {
 
-    if (splitRoute[0] === '') {
-      splitRoute.shift()
+    if (route === '/') {
+      return 'root'
     }
 
-    return splitRoute.join('_')
+    let cleanRoute = route.split('').map((character, index) => {
+      if (character === '/') {
+        if (index !== 0) {
+          return '_'
+        }
+      } else if (character !== ':') {
+        return character
+      }
+    })
+
+    return cleanRoute.join('')
   }
 
   /**
@@ -57,11 +66,11 @@ export class Reports {
   public writeFeatureReport = (
     path: string,
     violations: Violation[],
-    featureInfo: Partial<Feature>,
+    featureInfo: FeatureInfo,
     reportId: string,
     needsManualCheck = false
   ): Promise<void> => {
-    const pathId = this.prettyRoute(path) ? this.prettyRoute(path) : 'root'
+    const pathId = this.formatRouteToId(path)
 
     return new Promise((resolve, reject) => {
       const reportPath = `${AUDIT_FOLDER}/route-reports/${pathId}.json`

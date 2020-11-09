@@ -2,8 +2,10 @@ import fs from 'fs'
 
 import { AUDIT_FOLDER } from './_constants'
 import {
+  FeatureViolationSummaryReport,
   Impact,
   RouteReport,
+  RouteViolationSummaryReport,
   UniqueViolation,
   ViolationNode,
   ViolationOverview,
@@ -117,20 +119,25 @@ export class Violations {
     return violationData
   }
 
-  // Tally violations by element and by impact
+  public countViolationsByInstance = (violations: UniqueViolation[], impact: Impact): number => {
+    const violationsForImpactLevel = violations.filter(violation => violation.impact === impact)
+    let numberOfInstances = 0
+
+    violationsForImpactLevel.forEach(violation => {
+      numberOfInstances += violation.instances.length
+    })
+
+    return numberOfInstances
+  }
+
+  /**
+   * Tally violations by element and by impact
+   *
+   * @param {string} reportId
+   * @returns {Promise<ViolationTally>}
+   */
   public getTallyViolationData = async (reportId: string): Promise<ViolationTally> => {
     const uniqueViolations = await this.getUniqueViolationData(reportId)
-    
-    const countByInstance = (impact: Impact): number => {
-      const violations = uniqueViolations.filter(violation => violation.impact === impact)
-      let numberOfInstances = 0
-
-      violations.forEach(violation => {
-        numberOfInstances += violation.instances.length
-      })
-
-      return numberOfInstances
-    }
 
     const tally = {
       byImpact: {
@@ -140,17 +147,23 @@ export class Violations {
         critical: uniqueViolations.filter(violation => violation.impact === 'critical').length,
       },
       byInstance: {
-        minor: countByInstance('minor'),
-        moderate: countByInstance('moderate'),
-        serious: countByInstance('serious'),
-        critical: countByInstance('critical'),
+        minor: this.countViolationsByInstance(uniqueViolations, 'minor'),
+        moderate: this.countViolationsByInstance(uniqueViolations, 'moderate'),
+        serious: this.countViolationsByInstance(uniqueViolations, 'serious'),
+        critical: this.countViolationsByInstance(uniqueViolations, 'critical'),
       },
     }
 
     return tally
   }
 
-  public getRouteData = async (reportId: string): Promise<any> => {
+  /**
+   * Get basic by-route violation count
+   *
+   * @param {string} reportId
+   * @returns {Promise<RouteViolationSummaryReport>}
+   */
+  public getRouteData = async (reportId: string): Promise<RouteViolationSummaryReport> => {
     let count = 0
     let routesWithoutViolations = []
     let routesWithViolations = []
@@ -174,5 +187,69 @@ export class Violations {
     for (const route of routesWithoutViolations) {
       console.log(route)
     }
+
+    return {
+      numberChecked: count,
+      with: routesWithViolations,
+      without: routesWithoutViolations,
+    }
+  }
+
+
+  public getFeatureSummariesByReportId = async (reportId: string): Promise<FeatureViolationSummaryReport> => {
+
+    const summary: FeatureViolationSummaryReport = {
+      reportId: reportId,
+      features: [],
+    }
+
+    for (const data of violationGenerator(reportId)) {
+
+      const featureIndex = summary.features.findIndex((feature, index) => {
+        return feature.id === data.featureInfo.id
+      })
+
+      if (featureIndex >= 0) {
+        summary.features[featureIndex].details.push({
+          needsManualCheck: data.needsManualCheck,
+          route: data.route,
+          violations: data.violations,
+        })
+      } else {
+        summary.features.push({
+          ...data.featureInfo,
+          details: [{
+            needsManualCheck: data.needsManualCheck,
+            route: data.route,
+            violations: data.violations,
+          }],
+          tally: {
+            byImpact: {
+              critical: 0,
+              minor: 0,
+              moderate: 0,
+              serious: 0,
+            },
+          }
+        })
+      }
+    }
+
+    summary.features.forEach(feature => {
+      feature.details.forEach(detail => {
+        feature.tally = {
+          byImpact: {
+            minor: detail.violations.filter(violation => violation.impact === 'minor').length,
+            moderate: detail.violations.filter(violation => violation.impact === 'moderate').length,
+            serious: detail.violations.filter(violation => violation.impact === 'serious').length,
+            critical: detail.violations.filter(violation => violation.impact === 'critical').length,
+          },
+        }
+      })
+    })
+
+    console.log('\n')
+
+    return summary
   }
 }

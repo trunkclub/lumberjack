@@ -9,15 +9,18 @@ import { APP_CONFIG, AUDIT_FOLDER, REPORT_ID, ROUTE_CONFIG } from './_constants'
 import {
   FeatureAuditSummary,
   AuditResultsSummary,
-  Feature,
+  FeatureConfig,
+  FeatureInfo,
   RouteAuditSummary,
   User
 } from './_types'
 
 import { Reports } from './reports'
+import { Violations } from './Violations'
 import { getUsers } from './settings'
 
 const ReportUtils = new Reports()
+const ViolationUtils = new Violations()
 
 /**
  * Anything concerned with running the audit itself, from
@@ -95,7 +98,7 @@ export class Audits {
   ): Promise<boolean> => {
     const { featureId, content } = APP_CONFIG.errors
 
-    const is404 = ROUTE_CONFIG.features.some((feature: Feature) => {
+    const is404 = ROUTE_CONFIG.features.some((feature: FeatureConfig) => {
       return feature.id === featureId && feature.paths.includes(currentPath)
     })
 
@@ -179,7 +182,7 @@ export class Audits {
     page: Page,
     currentPath: string,
     user: User,
-    featureInfo: Partial<Feature>,
+    featureInfo: FeatureInfo,
     reportId: string,
     headless = true,
     takeScreenshots = false
@@ -312,7 +315,7 @@ export class Audits {
    */
   public auditFeature = async (
     reportId: string,
-    feature: Feature,
+    feature: FeatureConfig,
     users: User[],
     headless = true,
     screenshot = false
@@ -396,7 +399,7 @@ export class Audits {
    * @param {boolean} [takeScreenshots=false] - Should screenshots be taken?
    */
   public runAudit = async (
-    features: Feature[],
+    features: FeatureConfig[],
     headless = true,
     takeScreenshots = false
   ): Promise<void> => {
@@ -452,6 +455,7 @@ export class Audits {
 
     // success
     console.log('\n Success! ')
+
     console.log(
       ` Completed audits on ${validatedRoutes.length +
         notValidatedRoutes.length} routes. ${totalViolationsForAllFeatures} violations found.`
@@ -459,13 +463,20 @@ export class Audits {
 
     mkdirp(`${AUDIT_FOLDER}/summaries`)
 
+    const routeSummary = await ViolationUtils.getRouteData(reportId)
+    const featureSummary = await ViolationUtils.getFeatureSummariesByReportId(reportId)
+
     fs.writeFile(
       `${AUDIT_FOLDER}/summaries/${reportId}.json`,
       JSON.stringify({
-        notValidatedRoutes,
         reportId,
         totalViolationsForAllFeatures,
-        validatedRoutes,
+        routes: {
+          notValidated: notValidatedRoutes,
+          validated: validatedRoutes,
+          ...routeSummary,
+        },
+        features: featureSummary,
       }),
       { encoding: 'utf-8', flag: 'w' },
       (error) => {

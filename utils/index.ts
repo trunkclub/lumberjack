@@ -1,6 +1,6 @@
 import inquirer, { QuestionCollection } from 'inquirer'
 import { ROUTE_CONFIG } from './_constants'
-import { Feature } from './_types'
+import { FeatureConfig } from './_types'
 
 import { Audits } from './audits'
 import { Reports } from './reports'
@@ -47,7 +47,7 @@ const runAudit = (): void => {
     ])
     .then(({ check }) => {
       if (check === 'one') {
-        const featureList = routes.features.map((feature: Feature) => {
+        const featureList = routes.features.map((feature: FeatureConfig) => {
           return {
             name: feature.name,
             value: [feature],
@@ -122,7 +122,6 @@ inquirer
       message: 'What would you like to do?',
       choices: [
         { name: 'Generate a11y reports for routes', value: 'audit' },
-        { name: 'Combine and tally report data', value: 'combine' },
         { name: 'Review application route info', value: 'routes' },
       ],
     },
