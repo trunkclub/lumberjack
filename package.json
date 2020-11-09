@@ -10,13 +10,14 @@
     "generate-docs": "jsdoc -c ./jsdoc.json",
     "get-report-ids": "node -e 'require(\"./utils/ReportUtils\").getReportIds()'",
     "get-tally": "node -e 'require(\"./utils/ViolationUtils\").getViolationTallyData()'",
-    "lint": "eslint 'utils/**/*.ts' --max-warnings=0",
+    "lint": "eslint 'utils/**/*.{ts,tsx}' --max-warnings=0",
     "lumberjack": "ts-node utils/index.ts",
     "prettier": "prettier --write '{app,utils}/**/*.{ts,js,json,scss,md}'",
     "server": "node server/index.js",
-    "setup": "yarn install && cd client && yarn install",
+    "setup": "yarn install && cd client && yarn install && git remote add upstream https://github.com/trunkclub/lumberjack.git",
     "start": "yarn server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sync": "git fetch upstream"
   },
   "license": "MIT",
   "dependencies": {
