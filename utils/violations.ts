@@ -235,20 +235,26 @@ export class Violations {
       }
     }
 
-    summary.features.forEach(feature => {
+    const featuresWithTally = summary.features.map(feature => {
+
+      let tally
       feature.details.forEach(detail => {
-        feature.tally = {
+        tally = {
           byImpact: {
-            minor: detail.violations.filter(violation => violation.impact === 'minor').length,
-            moderate: detail.violations.filter(violation => violation.impact === 'moderate').length,
-            serious: detail.violations.filter(violation => violation.impact === 'serious').length,
-            critical: detail.violations.filter(violation => violation.impact === 'critical').length,
+            minor: +detail.violations.filter(violation => violation.impact === 'minor').length,
+            moderate: +detail.violations.filter(violation => violation.impact === 'moderate').length,
+            serious: +detail.violations.filter(violation => violation.impact === 'serious').length,
+            critical: +detail.violations.filter(violation => violation.impact === 'critical').length,
           },
         }
       })
+
+      feature.tally = tally
+
+      return feature
     })
 
-    console.log('\n')
+    summary.features = featuresWithTally
 
     return summary
   }
