@@ -13,7 +13,7 @@ Currently, Lumberjack:
 ## Setup:
 
 1.  Run `yarn setup` in the root directory.
-1.  Create an `app.json` and `routes.json` files in the `./config` folder (you'll find examples with the data format expected). We recommend starting small with just a few routes to test your setup.
+1.  Copy or rename the `./config_example` folder so you have a `./config` folder.Then edit the `app.json` and `routes.json` files to suit your application's needs. We recommend starting small with just a few routes to test your setup.
 1.  Run `yarn lumberjack` in the root directory. This will present some options. At minimum to get things to work properly, you'll need to run (in this order):
 
 - Generate a11y reports for routes
