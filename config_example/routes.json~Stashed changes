@@ -1,0 +1,25 @@
+{
+  "params": {
+    "orderId": 1234
+  },
+  "features": [
+    {
+      "name": "Authorization",
+      "id": "authorization",
+      "paths": [
+        "/login"
+      ]
+    },
+    {
+      "name": "Info",
+      "id": "info",
+      "paths": [
+        "/business",
+        "/exchanges",
+        "/faq",
+        "/pricing",
+        "/a/longer/path"
+      ]
+    }
+  ]
+}
