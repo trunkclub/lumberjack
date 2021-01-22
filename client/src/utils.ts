@@ -1,4 +1,4 @@
-export const getReportDate = (date) => {
+export const getReportDate = (date: string): string => {
   const explodedId = date.split('')
   const reportDate = {
     day: explodedId.splice(6, 2).join(''),

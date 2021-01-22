@@ -6,13 +6,22 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useStaticQuery, graphql } from 'gatsby'
 
-import Header from './header'
+import { NavItemT } from '../_types'
+
+import Header from './Header'
 import './main.scss'
 
-const Layout = ({ children, navigation }) => {
+type PropsT = {
+  children: React.ReactNode
+  navigation?: {
+    byFeature: NavItemT[]
+    byReportId: NavItemT[]
+  }
+}
+
+const Layout = ({ children, navigation }: PropsT) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -24,21 +33,13 @@ const Layout = ({ children, navigation }) => {
   `)
 
   return (
-    <>
-      <div className="Layout">
-        <Header
-          className="Header"
-          siteTitle={data.site.siteMetadata.title}
-          navigation={navigation}
-        />
-        <main className="Main">{children}</main>
-      </div>
-    </>
+    <div className="Layout">
+      <Header
+        navigation={navigation}
+      />
+      <main className="Main">{children}</main>
+    </div>
   )
-}
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default Layout

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Squada+One|Karla&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
 
 $spacing-unit: 1.75rem;
 
@@ -18,7 +18,7 @@ $color--bad: #db5151;
 $color--violation-critical: #ee8572;
 $color--violation-serious: #35495e;
 $color--violation-moderate: #347474;
-$color--violation-minor: #63b7af;
+$color--violation-minor: #194d85;
 
 $color--background-main: #FFF;
 $color--background-alt: #c8d3e0;
@@ -37,13 +37,13 @@ html {
 
 #___gatsby,
 #gatsby-focus-wrapper {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
-  font-family: 'Karla';
+  font-family: 'Cairo';
   font-size: 1.25rem;
-  height: 100%;
+  min-height: 100%;
   line-height: 1.4;
   margin: 0;
 }
@@ -64,7 +64,7 @@ button {
 
 h1, h2, h3, h4, h5 {
   color: $color--text-dark;
-  font-family: 'Squada One';
+  // font-family: 'Squada One';
   font-weight: 200;
 }
 
@@ -132,18 +132,18 @@ tbody {
 
 .Layout {
   display: grid;
-  height: 100%;
-  grid-template-columns: 16rem auto;
+  min-height: 100vh;
+  grid-template-columns: 17rem auto;
   grid-template-rows: 100%;
 }
 
 .Header {
   background: linear-gradient(
-    170deg,
-    transparentize($color--violation-serious, 0.65) 5%,
-    transparentize($color--violation-serious, 0.8) 14%,
-    white 14.25%,
-    transparentize($color--violation-serious, 0.9) 14.3%,
+    172deg,
+    transparentize($color--violation-serious, 0.65) 3rem,
+    transparentize($color--violation-serious, 0.8) 8rem,
+    white 8.1rem,
+    transparentize($color--violation-serious, 0.9) 8.2rem,
     transparentize($color--violation-serious, 0.7) 90%,
   );
   
@@ -183,7 +183,7 @@ tbody {
   padding: 0 1.5rem 1.5rem;
 }
 
-.hide {
+.visually-hidden {
   position: absolute !important;
   height: 1px;
   width: 1px;

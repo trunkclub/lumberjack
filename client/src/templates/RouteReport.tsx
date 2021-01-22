@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'gatsby'
 
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
-const RouteReport = ({ pageContext }) => {
+type PropsT = {
+  pageContext: any
+}
+
+const RouteReport = ({ pageContext }: PropsT) => {
   const [reportData, setReportData] = useState(null)
   useEffect(() => {
     async function fetchData() {

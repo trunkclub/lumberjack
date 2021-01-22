@@ -4,10 +4,10 @@ import React from 'react'
 import { ResponsiveBar } from '@nivo/bar'
 
 const colors = {
-  critical: '#ee8572',
+  critical: '#C1554A',
   serious: '#35495e',
   moderate: '#347474',
-  minor: '#63b7af',
+  minor: '#577B94',
 }
 
 const barColors = {
@@ -17,7 +17,11 @@ const barColors = {
   minorColor: colors.minor,
 }
 
-const Chart = ({data}) => {
+type PropsT = {
+  data: any
+}
+
+const Chart = ({data}: PropsT) => {
 
   const dataWithColorValues = data.map(entry => {
     return { ...entry, ...barColors }
@@ -32,7 +36,8 @@ const Chart = ({data}) => {
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         colors={[colors.critical, colors.serious, colors.moderate, colors.minor]}
-        borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
+        borderColor='#FFF'
+        borderWidth={1}
         axisTop={null}
         axisRight={null}
         axisBottom={{
@@ -82,14 +87,5 @@ const Chart = ({data}) => {
     </div>
   )
 }
-
-
-// Chart.propTypes = {
-//   siteTitle: PropTypes.string,
-// }
-
-// Chart.defaultProps = {
-//   siteTitle: ``,
-// }
 
 export default Chart
