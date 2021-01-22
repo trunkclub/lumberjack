@@ -115,6 +115,7 @@ export type UniqueViolation = {
   helpUrl: string
   impact: string
   instances: ViolationNode[]
+  routes: ViolationRoute[],
   ruleId: string
   summary: string
 }
@@ -182,21 +183,23 @@ export type RouteViolationSummaryReport = {
   without: string[]
 }
 
+export type FeatureSummary = {
+  details: Array<Omit<ReportEntry, 'featureInfo'|'reportId'>>
+  id: string
+  name: string
+  tally: {
+    byImpact: {
+      minor: number
+      moderate: number
+      serious: number
+      critical: number
+    }
+  }
+}
+
 export type FeatureViolationSummaryReport = {
   reportId: string
-  features: Array<{
-    details: Array<Omit<ReportEntry, 'featureInfo'|'reportId'>>
-    id: string
-    name: string
-    tally: {
-      byImpact: {
-        minor: number
-        moderate: number
-        serious: number
-        critical: number
-      }
-    }
-  }>
+  features: FeatureSummary[]
 }
 
 // List of maintained Axe rule IDs: https://github.com/dequelabs/axe-core/blob/0dda7338c4e9d50c2dd513dcec4f028c919e2a3a/doc/rule-descriptions.md

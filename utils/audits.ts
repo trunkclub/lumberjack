@@ -108,7 +108,6 @@ export class Audits {
     console.log('Checking route for error content...')
 
     const pageContent = await page.$eval('body', element => element.outerHTML)
-
     const results: boolean[] = content.map((error: string) => {
       if (pageContent.includes(error)) {
         // warning
@@ -144,7 +143,7 @@ export class Audits {
     const destinationUrl = APP_CONFIG.root + currentPath
 
     await page
-      .goto(destinationUrl, { waitUntil: 'load' })
+      .goto(destinationUrl, { waitUntil: 'networkidle2' })
       .catch(error => {
         // error
         console.log('Issue with initial route loading.')
@@ -190,10 +189,10 @@ export class Audits {
     let completedAudit = false
     let numberOfViolations = 0
 
-    await page.setViewport({
-      width: 1200,
-      height: 1400,
-    })
+    // await page.setViewport({
+    //   width: 1200,
+    //   height: 1400,
+    // })
 
     console.group(`\n Auditing ${currentPath}...`)
 
@@ -201,7 +200,9 @@ export class Audits {
       await this.loadUrl(currentPath, page, user)
     } catch (error) {
       // error
-      console.log('Problem loading route.\n', error)
+      console.log('Problem loading route.\n')
+
+      console.groupEnd()
 
       return {
         completedAudit,
@@ -210,58 +211,50 @@ export class Audits {
       }
     }
 
-    await page
-      .waitForSelector('html')
-      .then(async () => {
-        const contentValid = await this.hasValidContent(page, currentPath)
+    const contentValid = await this.hasValidContent(page, currentPath)
 
-        if (contentValid) {
-          let violations: any = []
+    if (contentValid) {
+      let violations: any = []
 
-          await new AxePuppeteer(page)
-            .analyze()
-            .then(async (results: any) => {
-              if (results.violations && results.violations.length) {
-                numberOfViolations = results.violations.length
+      await new AxePuppeteer(page)
+        .analyze()
+        .then(async (results: any) => {
+          if (results.violations && results.violations.length) {
+            numberOfViolations = results.violations.length
 
-                console.log(`${numberOfViolations} violation(s) found.`)
-                violations = results.violations
-              } else if (
-                results.violations.length === 0 &&
-                results.passes.length > 0
-              ) {
-                console.log('No violations found!')
-              }
+            console.log(`${numberOfViolations} violation(s) found.`)
+            violations = results.violations
+          } else if (
+            results.violations.length === 0 &&
+            results.passes.length > 0
+          ) {
+            console.log('No violations found!')
+          }
 
-              await ReportUtils.writeFeatureReport(
-                currentPath,
-                violations,
-                featureInfo,
-                reportId
-              )
+          await ReportUtils.writeFeatureReport(
+            currentPath,
+            violations,
+            featureInfo,
+            reportId
+          )
 
-              completedAudit = true
-            })
-            .catch(async (error: string) => {
-              await ReportUtils.writeFeatureReport(
-                currentPath,
-                violations,
-                featureInfo,
-                reportId,
-                true
-              )
+          completedAudit = true
+        })
+        .catch(async (error: string) => {
+          await ReportUtils.writeFeatureReport(
+            currentPath,
+            violations,
+            featureInfo,
+            reportId,
+            true
+          )
 
-              console.log(
-                ' No results returned- there may be an issue with this audit.'
-              )
-              console.log(error)
-            })
-        }
-      })
-      .catch(error => {
-        console.log('Error with waiting.')
-        console.log(error)
-      })
+          console.log(
+            ' No results returned- there may be an issue with this audit.'
+          )
+          console.log(error)
+        })
+    }
 
     console.groupEnd()
 
@@ -281,25 +274,19 @@ export class Audits {
    * @param {string} path Current path
    * @returns {string} Current path with param values in place
    */
-  public pathWithParamsAdded = (path: string): string => {
+  public pathWithParamAdded = (path: string): string | 'invalidPath' => {
     const pathArray = path.split(':')
     const arraySectionWithParam = pathArray[1].split('/')
-    const pathParam = arraySectionWithParam.shift()
-
-    let newPath = path
+    const pathParam = arraySectionWithParam[0]
 
     if (ROUTE_CONFIG.params[pathParam]) {
-      if (typeof ROUTE_CONFIG.params[pathParam] === 'object') {
-        for (const param of ROUTE_CONFIG.params[pathParam]) {
-          newPath = `${pathArray[0]}${param}`
-          if (arraySectionWithParam.length) {
-            newPath += '/' + arraySectionWithParam.join('/')
-          }
-        }
-      }
-    }
 
-    return newPath
+      const newPath = path.replace(`:${pathParam}`, ROUTE_CONFIG.params[pathParam])
+
+      return newPath
+    } else {
+      return 'invalidPath'
+    }
   }
 
   /**
@@ -347,36 +334,41 @@ export class Audits {
         name: feature.name,
         id: feature.id,
       }
-      const browser = await puppeteer.launch({ headless: headless })
+      const browser = await puppeteer.launch({
+        defaultViewport: null,
+        headless: headless,
+      })
       const page = await browser.newPage()
 
       await page.setBypassCSP(true)
 
       for (const path of feature.paths) {
-        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path) : path
+        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamAdded(path) : path
 
-        try {
-          const auditStatus = await this.runAxeOnPath(
-            page,
-            auditPath,
-            user,
-            featureInfo,
-            reportId,
-            headless,
-            screenshot
-          )
+        if (auditPath !== 'invalidPath') {
+          try {
+            const auditStatus = await this.runAxeOnPath(
+              page,
+              auditPath,
+              user,
+              featureInfo,
+              reportId,
+              headless,
+              screenshot
+            )
 
-          if (auditStatus.completedAudit) {
-            auditSummary.completedAudits++
-            auditSummary.routesValidated.push(auditStatus.route)
-          } else {
-            auditSummary.routesNotValidated.push(auditStatus.route)
+            if (auditStatus.completedAudit) {
+              auditSummary.completedAudits++
+              auditSummary.routesValidated.push(auditStatus.route)
+            } else {
+              auditSummary.routesNotValidated.push(auditStatus.route)
+            }
+
+            auditSummary.totalAudits++
+            auditSummary.totalViolations += auditStatus.numberOfViolations
+          } catch (error) {
+            console.log(error)
           }
-
-          auditSummary.totalAudits++
-          auditSummary.totalViolations += auditStatus.numberOfViolations
-        } catch (error) {
-          console.log(error)
         }
       }
 
@@ -466,27 +458,28 @@ export class Audits {
     const routeSummary = await ViolationUtils.getRouteData(reportId)
     const featureSummary = await ViolationUtils.getFeatureSummariesByReportId(reportId)
 
-    fs.writeFile(
-      `${AUDIT_FOLDER}/summaries/${reportId}.json`,
-      JSON.stringify({
-        reportId,
-        totalViolationsForAllFeatures,
-        routes: {
-          notValidated: notValidatedRoutes,
-          validated: validatedRoutes,
-          ...routeSummary,
-        },
-        features: featureSummary,
-      }),
-      { encoding: 'utf-8', flag: 'w' },
-      (error) => {
-        if (error) {
-          console.log('There was an issue writing the report.')
-        } else {
-          console.log('Report created.')
-        }
+    try {
+      fs.writeFileSync(
+        `${AUDIT_FOLDER}/summaries/${reportId}.json`,
+        JSON.stringify({
+          reportId,
+          totalViolationsForAllFeatures,
+          routes: {
+            notValidated: notValidatedRoutes,
+            validated: validatedRoutes,
+            ...routeSummary,
+          },
+          features: featureSummary.features,
+        }),
+        { encoding: 'utf-8', flag: 'w' }
+      )
+    } catch (error) {
+      if (error) {
+        console.log('There was an issue writing the report.')
+      } else {
+        console.log('Report created.')
       }
-    )
+    }
 
     if (notValidatedRoutes.length) {
       console.log('\nThe following routes were not validated:')

@@ -46,29 +46,29 @@ export class Violations {
           // Does this violation already exist in the uniqueViolations?
           const ruleIdEntry = uniqueViolations.find(entry => entry.ruleId === violation.id)
 
-          if (ruleIdEntry) {
-
+          // Update each node with CSS scrubbed classes and route info
+          violation.nodes.forEach((node: ViolationNode) => {
             // If any `nth-child` elements are found, those
             // violations can be combined into one instance
-            violation.nodes.forEach((node: ViolationNode) => {
+            const regex = /nth-child.[0-9]*./g
+            node.target = [node.target[0].replace(regex, '')]
+            node.routes = [data.route]
+          })
 
-              const regex = /nth-child.[0-9]*./g
-              node.target = [node.target[0].replace(regex, '')]
-              if (node.routes) {
-                node.routes.push(data.route)
-              } else {
-                node.routes = [data.route]
-              }
-            })
+          if (ruleIdEntry) {
+
+            ruleIdEntry.routes.push(data.route)
 
             // Add all nodes to the entry for this rule ID
             ruleIdEntry.instances = ruleIdEntry.instances.concat(violation.nodes)
           } else {
+
             uniqueViolations.push({
               description: violation.description,
               helpUrl: violation.helpUrl,
               impact: violation.impact,
               instances: violation.nodes,
+              routes: [data.route],
               ruleId: violation.id,
               summary: violation.help,
             })
@@ -161,32 +161,24 @@ export class Violations {
    * Get basic by-route violation count
    *
    * @param {string} reportId
-   * @returns {Promise<RouteViolationSummaryReport>}
+   * @returns {RouteViolationSummaryReport}
    */
-  public getRouteData = async (reportId: string): Promise<RouteViolationSummaryReport> => {
-    let count = 0
+  public getRouteData = (reportId: string): RouteViolationSummaryReport => {
     let routesWithoutViolations = []
     let routesWithViolations = []
     for (const data of violationGenerator(reportId)) {
-      count++
-      if (data.violations.length) {
-        routesWithViolations.push(data.route.path)
-      } else {
-        routesWithoutViolations.push(data.route.path)
+      if (data?.route?.path) {
+        if (data?.violations?.length) {
+          routesWithViolations.push(data.route.path)
+        } else {
+          routesWithoutViolations.push(data.route.path)
+        }
       }
     }
 
-    console.log(`\n${count} routes have data for this report ID. ${routesWithViolations.length} routes had one or more violations.\n`)
+    const count = routesWithViolations.length + routesWithoutViolations.length
 
-    console.log('\nRoutes with violations: ')
-    for (const route of routesWithViolations) {
-      console.log(route)
-    }
-
-    console.log('\nRoutes without violations: ')
-    for (const route of routesWithoutViolations) {
-      console.log(route)
-    }
+    console.log(`\n ${count} routes have data for this report ID. ${routesWithViolations.length} routes had one or more violations.\n`)
 
     return {
       numberChecked: count,
@@ -195,8 +187,13 @@ export class Violations {
     }
   }
 
-
-  public getFeatureSummariesByReportId = async (reportId: string): Promise<FeatureViolationSummaryReport> => {
+/**
+ *
+ *
+ * @param {string} reportId
+ * @returns {FeatureViolationSummaryReport}
+ */
+public getFeatureSummariesByReportId = (reportId: string): FeatureViolationSummaryReport => {
 
     const summary: FeatureViolationSummaryReport = {
       reportId: reportId,
@@ -205,33 +202,37 @@ export class Violations {
 
     for (const data of violationGenerator(reportId)) {
 
-      const featureIndex = summary.features.findIndex((feature, index) => {
-        return feature.id === data.featureInfo.id
-      })
+      if (data) {
 
-      if (featureIndex >= 0) {
-        summary.features[featureIndex].details.push({
-          needsManualCheck: data.needsManualCheck,
-          route: data.route,
-          violations: data.violations,
+        const featureIndex = summary.features.findIndex((feature) => {
+          return feature.id === data.featureInfo?.id
         })
-      } else {
-        summary.features.push({
-          ...data.featureInfo,
-          details: [{
+
+        if (featureIndex >= 0) {
+          summary.features[featureIndex].details.push({
             needsManualCheck: data.needsManualCheck,
             route: data.route,
             violations: data.violations,
-          }],
-          tally: {
-            byImpact: {
-              critical: 0,
-              minor: 0,
-              moderate: 0,
-              serious: 0,
-            },
-          }
-        })
+          })
+        } else {
+          summary.features.push({
+            id: data.featureInfo.id,
+            name: data.featureInfo.name,
+            details: [{
+              needsManualCheck: data.needsManualCheck,
+              route: data.route,
+              violations: data.violations,
+            }],
+            tally: {
+              byImpact: {
+                critical: 0,
+                minor: 0,
+                moderate: 0,
+                serious: 0,
+              },
+            }
+          })
+        }
       }
     }
 
@@ -256,6 +257,9 @@ export class Violations {
 
     summary.features = featuresWithTally
 
-    return summary
+    return {
+      reportId: reportId,
+      features: featuresWithTally
+    }
   }
 }

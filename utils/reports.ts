@@ -63,7 +63,7 @@ export class Reports {
    * @param {boolean} [needsManualCheck=false] Does this route need to be manually checked?
    * @returns {void} Returns nothing; a report will be written to a file
    */
-  public writeFeatureReport = (
+  public writeFeatureReport = async (
     path: string,
     violations: Violation[],
     featureInfo: FeatureInfo,
@@ -72,45 +72,46 @@ export class Reports {
   ): Promise<void> => {
     const pathId = this.formatRouteToId(path)
 
-    return new Promise((resolve, reject) => {
-      const reportPath = `${AUDIT_FOLDER}/route-reports/${pathId}.json`
-      const thisReportData: ReportEntry = {
-        reportId: reportId,
-        featureInfo,
-        route: {
-          id: pathId,
-          path: path,
-        },
-        needsManualCheck,
-        violations,
+    const reportPath = `${AUDIT_FOLDER}/route-reports/${pathId}.json`
+    const thisReportData: ReportEntry = {
+      reportId: reportId,
+      featureInfo,
+      route: {
+        id: pathId,
+        path: path,
+      },
+      needsManualCheck,
+      violations,
+    }
+    let combinedData: ReportEntry[] = []
+
+    // Check if there is currently a report file for this route
+    // and, if so, add new data onto it
+    try {
+      const existing = await fs.readFileSync(reportPath, 'UTF-8')
+
+      const filteredData = JSON.parse(existing).filter(
+        (entry: ViolationReport) => entry.reportId !== reportId
+      )
+
+      combinedData = combinedData.concat(filteredData)
+    } catch (error) {}
+
+    combinedData.push(thisReportData)
+
+    try {
+      await fs.writeFileSync(
+        reportPath,
+        JSON.stringify(combinedData),
+        { encoding: 'utf8', flag: 'w' },
+      )
+    } catch (error) {
+      if (error) {
+        console.log('There was an issue writing the report.')
+      } else {
+        console.log('Report created.')
       }
-      let combinedData: ReportEntry[] = []
-      let existing
-
-      // Check if there is currently a report file for this route
-      // and, if so, add new data onto it
-      try {
-        existing = fs.readFileSync(reportPath, 'UTF-8')
-
-        const filteredData = JSON.parse(existing).filter(
-          (entry: ViolationReport) => entry.reportId !== reportId
-        )
-
-        combinedData = combinedData.concat(filteredData)
-      } catch (error) {}
-
-      combinedData.push(thisReportData)
-
-      fs.writeFile(reportPath, JSON.stringify(combinedData), { encoding: 'utf8', flag: 'w' }, err => {
-        if (err) {
-          console.log('There was an issue writing the report.')
-          return reject(err)
-        } else {
-          console.log('Report created.')
-          return resolve()
-        }
-      })
-    })
+    }
   }
 
   /**
