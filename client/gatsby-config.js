@@ -32,7 +32,7 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'audits',
-        path: 'audits/',
+        path: '../audit-data/',
       },
     },
     'gatsby-plugin-sass',

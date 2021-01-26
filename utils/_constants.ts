@@ -27,5 +27,5 @@ try {
 
 export const APP_CONFIG = appConfig
 export const ROUTE_CONFIG = routeConfig
-export const AUDIT_FOLDER = './client/audits'
+export const AUDIT_FOLDER = './audit-data'
 export const REPORT_ID = ReportUtils.createReportId()
