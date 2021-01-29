@@ -4,4 +4,9 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 
-// You can delete this file if you're not using it
+import React from 'react'
+import ThemeProvider from './src/pattern-library/ThemeProvider'
+
+export const wrapRootElement = ({ element, props }) => {
+  return <ThemeProvider {...props}>{element}</ThemeProvider>
+}
