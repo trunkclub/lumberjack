@@ -21,13 +21,13 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
       date: getReportDate(data.reportId),
       ...data.tally.byImpact,
     }
-  })
+  }).reverse()
   const tallyByTotalInstances = tallyData.map((data) => {
     return {
       date: getReportDate(data.reportId),
       ...data.tally.byInstance,
     }
-  })
+  }).reverse()
 
   const featureNavData = summaryData.features.map(data => (
     {
@@ -68,8 +68,9 @@ export default props => (
   <StaticQuery
     query={graphql`
       query {
-        allUniqueViolationsTallyJson {
+        allUniqueViolationsTallyJson(sort: {fields: reportId, order: DESC}) {
           nodes {
+            reportId
             tally {
               byImpact {
                 critical
@@ -84,10 +85,9 @@ export default props => (
                 serious
               }
             }
-            reportId
           }
         }
-        allSummariesJson(sort: {fields: reportId, order: DESC}) {
+        allSummariesJson(sort: {fields: reportId, order: ASC}) {
           edges {
             node {
               features {

@@ -57,12 +57,6 @@ exports.createPages = async ({ graphql, actions }) => {
                     description
                     helpUrl
                     impact
-                    ruleId
-                  }
-                  moderate {
-                    description
-                    helpUrl
-                    impact
                     instances {
                       html
                       routes {

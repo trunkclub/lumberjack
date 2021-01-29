@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Link } from 'gatsby'
-
 import { getReportDate } from '../utils'
 
 const calculateDifference = (thisWeekValue, lastWeekValue) => {
@@ -50,7 +48,7 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
       {tallyData.map((data, index) => {
 
         const impacts = Object.keys(data.tally.byInstance)
-        const lastEntry = tallyData[index-1] ? tallyData[index-1] : null
+        const previousDateEntry = tallyData[index+1] ?? null
         const reportDate = getReportDate(data.reportId)
 
         return(
@@ -62,10 +60,6 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
             <h2>{reportDate}</h2>
 
             <div>
-
-              <div>
-                <h3>Summary:</h3>
-              </div>
               <div>
                 <h3>Violations by Impact:</h3>
                 <table>
@@ -79,19 +73,19 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
                   <tbody>
                     {impacts.map((impact) => {
         
-                      const numberByElement = Number(data.tally.byInstance[impact])
-                      const previousByElement = lastEntry ? Number(lastEntry.tally.byImpact[impact]) : null
+                      const numberByElement = Number(data.tally.byImpact[impact])
+                      const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byImpact[impact]) : 0
                       const differenceByElement = calculateDifference(numberByElement, previousByElement)
-        
+
                       const numberByInstances = Number(data.tally.byInstance[impact])
-                      const previousByInstances = lastEntry ? Number(lastEntry.tally.byInstance[impact]) : null
+                      const previousByInstances = previousDateEntry ? Number(previousDateEntry.tally.byInstance[impact]) : 0
                       const differenceByInstances = calculateDifference(numberByInstances, previousByInstances)
         
                       return(
                         <tr key={impact}>
                           <th>{impact}</th>
                           <td>
-                            {data.tally.byImpact[impact]}
+                            {numberByElement}
                             {differenceByElement && (
                             <>{' '}<span className={'difference'  + (differenceByElement > 0 ? ' more' : ' less')}>{differenceByElement}</span></>  
                             )}
