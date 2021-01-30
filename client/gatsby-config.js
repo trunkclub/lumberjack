@@ -33,14 +33,6 @@ module.exports = {
       },
     },
     'gatsby-transformer-json',
-    // {
-    //   resolve: `gatsby-plugin-typescript`,
-    //   options: {
-    //     isTSX: true, // defaults to false
-    //     jsxPragma: `jsx`, // defaults to "React"
-    //     allExtensions: true, // defaults to false
-    //   },
-    // },
     'gatsby-plugin-styled-components',
     'gatsby-plugin-typescript',
     // this (optional) plugin enables Progressive Web App + Offline functionality

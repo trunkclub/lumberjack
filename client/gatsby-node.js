@@ -151,44 +151,49 @@ exports.createPages = async ({ graphql, actions }) => {
   })
 
   const featureResults = await graphql(`
-    query {
-      allSummariesJson {
-        edges {
-          node {
-            features {
-              id
-              name
-              details {
-                route {
-                  id
-                  path
-                }
-                violations {
-                  help
-                  impact
-                  helpUrl
-                }
+  {
+    allSummariesJson {
+      edges {
+        node {
+          features {
+            id
+            name
+            details {
+              route {
+                id
+                path
               }
-              tally {
-                byImpact {
-                  critical
-                  minor
-                  moderate
-                  serious
+              violations {
+                help
+                impact
+                helpUrl
+                description
+                nodes {
+                  html
                 }
+                id
               }
             }
-            routes {
-              numberChecked
-              validated
-              with
-              without
+            tally {
+              byImpact {
+                critical
+                minor
+                moderate
+                serious
+              }
             }
-            reportId
           }
+          routes {
+            numberChecked
+            validated
+            with
+            without
+          }
+          reportId
         }
       }
     }
+  }
   `)
 
   featureResults.data.allSummariesJson.edges.forEach(({node}) => {
