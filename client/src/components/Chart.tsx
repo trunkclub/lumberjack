@@ -3,6 +3,8 @@ import React from 'react'
 
 import { ResponsiveBar } from '@nivo/bar'
 
+import { Box } from '../pattern-library'
+
 const colors = {
   critical: '#C1554A',
   serious: '#35495e',
@@ -28,7 +30,7 @@ const Chart = ({data}: PropsT) => {
   })
 
   return (
-    <div className="chartWrapper">
+    <Box height='600px'>
       <ResponsiveBar
         data={dataWithColorValues}
         keys={Object.keys(colors)}
@@ -84,7 +86,7 @@ const Chart = ({data}: PropsT) => {
         motionStiffness={90}
         motionDamping={15}
       />
-    </div>
+    </Box>
   )
 }
 

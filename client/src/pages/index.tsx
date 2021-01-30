@@ -36,20 +36,8 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
     }
   ))
 
-  const reportIdNavData = tallyData.map(data => (
-    {
-      id: data.reportId,
-      name: getReportDate(data.reportId),
-    }
-  ))
-
-  const navigationData = {
-    byFeature: featureNavData,
-    byReportId: reportIdNavData,
-  }
-
   return (
-    <Layout navigation={navigationData}>
+    <Layout navigation={featureNavData}>
       <SEO title="Lumberjack" />
       <h1>Accessibility Violation Trends</h1>
       
@@ -59,6 +47,7 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
       <h2>Violations by Total Instances</h2>
       <Chart data={tallyByTotalInstances} />
 
+      <h2>Report-to-Report Trends</h2>
       <ReportSummaries tallyData={tallyData} />
     </Layout>
   )

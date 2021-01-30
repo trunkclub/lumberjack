@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Box, TableCell, Text } from '../pattern-library'
+
 import { getReportDate } from '../utils'
 
 const calculateDifference = (thisWeekValue, lastWeekValue) => {
@@ -43,69 +45,112 @@ type PropsT = {
 }
 
 const ReportSummaries = ({ tallyData }: PropsT) => {
+
+  const impacts = Object.keys(tallyData[0].tally.byImpact)
   return (
-    <>
+    <Box
+      as="table"
+      sx={{
+        
+        borderSpacing: '0.5rem 1rem',
+        
+        'tr td:nth-of-type(2n)': {
+          borderRight: '0.75rem solid #FFF'
+        },
+
+      }}
+    >
+      <col />
+      {/** @ts-ignore */}
+      <colgroup span="2"></colgroup>
+      {/** @ts-ignore */}
+      <colgroup span="2"></colgroup>
+      <thead>
+        <tr>
+          {/** @ts-ignore */}
+          <th rowspan="2">Report Date</th>
+          {impacts.map((impact) => (
+            // @ts-ignore
+            <th key={impact} colspan="2" scope="colgroup">{impact}</th>
+          ))}
+        </tr>
+        <tr>
+          <Text as="th" scope="col" variant="bodySmall">elements</Text>
+          <Text as="th" scope="col" variant="bodySmall">instances</Text>
+          <Text as="th" scope="col" variant="bodySmall">elements</Text>
+          <Text as="th" scope="col" variant="bodySmall">instances</Text>
+          <Text as="th" scope="col" variant="bodySmall">elements</Text>
+          <Text as="th" scope="col" variant="bodySmall">instances</Text>
+          <Text as="th" scope="col" variant="bodySmall">elements</Text>
+          <Text as="th" scope="col" variant="bodySmall">instances</Text>
+        </tr>
+      </thead>
+      <tbody>
       {tallyData.map((data, index) => {
 
-        const impacts = Object.keys(data.tally.byInstance)
+        
         const previousDateEntry = tallyData[index+1] ?? null
         const reportDate = getReportDate(data.reportId)
 
         return(
-          <section
-            className="impactSummary"
+          <tr
             id={data.reportId}
             key={data.reportId}
           >
-            <h2>{reportDate}</h2>
+            <Box as="th" scope="row" px={2}>{reportDate}</Box>
 
-            <div>
-              <div>
-                <h3>Violations by Impact:</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>By Element</th>
-                      <th>By # of Instances</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {impacts.map((impact) => {
-        
-                      const numberByElement = Number(data.tally.byImpact[impact])
-                      const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byImpact[impact]) : 0
-                      const differenceByElement = calculateDifference(numberByElement, previousByElement)
+            
+            {impacts.map((impact) => {
 
-                      const numberByInstances = Number(data.tally.byInstance[impact])
-                      const previousByInstances = previousDateEntry ? Number(previousDateEntry.tally.byInstance[impact]) : 0
-                      const differenceByInstances = calculateDifference(numberByInstances, previousByInstances)
-        
-                      return(
-                        <tr key={impact}>
-                          <th>{impact}</th>
-                          <td>
-                            {numberByElement}
-                            {differenceByElement && (
-                            <>{' '}<span className={'difference'  + (differenceByElement > 0 ? ' more' : ' less')}>{differenceByElement}</span></>  
-                            )}
-                          </td>
-                          <td>
-                            {numberByInstances}
-                            {differenceByInstances && (
-                            <>{' '}<span className={'difference'  + (differenceByInstances > 0 ? ' more' : ' less')}>{differenceByInstances}</span></>  
-                            )}
-                          </td>
-                        </tr>
-                    )})}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </section>
+              const numberByElement = Number(data.tally.byImpact[impact])
+              const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byImpact[impact]) : 0
+              const differenceByElement = calculateDifference(numberByElement, previousByElement)
+
+              const numberByInstances = Number(data.tally.byInstance[impact])
+              const previousByInstances = previousDateEntry ? Number(previousDateEntry.tally.byInstance[impact]) : 0
+              const differenceByInstances = calculateDifference(numberByInstances, previousByInstances)
+
+              return(
+                <>
+                <TableCell minWidth="5rem">
+                  {numberByElement}
+                  {differenceByElement && (
+                    <>
+                      {' '}
+                      <Text
+                        as="span"
+                        fontSize={0}
+                        fontStyle="italic"
+                        color={(differenceByElement > 0 ? 'trends.negative' : 'trends.positive')}
+                      >
+                        {differenceByElement}
+                      </Text>
+                    </>  
+                  )}
+                </TableCell>
+                <TableCell minWidth="6rem">
+                  {numberByInstances}
+                  {differenceByInstances && (
+                    <>
+                      {' '}
+                      <Text
+                        as="span"
+                        fontSize={0}
+                        fontStyle="italic"
+                        color={(differenceByInstances > 0 ? 'trends.negative' : 'trends.positive')}
+                      >
+                        {differenceByInstances}
+                      </Text>
+                    </>  
+                  )}
+                </TableCell>
+              </>
+            )})}
+          </tr>
         )
       })}
-    </>
+      </tbody>
+    </Box>
   )
 }
 
