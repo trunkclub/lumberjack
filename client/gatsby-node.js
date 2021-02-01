@@ -16,33 +16,6 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const routeResults = await graphql(`
-    query {
-      allFile(filter: {sourceInstanceName: {eq: "audits"}, relativeDirectory: {eq: "route-reports"}}) {
-        edges {
-          node {
-            publicURL
-            name
-          }
-        }
-      }
-    }
-  `)
-  
-  routeResults.data.allFile.edges.forEach(({ node }) => {
-    createPage({
-      path: `/report/route/${node.name}`,
-      component: path.resolve(`./src/templates/RouteReport.tsx`),
-      context: {
-        // Data passed to context is available
-        // in page queries as GraphQL variables.
-        name: node.name,
-        file: node.publicURL,
-      },
-    })
-  })
-
-  // TODO: Add check for each impact level
 
   const impactResults = await graphql(`
     query {
