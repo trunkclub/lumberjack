@@ -1,5 +1,7 @@
-import { Link } from "gatsby"
-import React from "react"
+import { Link } from 'gatsby'
+import React from 'react'
+
+import { Box, BoxProps } from '../pattern-library'
 
 import { NavItemT } from '../_types' 
 
@@ -8,17 +10,23 @@ import Logo from '../images/Logo.svg'
 
 type PropsT = {
   showHome?: boolean
-  navigation: {
-    byFeature: NavItemT[]
-    byReportId: NavItemT[]
-  }
+  navigation: NavItemT[]
 }
 
 const Header = ({
   showHome = true,
-  navigation
+  navigation,
 }: PropsT) => (
-  <header className="Header">
+  <Box
+    variant="gradientBackground"
+    as="header"
+    height="100%"
+    width="19rem"
+    p={2}
+    sx={{
+      position: 'fixed',
+    }}
+  >
     <img src={Logo} width="200" alt="Lumberjack" />
       <div className="navigation">
 
@@ -47,20 +55,14 @@ const Header = ({
           <>
             <h3>Reports by Feature:</h3>
             <ul>
-              {navigation.byFeature.map(entry => (
+              {navigation.map(entry => (
                 <li key={entry.id}><a href={`/report/feature/${entry.id}`}>{entry.name}</a></li>
-              ))}
-            </ul>
-            <h3>Reports by Report ID:</h3>
-            <ul>
-              {navigation.byReportId.map(entry => (
-                <li key={entry.id}><a href={`#${entry.id}`}>{entry.name}</a></li>
               ))}
             </ul>
           </>
         )}
       </div>
-  </header>
+  </Box>
 )
 
 export default Header

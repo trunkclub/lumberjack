@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Default Starter',
-    description: 'Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.',
-    author: '@gatsbyjs',
+    title: 'Lumberjack',
+    description: 'Accessibility violation reports client',
+    author: ''
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -13,8 +13,13 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'audits',
+        path: '../audit-data/',
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -28,14 +33,8 @@ module.exports = {
       },
     },
     'gatsby-transformer-json',
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'audits',
-        path: '../audit-data/',
-      },
-    },
-    'gatsby-plugin-sass',
+    'gatsby-plugin-styled-components',
+    'gatsby-plugin-typescript',
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // 'gatsby-plugin-offline',
