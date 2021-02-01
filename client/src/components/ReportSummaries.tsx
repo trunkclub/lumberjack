@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box, TableCell, Text } from '../pattern-library'
+import { Box, Text } from '../pattern-library'
 
 import { getReportDate } from '../utils'
 
@@ -51,56 +51,78 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
     <Box
       as="table"
       sx={{
-        
-        borderSpacing: '0.5rem 1rem',
-        
-        'tr td:nth-of-type(2n)': {
-          borderRight: '0.75rem solid #FFF'
-        },
-
+        borderCollapse: 'collapse',
+        'th': {
+          fontSize: 0,
+          fontWeight: 'normal',
+          textTransform: 'uppercase',
+        }
       }}
     >
-      <col />
-      {/** @ts-ignore */}
-      <colgroup span="2"></colgroup>
-      {/** @ts-ignore */}
-      <colgroup span="2"></colgroup>
-      <thead>
+      <Box
+        as="thead"
+        sx={{
+          borderColor: 'borders.division',
+          borderStyle: 'solid',
+          borderWidth: '0 0 1px',
+        }}
+      >
         <tr>
-          {/** @ts-ignore */}
-          <th rowspan="2">Report Date</th>
-          {impacts.map((impact) => (
-            // @ts-ignore
-            <th key={impact} colspan="2" scope="colgroup">{impact}</th>
-          ))}
+          <Box
+            variant="smallHeadline"
+            as="th"
+            scope="col"
+          >
+            Report Date
+          </Box>
+          <Box
+            variant="smallHeadline"
+            as="th"
+            scope="col"
+          >
+            Impact
+          </Box>
+          <Box
+            variant="smallHeadline"
+            as="th"
+            px={2}
+            scope="col"
+            width="9rem"
+            sx={{
+              textAlign: 'left',
+            }}
+          >
+            By Element
+          </Box>
+          <Box
+            variant="smallHeadline"
+            as="th"
+            px={2}
+            scope="col"
+            width="12rem"
+            sx={{
+              textAlign: 'left',
+            }}
+          >
+            By # of Instances
+          </Box>
         </tr>
-        <tr>
-          <Text as="th" scope="col" variant="bodySmall">elements</Text>
-          <Text as="th" scope="col" variant="bodySmall">instances</Text>
-          <Text as="th" scope="col" variant="bodySmall">elements</Text>
-          <Text as="th" scope="col" variant="bodySmall">instances</Text>
-          <Text as="th" scope="col" variant="bodySmall">elements</Text>
-          <Text as="th" scope="col" variant="bodySmall">instances</Text>
-          <Text as="th" scope="col" variant="bodySmall">elements</Text>
-          <Text as="th" scope="col" variant="bodySmall">instances</Text>
-        </tr>
-      </thead>
-      <tbody>
+      </Box>
+      
       {tallyData.map((data, index) => {
-
-        
         const previousDateEntry = tallyData[index+1] ?? null
         const reportDate = getReportDate(data.reportId)
 
         return(
-          <tr
-            id={data.reportId}
-            key={data.reportId}
+          <Box
+            as="tbody"
+            sx={{
+              borderColor: 'borders.decorative',
+              borderStyle: 'solid',
+              borderWidth: '0 0 1px',
+            }}
           >
-            <Box as="th" scope="row" px={2}>{reportDate}</Box>
-
-            
-            {impacts.map((impact) => {
+            {impacts.map((impact, index) => {
 
               const numberByElement = Number(data.tally.byImpact[impact])
               const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byImpact[impact]) : 0
@@ -111,45 +133,82 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
               const differenceByInstances = calculateDifference(numberByInstances, previousByInstances)
 
               return(
-                <>
-                <TableCell minWidth="5rem">
-                  {numberByElement}
-                  {differenceByElement && (
-                    <>
-                      {' '}
-                      <Text
-                        as="span"
-                        fontSize={0}
-                        fontStyle="italic"
-                        color={(differenceByElement > 0 ? 'trends.negative' : 'trends.positive')}
-                      >
-                        {differenceByElement}
-                      </Text>
-                    </>  
+                <tr>
+                  {index === 0 && (
+                    <Box
+                      as="th"
+                      scope="row"
+                      rowSpan={4}
+                      px={2}
+                    >{reportDate}</Box>
                   )}
-                </TableCell>
-                <TableCell minWidth="6rem">
-                  {numberByInstances}
-                  {differenceByInstances && (
-                    <>
-                      {' '}
-                      <Text
-                        as="span"
-                        fontSize={0}
-                        fontStyle="italic"
-                        color={(differenceByInstances > 0 ? 'trends.negative' : 'trends.positive')}
-                      >
-                        {differenceByInstances}
-                      </Text>
-                    </>  
-                  )}
-                </TableCell>
-              </>
+                  <Box
+                    as="th"
+                    px={2}
+                    scope="row"
+                    sx={{
+                      borderColor: 'borders.decorative',
+                      borderStyle: 'solid',
+                      borderWidth: '0 0 1px',
+                      textAlign: 'right',
+                    }}
+                  >
+                    {impact}
+                  </Box>
+                  <Box
+                    as="td"
+                    px={2}
+                    py={1}
+                    sx={{
+                      borderColor: 'borders.decorative',
+                      borderStyle: 'solid',
+                      borderWidth: '0 0 1px',
+                    }}
+                  >
+                    {numberByElement}
+                    {differenceByElement && (
+                      <>
+                        <Text
+                          as="span"
+                          fontSize={0}
+                          fontStyle="italic"
+                          color={(differenceByElement > 0 ? 'trends.negative' : 'trends.positive')}
+                        >
+                          {differenceByElement}
+                        </Text>
+                      </>  
+                    )}
+                  </Box>
+                  <Box
+                    as="td"
+                    px={2}
+                    py={1}
+                    sx={{
+                      borderColor: 'borders.decorative',
+                      borderStyle: 'solid',
+                      borderWidth: '0 0 1px',
+                    }}
+                  >
+                    {numberByInstances}
+                    {differenceByInstances && (
+                      <>
+                        {' '}
+                        <Text
+                          as="span"
+                          fontSize={0}
+                          fontStyle="italic"
+                          color={(differenceByInstances > 0 ? 'trends.negative' : 'trends.positive')}
+                        >
+                          {differenceByInstances}
+                        </Text>
+                      </>  
+                    )}
+                  </Box>
+                </tr>
             )})}
-          </tr>
+          </Box>
         )
       })}
-      </tbody>
     </Box>
   )
 }
