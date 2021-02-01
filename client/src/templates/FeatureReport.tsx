@@ -5,6 +5,7 @@ import { Link } from 'gatsby'
 import Alert from '../images/Alert.svg'
 
 import Layout from '../components/Layout'
+import ReportWaffleChart from '../components/ReportWaffleChart'
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
 
 type PropsT = {
@@ -13,27 +14,30 @@ type PropsT = {
 
 const FeatureReport = ({ pageContext }: PropsT) => {
 
-  let criticalViolations = 0
-  let routesWithViolations = []
-  let routesWithoutViolations = []
-  let totalViolations = 0
+  const summaryData = {
+    criticalViolations: 0,
+    routesWithViolations: [],
+    routesWithoutViolations: [],
+    totalRoutesChecked: pageContext.details.length,
+    totalViolations: 0,
+  }
 
   pageContext.details.forEach(detail => {
-    totalViolations += detail.violations.length
+    summaryData.totalViolations += detail.violations.length
 
     if (detail.violations.length === 0) {
-      routesWithoutViolations.push(detail)
+      summaryData.routesWithoutViolations.push(detail)
     } else {
-      routesWithViolations.push(detail)
+      summaryData.routesWithViolations.push(detail)
       detail.violations?.forEach(violation => {
         if (violation.impact === 'critical') {
-          criticalViolations++
+          summaryData.criticalViolations++
         }
       })
     }
   })
 
-  const violationPercentage = Math.round((routesWithViolations.length / pageContext.details.length)*100)
+  const violationPercentage = Math.round((summaryData.routesWithViolations.length / summaryData.totalRoutesChecked)*100)
 
   return (
     <Layout>
@@ -67,7 +71,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
             {pageContext.name}
           </Heading>
 
-          {criticalViolations > 0 && (
+          {summaryData.criticalViolations > 0 && (
             <Flex
               alignItems="center"
               justifyContent="center"
@@ -93,12 +97,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
           </Heading>
 
           <Box as="ul">
-            <li><b>{totalViolations}</b> total violations</li>
+            <li><b>{summaryData.totalViolations}</b> total violations</li>
             {violationPercentage > 0 && <li><b>{violationPercentage}%</b> of routes have violations</li>}
-            <li><b>{routesWithViolations.length}</b> routes with violations</li>
-            <li><b>{routesWithoutViolations.length}</b> routes without violations</li>
+            <li><b>{summaryData.routesWithViolations.length}</b> routes with violations</li>
+            <li><b>{summaryData.routesWithoutViolations.length}</b> routes without violations</li>
           </Box>
-          
         </Box>
         <Box>
           <Heading
@@ -108,11 +111,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
             Routes with Violations:
           </Heading>
 
-          {routesWithViolations.length === 0 ? (
+          {summaryData.routesWithViolations.length === 0 ? (
             <Box as="p" variant="bodyLarge">No violations for this feature- well done!</Box>
           ) : (
             <>
-              {routesWithViolations.map(route => (
+              {summaryData.routesWithViolations.map(route => (
                 <Box my={2} key={route.route_id}>
                   <Heading
                     as="h3"
