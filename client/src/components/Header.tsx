@@ -56,7 +56,9 @@ const Header = ({
             <h3>Reports by Feature:</h3>
             <ul>
               {navigation.map(entry => (
-                <li key={entry.id}><a href={`/report/feature/${entry.id}`}>{entry.name}</a></li>
+                <li key={entry.id}>
+                  <Link to={`/report/feature/${entry.id}`}>{entry.name}</Link>
+                </li>
               ))}
             </ul>
           </>
