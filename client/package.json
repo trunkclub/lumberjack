@@ -8,7 +8,7 @@
     "@nivo/bar": "^0.61.1",
     "classnames": "^2.2.6",
     "emotion-theming": "10.0.27",
-    "gatsby": "^2.19.7",
+    "gatsby": "^2.32.0",
     "gatsby-image": "^2.2.39",
     "gatsby-plugin-manifest": "^2.2.39",
     "gatsby-plugin-offline": "^3.0.32",
