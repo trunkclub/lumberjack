@@ -94,6 +94,33 @@ const theme = {
       color: roleColors.text.main,
       fontWeight: 'semibold',
       textDecoration: 'underline',
+    },
+    lineList: {
+      borderColor: 'borders.decorative',
+      borderStyle: 'solid',
+      borderWidth: '0 0 0 1px',
+      mb: 2,
+      p: 0,
+      pt: 2,
+      li: {
+        lineHeight: '1.25',
+        listStyleType: 'none',
+        pb: 2,
+        pl: 2,
+        my: 0,
+        position: 'relative',
+        '::before': {
+          borderColor: 'borders.decorative',
+          borderStyle: 'solid',
+          borderWidth: '1px 0 0',
+          content: '""',
+          display: 'block',
+          top: '0.625em',
+          position: 'absolute',
+          left: 0,
+          width: '1rem',
+        }
+      },
     }
   },
 }

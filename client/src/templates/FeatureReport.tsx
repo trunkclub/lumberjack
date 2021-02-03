@@ -5,7 +5,7 @@ import { Link } from 'gatsby'
 import Alert from '../images/Alert.svg'
 
 import Layout from '../components/Layout'
-import ReportWaffleChart from '../components/ReportWaffleChart'
+
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
 
 type PropsT = {
@@ -90,17 +90,38 @@ const FeatureReport = ({ pageContext }: PropsT) => {
           }}
         >
           <Heading
-            as="h2"
             variant="smallHeadline"
+            as="h2"
+            mb={1}
           >
             Feature Summary:
           </Heading>
 
-          <Box as="ul">
-            <li><b>{summaryData.totalViolations}</b> total violations</li>
-            {violationPercentage > 0 && <li><b>{violationPercentage}%</b> of routes have violations</li>}
-            <li><b>{summaryData.routesWithViolations.length}</b> routes with violations</li>
-            <li><b>{summaryData.routesWithoutViolations.length}</b> routes without violations</li>
+          <Box
+            variant='lineList'
+            as="ul"
+          >
+            <Box
+              as="li"
+            >
+              <b>{summaryData.totalRoutesChecked}</b> route{summaryData.totalRoutesChecked === 1 ? '' : 's'} checked
+            </Box>
+            <Box
+              as="li"
+            >
+              <b>{summaryData.totalViolations}</b> total violations
+            </Box>
+            {violationPercentage > 0 && (
+              <Box as="li">
+                <b>{violationPercentage}%</b> of routes have violations
+              </Box>
+            )}
+            <Box as="li">
+              <b>{summaryData.routesWithViolations.length}</b> routes with violations
+            </Box>
+            <Box as="li">
+              <b>{summaryData.routesWithoutViolations.length}</b> routes without violations
+            </Box>
           </Box>
         </Box>
         <Box>
