@@ -1,29 +1,39 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 
 import { ResponsiveBar } from '@nivo/bar'
 
-import { Box } from '../pattern-library'
+import { Box } from '../../../pattern-library'
 
-const colors = {
-  critical: '#C1554A',
-  serious: '#35495e',
-  moderate: '#347474',
-  minor: '#577B94',
-}
+import { COLORS } from '../constants'
 
 const barColors = {
-  criticalColor: colors.critical,
-  seriousColor: colors.serious,
-  moderateColor: colors.moderate,
-  minorColor: colors.minor,
+  criticalColor: COLORS.critical,
+  seriousColor: COLORS.serious,
+  moderateColor: COLORS.moderate,
+  minorColor: COLORS.minor,
+}
+
+type TallySummary = {
+  critical: number
+  serious: number
+  moderate: number
+  minor: number
+}
+
+type TallyChartData = {
+  date: string,
+  reportId: string,
+  tally: {
+    byImpact: TallySummary
+    byInstance: TallySummary
+  }
 }
 
 type PropsT = {
-  data: any
+  data: TallyChartData[]
 }
 
-const Chart = ({data}: PropsT) => {
+const BarChart = ({data}: PropsT) => {
 
   const dataWithColorValues = data.map(entry => {
     return { ...entry, ...barColors }
@@ -32,14 +42,9 @@ const Chart = ({data}: PropsT) => {
   return (
     <Box height='600px'>
       <ResponsiveBar
-        data={dataWithColorValues}
-        keys={Object.keys(colors)}
-        indexBy='date'
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-        padding={0.3}
-        colors={[colors.critical, colors.serious, colors.moderate, colors.minor]}
-        borderColor='#FFF'
-        borderWidth={1}
+        keys={Object.keys(COLORS)}
+
+        animate={true}
         axisTop={null}
         axisRight={null}
         axisBottom={{
@@ -55,6 +60,12 @@ const Chart = ({data}: PropsT) => {
           legendPosition: 'middle',
           legendOffset: -40
         }}
+        borderColor='#FFF'
+        borderWidth={1}
+        colors={[COLORS.critical, COLORS.serious, COLORS.moderate, COLORS.minor]}
+        data={dataWithColorValues}
+        groupMode='stacked'
+        indexBy='date'
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor={'#FFF'}
@@ -82,12 +93,13 @@ const Chart = ({data}: PropsT) => {
             ]
           }
         ]}
-        animate={true}
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         motionStiffness={90}
         motionDamping={15}
+        padding={0.3}
       />
     </Box>
   )
 }
 
-export default Chart
+export default BarChart

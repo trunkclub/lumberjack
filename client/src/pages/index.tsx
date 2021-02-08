@@ -1,7 +1,8 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 
-import Chart from '../components/Chart'
+import BarChart from '../components/Charts/BarChart'
+
 import Layout from '../components/Layout'
 import ReportSummaries from '../components/ReportSummaries'
 import SEO from '../components/SEO'
@@ -16,7 +17,6 @@ type PropsT = {
 const IndexPage = ({ summaryData, tallyData }: PropsT) => {
 
   const tallybyImpact = tallyData.map((data) => {
-
     return {
       date: getReportDate(data.reportId),
       ...data.tally.byImpact,
@@ -40,12 +40,12 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
     <Layout navigation={featureNavData}>
       <SEO title="Lumberjack" />
       <h1>Accessibility Violation Trends</h1>
-      
+
       <h2>Violations by Element</h2>
-      <Chart data={tallybyImpact} />
+      <BarChart data={tallybyImpact} />
 
       <h2>Violations by Total Instances</h2>
-      <Chart data={tallyByTotalInstances} />
+      <BarChart data={tallyByTotalInstances} />
 
       <h2>Report-to-Report Trends</h2>
       <ReportSummaries tallyData={tallyData} />
