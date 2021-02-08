@@ -115,6 +115,7 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
 
         return(
           <Box
+            key={`section_${index}`}
             as="tbody"
             sx={{
               borderColor: 'borders.decorative',
