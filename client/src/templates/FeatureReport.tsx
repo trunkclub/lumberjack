@@ -5,6 +5,7 @@ import { Link } from 'gatsby'
 import Alert from '../images/Alert.svg'
 
 import Layout from '../components/Layout'
+import { getReportDate } from '../utils'
 
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
 
@@ -13,6 +14,8 @@ type PropsT = {
 }
 
 const FeatureReport = ({ pageContext }: PropsT) => {
+
+  const reportDate = getReportDate(pageContext.reportId)
 
   const summaryData = {
     criticalViolations: 0,
@@ -94,34 +97,30 @@ const FeatureReport = ({ pageContext }: PropsT) => {
             as="h2"
             mb={1}
           >
-            Feature Summary:
+            Feature Summary for {reportDate}:
           </Heading>
 
           <Box
             variant='lineList'
             as="ul"
           >
-            <Box
-              as="li"
-            >
+            <li>
               <b>{summaryData.totalRoutesChecked}</b> route{summaryData.totalRoutesChecked === 1 ? '' : 's'} checked
-            </Box>
-            <Box
-              as="li"
-            >
+            </li>
+            <li>
               <b>{summaryData.totalViolations}</b> total violations
-            </Box>
+            </li>
             {violationPercentage > 0 && (
-              <Box as="li">
+              <li>
                 <b>{violationPercentage}%</b> of routes have violations
-              </Box>
+              </li>
             )}
-            <Box as="li">
+            <li>
               <b>{summaryData.routesWithViolations.length}</b> routes with violations
-            </Box>
-            <Box as="li">
+            </li>
+            <li>
               <b>{summaryData.routesWithoutViolations.length}</b> routes without violations
-            </Box>
+            </li>
           </Box>
         </Box>
         <Box>

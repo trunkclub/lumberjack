@@ -123,9 +123,9 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  const featureResults = await graphql(`
+  const mostRecentFeatureResults = await graphql(`
   {
-    allSummariesJson {
+    allSummariesJson(sort: {fields: reportId, order: DESC}, limit: 1) {
       edges {
         node {
           features {
@@ -169,15 +169,16 @@ exports.createPages = async ({ graphql, actions }) => {
   }
   `)
 
-  featureResults.data.allSummariesJson.edges.forEach(({node}) => {
-    node.features.forEach(feature => {
+  const mostRecentFeatureData = mostRecentFeatureResults.data.allSummariesJson.edges[0].node
+
+  mostRecentFeatureData.features.forEach(feature => {
       createPage({
         path: `/report/feature/${feature.id}`,
         component: path.resolve(`./src/templates/FeatureReport.tsx`),
         context: {
+          reportId: mostRecentFeatureData.reportId,
           ...feature,
         },
       })
-    })
   })
 }
