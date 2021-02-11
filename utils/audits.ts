@@ -108,27 +108,14 @@ export class Audits {
     console.log('Checking route for error content...')
 
     const pageContent = await page.$eval('main', element => element.textContent)
-    const results: boolean[] = content.map((error: string) => {
-      if (pageContent.includes(error)) {
-        // warning
-        console.log(`Error Content Found: "${error}"`)
-        return false
-      } else if (pageContent.length === 0) {
-        // warning
-        console.log(`No Content Found; will skip this route.`)
-        return false
-      }
+    const hasErrorContent = content.some((error) => pageContent.includes(error))
+
+    if (hasErrorContent) {
+      console.log('Error content found; This route will be skipped.')
+      return false
+    } else {
       return true
-    })
-
-    const hasOnlyValidContent = !results.includes(false)
-
-    if (!hasOnlyValidContent) {
-      // info
-      console.log('This route will be skipped.')
     }
-
-    return hasOnlyValidContent
   }
 
   /**
@@ -270,27 +257,33 @@ export class Audits {
   }
 
   /**
-   * Inserts param values into a route
-   * 
-   * This currently only gets 1 param per path; should be rewritten to scale
+   * Inserts param values into a route when :paramValue is matched from either user or route config data
    *
    * @function
    * @param {string} path Current path
    * @returns {string} Current path with param values in place
    */
-  public pathWithParamAdded = (path: string): string | 'invalidPath' => {
-    const pathArray = path.split(':')
-    const arraySectionWithParam = pathArray[1].split('/')
-    const pathParam = arraySectionWithParam[0]
+  public pathWithParamsAdded = (path: string, user: Partial<User>): string | 'invalidPath' => {
+    const paramRegex = /(?<=:)([a-zA-Z0-9_\-]+)/g
+    const paramsInPath = path.match(paramRegex)
+    let newPath = path
 
-    if (ROUTE_CONFIG.params[pathParam]) {
+    paramsInPath.forEach(param => {
 
-      const newPath = path.replace(`:${pathParam}`, ROUTE_CONFIG.params[pathParam])
-
-      return newPath
-    } else {
-      return 'invalidPath'
-    }
+      if (newPath != 'invalidPath') {
+        if (user[param]) {
+          newPath = newPath.replace(`:${param}`, user[param])
+        } else if (ROUTE_CONFIG.params[param]) {
+          newPath = newPath.replace(`:${param}`, ROUTE_CONFIG.params[param])
+        } else {
+          // if there's no match in config data for this param,
+          // set newPath to 'invalidPath' and return it so this
+          // path will be skipped.
+          newPath = 'invalidPath'
+        }
+      }
+    })
+    return newPath
   }
 
   /**
@@ -347,7 +340,7 @@ export class Audits {
       await page.setBypassCSP(true)
 
       for (const path of feature.paths) {
-        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamAdded(path) : path
+        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, user) : path
 
         if (auditPath !== 'invalidPath') {
           try {

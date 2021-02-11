@@ -72,6 +72,7 @@ export type Route = {
 export type User = {
   email: string
   password: string
+  [param_key: string]: string
 }
 
 export type Impact = 'critical' | 'serious' | 'moderate' | 'minor'
