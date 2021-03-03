@@ -17,6 +17,7 @@
     "setup": "yarn install && cd client && yarn install && git remote add upstream https://github.com/trunkclub/lumberjack.git",
     "start": "yarn server",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
     "sync": "git fetch upstream"
   },
   "license": "MIT",
@@ -33,7 +34,7 @@
     "mkdirp": "^1.0.4",
     "puppeteer": "^5.4.1",
     "typedoc": "^0.17.4",
-    "typescript": "^3.9.3"
+    "typescript": "^4.2.2"
   },
   "devDependencies": {
     "@types/node": "^13.13.0",

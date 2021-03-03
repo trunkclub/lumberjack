@@ -12,7 +12,7 @@ try {
   const appData = fs.readFileSync('./config/app.json', 'utf8')
   appConfig = JSON.parse(appData)
 } catch (error) {
-  console.log('App config is missing; verify you have a app.json file in the config folder.')
+  console.log('App config is missing; verify you have a app.json file in the /config/ folder.')
   process.exit()
 }
 
