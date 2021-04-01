@@ -108,6 +108,12 @@ export class Audits {
     console.log('Checking route for error content...')
 
     const pageContent = await page.$eval('main', element => element.textContent)
+
+    if (pageContent === '' || pageContent.includes('Loading')) {
+      console.log('Still loading, adding wait time.')
+      await page.waitFor(2000)
+    }
+
     const hasErrorContent = content.some((error) => pageContent.includes(error))
 
     if (hasErrorContent) {
@@ -180,11 +186,6 @@ export class Audits {
     let completedAudit = false
     let numberOfViolations = 0
 
-    // await page.setViewport({
-    //   width: 1200,
-    //   height: 1400,
-    // })
-
     console.group(`\n Auditing ${currentPath}...`)
 
     try {
@@ -206,6 +207,12 @@ export class Audits {
 
     if (contentValid) {
       let violations: any = []
+
+      if (takeScreenshots) {
+        console.log('Taking screenshots...')
+        const fileName = ReportUtils.formatRouteToId(currentPath)
+        await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
+      }
 
       await new AxePuppeteer(page)
         .analyze()
@@ -397,6 +404,9 @@ export class Audits {
     const users = await getUsers()
 
     mkdirp(`${AUDIT_FOLDER}/route-reports`)
+    if (takeScreenshots) {
+      mkdirp(`${AUDIT_FOLDER}/screenshots`)
+    }
 
     for (const feature of features) {
       try {

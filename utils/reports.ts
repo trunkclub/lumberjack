@@ -33,7 +33,7 @@ export class Reports {
    * @param {string} route Original route value
    * @returns {string} Route with / replaced with _
    */
-  private formatRouteToId = (route: string): string => {
+  public formatRouteToId = (route: string): string => {
 
     if (route === '/') {
       return 'root'

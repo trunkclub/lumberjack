@@ -14,6 +14,10 @@ export type AppConfig = {
     content: string[]
     featureId: string
   }
+  viewports?: Array<{
+    height: number
+    width: number
+  }>
 } | null
 
 export type FeatureInfo = {
