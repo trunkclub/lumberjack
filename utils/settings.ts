@@ -50,7 +50,7 @@ export const getUsers = async (): Promise<User[]> => {
 
   // fetch all json files
   for (const file of filenames) {
-    const userData = fs.readFileSync(`${userConfigDirectory}/${file}`, 'UTF-8')
+    const userData = fs.readFileSync(`${userConfigDirectory}/${file}`, 'utf-8')
 
     const user: User = JSON.parse(userData)
     users.push(user)

@@ -88,7 +88,7 @@ export class Reports {
     // Check if there is currently a report file for this route
     // and, if so, add new data onto it
     try {
-      const existing = await fs.readFileSync(reportPath, 'UTF-8')
+      const existing = await fs.readFileSync(reportPath, 'utf-8')
 
       const filteredData = JSON.parse(existing).filter(
         (entry: ViolationReport) => entry.reportId !== reportId
@@ -130,7 +130,7 @@ export class Reports {
       // Check if there is currently a report file for this route
       // and, if so, add new data onto it
       try {
-        const existing = fs.readFileSync(uniqueDataFile, 'UTF-8')
+        const existing = fs.readFileSync(uniqueDataFile, 'utf-8')
 
         // Get all current data that doesn't match this report ID
         const filteredData = JSON.parse(existing).filter(
@@ -180,7 +180,7 @@ export class Reports {
       // Check if there is currently a report file for this route
       // and, if so, add new data onto it
       try {
-        const existing = fs.readFileSync(uniqueDataFile, 'UTF-8')
+        const existing = fs.readFileSync(uniqueDataFile, 'utf-8')
 
         // Get all current data that doesn't match this report ID
         const filteredData = JSON.parse(existing).filter(
