@@ -57,7 +57,7 @@ export default props => (
   <StaticQuery
     query={graphql`
       query {
-        allUniqueViolationsTallyJson(sort: {fields: reportId, order: DESC}) {
+        allUniqueViolationsTallyJson(sort: {fields: reportId, order: DESC}, limit: 10) {
           nodes {
             reportId
             tally {
@@ -76,7 +76,7 @@ export default props => (
             }
           }
         }
-        allSummariesJson(sort: {fields: reportId, order: ASC}) {
+        allSummariesJson(sort: {fields: reportId, order: ASC}, limit: 10) {
           edges {
             node {
               features {
