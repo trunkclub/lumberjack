@@ -58,7 +58,7 @@ const ImpactReport = ({ pageContext }: PropsT) => {
         </Flex>
 
         {pageContext.data.length === 0 ? (
-            <Box as="p" variant="bodyLarge">No violations at this impace level- well done!</Box>
+            <Box as="p" variant="bodyLarge">No violations at this impact level- well done!</Box>
           ) : (
             <>
           <Box
