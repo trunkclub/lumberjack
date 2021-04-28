@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'gatsby'
+import React from 'react'
 
 // @ts-ignore - FIXME
 import Alert from '../images/Alert.svg'
 
 import Layout from '../components/Layout'
-import { getReportDate } from '../utils'
-
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
+import { getReportDate } from '../utils'
 
 type PropsT = {
   pageContext: any
@@ -127,6 +125,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
           <Heading
             as="h2"
             variant="smallHeadline"
+            mb={1}
           >
             Routes with Violations:
           </Heading>
@@ -135,6 +134,15 @@ const FeatureReport = ({ pageContext }: PropsT) => {
             <Box as="p" variant="bodyLarge">No violations for this feature- well done!</Box>
           ) : (
             <>
+              <Box
+                variant='lineList'
+                as="ul"
+              >
+                {summaryData.routesWithViolations.map(route => (
+                  <li>{route.route.path}<br /></li>
+                ))}
+              </Box>
+              
               {summaryData.routesWithViolations.map(route => (
                 <Box my={2} key={route.route_id}>
                   <Heading

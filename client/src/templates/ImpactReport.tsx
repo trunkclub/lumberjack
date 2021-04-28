@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { graphql } from 'gatsby'
-
-import { ViolationT } from '../_types'
-import { getReportDate } from '../utils'
+import React from 'react'
 
 import Layout from '../components/Layout'
-import SEO from '../components/SEO'
+import { Box, Flex, Heading, Text } from '../pattern-library'
+import { getReportDate } from '../utils'
 
 type PropsT = {
   pageContext: any
@@ -13,8 +10,6 @@ type PropsT = {
 
 const ImpactReport = ({ pageContext }: PropsT) => {
 
-  console.log(pageContext)
-  
   if (!pageContext) {
     return (
       <Layout>
@@ -23,37 +18,128 @@ const ImpactReport = ({ pageContext }: PropsT) => {
     )
   }
 
+  let numberOfViolationInstances = 0
+
+  for (const violation of pageContext.data) {
+    numberOfViolationInstances += violation.instances.length
+  }
+
   return (
     <Layout>
-      <SEO title={`Lumberjack : ${pageContext.impact} Violations`} />
-      <h1>{pageContext.impact} Violations</h1>
-      <p>Violations for report date: {getReportDate(pageContext.reportId)}</p>
-      
-      {pageContext.data.map(violation => {
-        return (
-          <div key={violation.ruleId}>
-            <hr />
-            <h2>{violation.summary}</h2>
-            <p>{violation.description} <a href={violation.helpUrl}>Learn&nbsp;more&nbsp;&gt;</a></p>
-            <h3>Routes:</h3>
-            <ul>
-            {violation.routes.map(route => (
-              <li key={route.id}>{route.path}</li>
-            ))}
-            </ul>
-            <h3>Details:</h3>
-            <ul>
-            {violation.instances.map((instance, index) => (
-              <li key={`${violation.ruleId}-${index}`}>
-                <h4>{instance.routes[0].path}:</h4>
-                <pre>{instance.html}</pre>
-              </li>
-            ))}
-            </ul>
-          </div>
-        )
-      })}
+      <Box
+        as="section"
+        display="grid"
+        py={3}
+        sx={{
+          gridGap: 3,
+          gridTemplateColumns: '19rem auto',
+          gridTemplateRows: 'auto auto',
+        }}
+      >
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{
+            borderColor: 'borders.decorative',
+            borderStyle: 'solid',
+            borderWidth: '0 0 1px',
+            gridColumnStart: 'span 2',
+          }}
+        >
+          <Heading
+            variant="largeHeadline"
+            as="h1"
+            lineHeight="1"
+            pb={2}
+          >
+            <Text variant='smallHeadline' mb={1}>User Impact:</Text>
+            {pageContext.impact}
+          </Heading>
+        </Flex>
 
+        {pageContext.data.length === 0 ? (
+            <Box as="p" variant="bodyLarge">No violations at this impace level- well done!</Box>
+          ) : (
+            <>
+          <Box
+            sx={{
+              gridColumnStart: 1,
+              gridColumnEnd: 1,
+            }}
+          >
+            <Heading
+              variant="smallHeadline"
+              as="h2"
+              mb={1}
+            >
+              Violation Summary for {getReportDate(pageContext.reportId)}:
+            </Heading>
+
+            <Box
+              variant='lineList'
+              as="ul"
+            >
+              <li><b>{pageContext.data.length}</b> types of violations</li>
+              <li><b>{numberOfViolationInstances}</b> total violation instances</li>
+            </Box>
+          </Box>
+          <Box>
+            <Heading
+              as="h2"
+              variant="smallHeadline"
+              mb={1}
+            >
+              Violations:
+            </Heading>
+            {pageContext.data.map(violation => {
+              return (
+                <Box
+                  mb={3}
+                  key={violation.ruleId}
+                >
+                  <Heading
+                    variant="bodyLarge"
+                    as="h3"
+                  >
+                    {violation.summary}
+                  </Heading>
+
+                  <Box as="p" variant="bodyLarge">
+                    {violation.description} <a href={violation.helpUrl}>Learn&nbsp;more&nbsp;&gt;</a>
+                  </Box>
+                  <Box
+                    pl={2}
+                    sx={{
+                      borderColor: 'borders.decorative',
+                      borderStyle: 'solid',
+                      borderWidth: '0 0 0 1px',
+                    }}
+                  >
+                    <Heading
+                      variant="bodySmall"
+                      as="h4"
+                      mt={1}
+                    >
+                      HTML triggering this violation:
+                    </Heading>
+                    
+                    {violation.instances.map((instance, index) => (
+                      <Box
+                        key={`${violation.ruleId}-${index}`}
+                        as="pre"
+                        mb={1}
+                      >
+                        {'// Route:' + instance.routes[0].path}:<br />
+                        {instance.html}
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              )
+            })}
+          </Box>
+        </>)}
+      </Box>
     </Layout>
   )
 }
