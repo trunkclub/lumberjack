@@ -9,7 +9,7 @@
     "@nivo/core": "^0.67.0",
     "classnames": "^2.3.0",
     "emotion-theming": "10.0.27",
-    "gatsby": "^3.2.1",
+    "gatsby": "^3.4.1",
     "gatsby-image": "^3.2.0",
     "gatsby-plugin-manifest": "^3.2.0",
     "gatsby-plugin-offline": "^4.2.0",
