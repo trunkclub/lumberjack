@@ -19,22 +19,31 @@ type PropsT = {
   navigation?: NavItemT[]
 }
 
-const Layout = ({ children, navigation }: PropsT) => {
+const Layout = ({ children }: PropsT) => {
   const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
+    query SideNavQuery {
+      allSummariesJson(sort: {fields: reportId, order: DESC}, limit: 1) {
+        nodes {
+          reportId
+          features {
+            id
+            name
+          }
+          routes {
+            numberChecked
+          }
         }
       }
     }
   `)
 
+  const navigation = data?.allSummariesJson?.nodes[0]?.features || []
+
   return (
     <Box
       display='grid'
-      height="100vh"
-      width="100vw"
+      minHeight="100vh"
+      minWidth="100vw"
       sx={{
         gridTemplateColumns: '19rem auto',
         gridTemplateRows: '100%',
@@ -48,10 +57,12 @@ const Layout = ({ children, navigation }: PropsT) => {
       </Box>
       <Flex
         as="main"
+        alignSelf="stretch"
         justifyContent="center"
+        px={4}
+        py={2}
       >
         <Box
-          px={4}
           width="100%"
         >
           {children}

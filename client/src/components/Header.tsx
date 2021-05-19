@@ -1,7 +1,7 @@
 import { Link } from 'gatsby'
 import React from 'react'
 
-import { Box, BoxProps } from '../pattern-library'
+import { Box, Heading } from '../pattern-library'
 
 import { NavItemT } from '../_types' 
 
@@ -9,12 +9,10 @@ import { NavItemT } from '../_types'
 import Logo from '../images/Logo.svg'
 
 type PropsT = {
-  showHome?: boolean
   navigation: NavItemT[]
 }
 
 const Header = ({
-  showHome = true,
   navigation,
 }: PropsT) => (
   <Box
@@ -28,42 +26,38 @@ const Header = ({
     }}
   >
     <img src={Logo} width="200" alt="Lumberjack" />
-      <div className="navigation">
+    <div role="navigation" className="navigation">
 
-        {showHome && (
-          <Link to="/">Homepage</Link>
-        )}
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About the data and project</Link></li>
+      </ul>
 
-        <h3>Impact Summaries:</h3>
-        <ul>
-          <li>
-            <Link to='/report/by-impact/critical'>Critical</Link>
-          </li>
-          <li>
-            <Link to='/report/by-impact/serious'>Serious</Link>
-          </li>
-          <li>
-            <Link to='/report/by-impact/moderate'>Moderate</Link>
-          </li>
-          <li>
-            <Link to='/report/by-impact/minor'>Minor</Link>
-          </li>
-        </ul>
+      <Heading as="h2" variant="bodyLarge">Impact Summaries:</Heading>
+      <ul>
+        <li>
+          <Link to='/report/by-impact/critical'>Critical</Link>
+        </li>
+        <li>
+          <Link to='/report/by-impact/serious'>Serious</Link>
+        </li>
+        <li>
+          <Link to='/report/by-impact/moderate'>Moderate</Link>
+        </li>
+        <li>
+          <Link to='/report/by-impact/minor'>Minor</Link>
+        </li>
+      </ul>
 
-        
-        {navigation && (
-          <>
-            <h3>Reports by Feature:</h3>
-            <ul>
-              {navigation.map(entry => (
-                <li key={entry.id}>
-                  <Link to={`/report/feature/${entry.id}`}>{entry.name}</Link>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
+      <Heading as="h2" variant="bodyLarge">Reports by Feature:</Heading>
+      <ul>
+        {navigation.map(entry => (
+          <li key={entry.id}>
+            <Link to={`/report/feature/${entry.id}`}>{entry.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   </Box>
 )
 
