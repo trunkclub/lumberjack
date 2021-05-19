@@ -21,16 +21,10 @@
     "@axe-core/puppeteer": "^4.0.0",
     "@types/inquirer": "^7.3.1",
     "@types/mkdirp": "^1.0.0",
-    "axe-core": "^4.1.4",
-    "chalk": "^4.1.0",
-    "cli-color": "^2.0.0",
     "dayjs": "^1.8.36",
-    "express": "^4.16.4",
     "inquirer": "^8.0.0",
-    "jsdoc-plugin-typescript": "^2.0.6",
     "mkdirp": "^1.0.4",
     "puppeteer": "^9.1.1",
-    "typedoc": "^0.20.34",
     "typescript": "^4.2.2"
   },
   "devDependencies": {
@@ -40,16 +34,13 @@
     "@typescript-eslint/parser": "^4.20.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "3.3.0",
-    "docdash": "^1.2.0",
     "eslint": "7.25.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-standard": "^5.0.0",
     "prettier": "2.2.1",
-    "ts-node": "^9.1.1",
-    "yargs": "^17.0.1"
+    "ts-node": "^9.1.1"
   },
   "config": {
     "commitizen": {
