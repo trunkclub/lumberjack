@@ -6,44 +6,50 @@ import { Box } from '../../../pattern-library'
 
 import { COLORS } from '../constants'
 
-const barColors = {
-  criticalColor: COLORS.critical,
-  seriousColor: COLORS.serious,
-  moderateColor: COLORS.moderate,
-  minorColor: COLORS.minor,
-}
-
-type TallySummary = {
+export type TallyChartDataT = {
+  date: string,
   critical: number
   serious: number
   moderate: number
   minor: number
-}
-
-type TallyChartData = {
-  date: string,
-  reportId: string,
-  tally: {
-    byImpact: TallySummary
-    byInstance: TallySummary
-  }
+  none?: number
 }
 
 type PropsT = {
-  data: TallyChartData[]
+  data: TallyChartDataT[],
+  dataTalliedLabel?: string
+  showNone?: boolean
 }
 
-const BarChart = ({data}: PropsT) => {
+const BarChart = ({data, showNone=false, dataTalliedLabel='violations'}: PropsT) => {
+
+  let barColors: any = {
+    criticalColor: COLORS.critical,
+    seriousColor: COLORS.serious,
+    moderateColor: COLORS.moderate,
+    minorColor: COLORS.minor,
+  }
+
+  if (showNone) {
+    barColors.noneColor = COLORS.none
+  }
 
   const dataWithColorValues = data.map(entry => {
-    return { ...entry, ...barColors }
+    return {
+      ...entry,
+      ...barColors,
+    }
   })
+  const colorArray: string[] = Object.values(barColors)
+
+  const keys = Object.keys(barColors).map(key => key.replace('Color', ''))
 
   return (
-    <Box height='600px'>
+    <Box height='600px' width='100%' sx={{
+      border: '1px solid #CCC',
+    }}>
       <ResponsiveBar
-        keys={Object.keys(COLORS)}
-
+        keys={keys}
         animate={true}
         axisTop={null}
         axisRight={null}
@@ -56,13 +62,13 @@ const BarChart = ({data}: PropsT) => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'number of violations',
+          legend: `number of ${dataTalliedLabel}`,
           legendPosition: 'middle',
           legendOffset: -40
         }}
         borderColor='#FFF'
         borderWidth={1}
-        colors={[COLORS.critical, COLORS.serious, COLORS.moderate, COLORS.minor]}
+        colors={colorArray}
         data={dataWithColorValues}
         groupMode='stacked'
         indexBy='date'
@@ -81,16 +87,8 @@ const BarChart = ({data}: PropsT) => {
             itemWidth: 100,
             itemHeight: 20,
             itemDirection: 'left-to-right',
-            itemOpacity: 0.85,
+            itemOpacity: 1,
             symbolSize: 20,
-            effects: [
-              {
-                on: 'hover',
-                style: {
-                  itemOpacity: 1
-                }
-              }
-            ]
           }
         ]}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
