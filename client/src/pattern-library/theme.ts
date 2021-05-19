@@ -38,6 +38,8 @@ const fontStack = 'Cairo, Helvetica, Arial, sans-serif'
 const baseTextStyle = {
   fontFamily: fontStack,
   fontWeight: '400',
+  lineHeight: '1.4em',
+  maxWidth: '70ch',
 }
 
 const typography = {
@@ -59,14 +61,18 @@ const typography = {
   body: {
     ...baseTextStyle,
     fontSize: fontSizes[1],
+    mb: 2,
   },
   bodyLarge: {
     ...baseTextStyle,
     fontSize: fontSizes[2],
+    mb: 2,
   },
   bodySmall: {
     ...baseTextStyle,
     fontSize: fontSizes[0],
+    lineHeight: '1.2em',
+    mb: 2,
   },
 }
 
