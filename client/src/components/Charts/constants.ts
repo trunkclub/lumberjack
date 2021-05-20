@@ -1,7 +1,8 @@
 
 export const COLORS = {
-  critical: '#C1554A',
-  serious: '#35495e',
-  moderate: '#347474',
-  minor: '#577B94',
+  critical: '#A74439',
+  serious: '#302F4D',
+  moderate: '#4D7F80',
+  minor: '#344966',
+  none: '#686868',
 }

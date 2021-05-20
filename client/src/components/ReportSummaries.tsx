@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { TallyReportT } from '../_types'
+
 import { Box, Text } from '../pattern-library'
 
 import { getReportDate } from '../utils'
@@ -21,27 +23,8 @@ const calculateDifference = (thisWeekValue, lastWeekValue) => {
   return difference
 }
 
-type TallyT = {
-  reportId: string
-  numberOfRoutesChecked: number
-  tally: {
-    byInstance: {
-      critical: number
-      serious: number
-      moderate: number
-      minor: number
-    }
-    byImpact: {
-      critical: number
-      serious: number
-      moderate: number
-      minor: number
-    }
-  }
-}
-
 type PropsT = {
-  tallyData: TallyT[]
+  tallyData: TallyReportT[]
 }
 
 const ReportSummaries = ({ tallyData }: PropsT) => {
