@@ -30,12 +30,13 @@ const roleColors = {
 const fontSizes = [
   '0.875rem', // 14px
   '1.125rem', //18px
-  '1.375rem', //22px
+  '1.25rem', // 20px
   '1.625rem', //32px
   '2.25rem',
 ]
 const fontStack = 'Cairo, Helvetica, Arial, sans-serif'
 const baseTextStyle = {
+  color: roleColors.text.main,
   fontFamily: fontStack,
   fontWeight: '400',
   lineHeight: '1.4em',
@@ -93,9 +94,6 @@ const theme = {
   space: [ '0', '0.5rem', '1.5rem', '3rem', '4rem', ],
   text: typography,
   variants: {
-    gradientBackground: {
-      background: `linear-gradient(165deg, #F7F7F7 50%, ${roleColors.backgrounds.alt} 100%)`
-    },
     link: {
       color: roleColors.text.main,
       fontWeight: 'semibold',

@@ -16,8 +16,8 @@ const Header = ({
   navigation,
 }: PropsT) => (
   <Box
-    variant="gradientBackground"
     as="header"
+    bg="backgrounds.faded"
     height="100%"
     width="19rem"
     p={2}
@@ -33,7 +33,7 @@ const Header = ({
         <li><Link to="/about">About the data and project</Link></li>
       </ul>
 
-      <Heading as="h2" variant="bodyLarge">Impact Summaries:</Heading>
+      <Heading variant="bodyLarge" as="h2" mb={0}>Impact Summaries:</Heading>
       <ul>
         <li>
           <Link to='/report/by-impact/critical'>Critical</Link>
@@ -49,7 +49,7 @@ const Header = ({
         </li>
       </ul>
 
-      <Heading as="h2" variant="bodyLarge">Reports by Feature:</Heading>
+      <Heading variant="bodyLarge" as="h2" mb={0}>Reports by Feature:</Heading>
       <ul>
         {navigation.map(entry => (
           <li key={entry.id}>

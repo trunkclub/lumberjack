@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
 
   html, body {
+    background: ${theme.colors.backgrounds.main};
+    color: ${theme.colors.text.main};
     font-family: Cairo, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -14,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     font-weight: 600;
-    color: inherit;
+    color: ${theme.colors.text.main};
     text-decoration: underline;
   }
 
