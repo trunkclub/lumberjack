@@ -8,57 +8,9 @@ import ReportSummaries from '../components/ReportSummaries'
 import SEO from '../components/SEO'
 import { Divider, Text } from '../pattern-library'
 
+import { ImpactTallyT, SummaryReportT, TallyChartDataT, TallyReportT } from '../_types'
+
 import { getReportDate } from '../utils'
-
-type ImpactTallyT = {
-  critical: number
-  serious: number
-  moderate: number
-  minor: number
-}
-
-export type TallyReportT = {
-  reportId: string
-  tally: {
-    byImpact: ImpactTallyT
-    byInstance: ImpactTallyT
-  }
-}
-
-type FeatureSummaryT = {
-  details: Array<{
-    route: {
-      path: string
-    }
-    violations: Array<{
-      impact: 'critical' | 'serious' | 'moderate' | 'minor'
-    }>
-  }>
-  name: string
-  id: string
-  tally: {
-    byImpact: ImpactTallyT
-  }
-}
-
-type SummaryReportT = {
-  reportId: string
-  features: FeatureSummaryT[]
-  routes: {
-    numberChecked: number
-    with: string[]
-    without: string[]
-  }
-}
-
-type TallyChartDataT = {
-  date: string,
-  critical: number
-  serious: number
-  moderate: number
-  minor: number
-  none?: number
-}
 
 type PropsT = {
   summaryData: SummaryReportT[]
@@ -66,6 +18,8 @@ type PropsT = {
 }
 
 const IndexPage = ({ summaryData, tallyData }: PropsT) => {
+
+  // TODO: Consolidate tallying functions with their BarCharts into dedicated components
 
   const tallybyImpact: TallyChartDataT[] = tallyData.map((data) => {
     return {
@@ -91,9 +45,7 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
     
     report.features.map((data) => {
     
-      // console.group(data.name)
       data.details.forEach(entry => {
-        // console.log(entry.route.path)
 
         if (entry.violations) {
 
@@ -121,8 +73,6 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
           }
         }
       })
-
-      // console.groupEnd()
     })
 
     return tally

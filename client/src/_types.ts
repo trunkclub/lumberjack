@@ -41,3 +41,53 @@ export type ViolationT = {
   ruleId: string
   summary: string
 }
+
+export type ImpactTallyT = {
+  critical: number
+  serious: number
+  moderate: number
+  minor: number
+}
+
+export type TallyReportT = {
+  reportId: string
+  tally: {
+    byImpact: ImpactTallyT
+    byInstance: ImpactTallyT
+  }
+}
+
+export type FeatureSummaryT = {
+  details: Array<{
+    route: {
+      path: string
+    }
+    violations: Array<{
+      impact: 'critical' | 'serious' | 'moderate' | 'minor'
+    }>
+  }>
+  name: string
+  id: string
+  tally: {
+    byImpact: ImpactTallyT
+  }
+}
+
+export type SummaryReportT = {
+  reportId: string
+  features: FeatureSummaryT[]
+  routes: {
+    numberChecked: number
+    with: string[]
+    without: string[]
+  }
+}
+
+export type TallyChartDataT = {
+  date: string,
+  critical: number
+  serious: number
+  moderate: number
+  minor: number
+  none?: number
+}

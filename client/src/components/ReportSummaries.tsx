@@ -1,10 +1,10 @@
 import React from 'react'
 
+import { TallyReportT } from '../_types'
+
 import { Box, Text } from '../pattern-library'
 
 import { getReportDate } from '../utils'
-
-import { TallyReportT } from '../pages/index'
 
 const calculateDifference = (thisWeekValue, lastWeekValue) => {
 
