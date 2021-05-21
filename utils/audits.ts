@@ -96,7 +96,8 @@ export class Audits {
     page: Page,
     currentPath: string
   ): Promise<boolean> => {
-    const { featureId, content } = APP_CONFIG.errors
+    const { errors, mainContentElement = 'main' } = APP_CONFIG
+    const { featureId, content:errorContent } = errors
 
     const is404 = ROUTE_CONFIG.features.some((feature: FeatureConfig) => {
       return feature.id === featureId && feature.paths.includes(currentPath)
@@ -107,14 +108,14 @@ export class Audits {
     // info
     console.log('Checking route for error content...')
 
-    const pageContent = await page.$eval('main', element => element.textContent)
+    const pageContent = await page.$eval(mainContentElement, element => element.textContent)
 
     if (pageContent === '' || pageContent.includes('Loading')) {
       console.log('Still loading, adding wait time.')
       await page.waitFor(2000)
     }
 
-    const hasErrorContent = content.some((error) => pageContent.includes(error))
+    const hasErrorContent = errorContent.some((error) => pageContent.includes(error))
 
     if (hasErrorContent) {
       console.log('Error content found; This route will be skipped.')
@@ -211,7 +212,11 @@ export class Audits {
       if (takeScreenshots) {
         console.log('Taking screenshots...')
         const fileName = ReportUtils.formatRouteToId(currentPath)
-        await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
+
+        // Check for loaded page, as page.screenshot() can error without it
+        await page.on('load', async () => {
+          await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
+        })
       }
 
       await new AxePuppeteer(page)

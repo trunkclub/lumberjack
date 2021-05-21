@@ -18,6 +18,7 @@ export type AppConfig = {
     height: number
     width: number
   }>
+  mainContentElement?: string
 } | null
 
 export type FeatureInfo = {
