@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@axe-core/puppeteer@^4.0.0":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@axe-core/puppeteer/-/puppeteer-4.1.1.tgz#e9dd2f2f13b717c057ff68c5943dec8d4ddd8acf"
-  integrity sha512-Ao9N7HL//s26hdasx3Ba18tlJgxpoO+1SmIN6eSx5vC50dqYhiRU0xp6wBKWqzo10u1jpzl/s4RFsOAuolFMBA==
+"@axe-core/puppeteer@4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@axe-core/puppeteer/-/puppeteer-4.2.0.tgz#a1edbfb5d3f96ee7819b3ed228ec1d43f91be52d"
+  integrity sha512-nInMAdv39aImtp87RmrE8L1H8neOMhF7zOfELpoxYvf1kqO+cGkSl6OPKFHA70oY8oqz04s1xej3VtMlrpp3Qg==
   dependencies:
-    axe-core "^4.1.1"
+    axe-core "^4.2.0"
 
 "@babel/code-frame@7.12.11":
   version "7.12.11"
@@ -389,10 +389,10 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-axe-core@^4.1.1:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.2.0.tgz#6594db4ee62f78be79e32a7295d21b099b60668d"
-  integrity sha512-1uIESzroqpaTzt9uX48HO+6gfnKu3RwvWdCcWSrX4csMInJfCo1yvKPNXCwXFRpJqRW25tiASb6No0YH57PXqg==
+axe-core@^4.2.0:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.2.1.tgz#2e50bcf10ee5b819014f6e342e41e45096239e34"
+  integrity sha512-evY7DN8qSIbsW2H/TWQ1bX3sXN1d4MNb5Vb4n7BzPuCwRHdkZ1H2eNLuSh73EoQqkGKUtju2G2HCcjCfhvZIAA==
 
 balanced-match@^1.0.0:
   version "1.0.2"
