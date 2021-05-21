@@ -28,7 +28,7 @@ const roleColors = {
 }
 
 const fontSizes = [
-  '0.875rem', // 14px
+  '1rem', // 16px
   '1.125rem', //18px
   '1.25rem', // 20px
   '1.625rem', //32px
