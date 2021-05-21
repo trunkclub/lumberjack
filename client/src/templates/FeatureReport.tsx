@@ -183,7 +183,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                             height: '2rem',
                             left: '-2.55rem',
                             position: 'absolute',
-                            top: 1,
+                            top: '0.25rem',
                             width: '2rem',
                           }
                         }}
@@ -194,9 +194,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                           mb={2}
                           sx={{
                             position: 'relative',
+                            maxWidth: 'none',
                           }}
                         >
                           <Divider
+                            my={0}
                             sx={{
                               position: 'absolute',
                               top: '50%',
@@ -226,9 +228,10 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                         <Heading
                           variant="bodySmall"
                           as="h4"
+                          fontWeight="bold"
                           mt={1}
                         >
-                          Elements with this violation:
+                          Elements with this violation ({detail.nodes.length}):
                         </Heading>
                         {detail.nodes.map((node) => (
                           <Box as="pre" mb={1}>{node.html}</Box>

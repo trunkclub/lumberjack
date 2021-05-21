@@ -7,12 +7,28 @@
 const path = require(`path`)
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
-// exports.onCreateNode = ({ node, getNode }) => {
-//   if (node.sourceInstanceName === `audits`) {
-//     console.log(createFilePath({ node, getNode, basePath: `pages` }))
-//     // add new field here
-//   }
-// }
+
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions
+  const typeDefs = `
+
+    type SummariesJson implements Node {
+      reportId: String!
+      totalViolationsForAllFeature: Int!
+      routes: RoutesInfo
+    }
+
+    type RoutesInfo implements Node @dontInfer {
+      notValidated: [String]
+      validated: [String]
+      numberChecked: Int!
+      with: [String]
+      without: [String]
+    }
+
+  `
+  createTypes(typeDefs)
+}
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
