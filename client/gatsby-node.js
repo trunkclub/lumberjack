@@ -58,6 +58,7 @@ exports.createPages = async ({ graphql, actions }) => {
                     }
                     ruleId
                     summary
+                    tags
                   }
                   minor {
                     description
@@ -75,6 +76,7 @@ exports.createPages = async ({ graphql, actions }) => {
                     }
                     ruleId
                     summary
+                    tags
                   }
                   serious {
                     description
@@ -92,6 +94,7 @@ exports.createPages = async ({ graphql, actions }) => {
                     }
                     ruleId
                     summary
+                    tags
                   }
                   critical {
                     description
@@ -109,6 +112,7 @@ exports.createPages = async ({ graphql, actions }) => {
                     }
                     ruleId
                     summary
+                    tags
                   }
                 }
               }
