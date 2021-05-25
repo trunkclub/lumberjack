@@ -124,6 +124,7 @@ export type UniqueViolation = {
   routes: ViolationRoute[],
   ruleId: string
   summary: string
+  tags: string[]
 }
 
 export type RouteReport = {

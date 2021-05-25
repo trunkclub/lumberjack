@@ -62,7 +62,6 @@ export class Violations {
             // Add all nodes to the entry for this rule ID
             ruleIdEntry.instances = ruleIdEntry.instances.concat(violation.nodes)
           } else {
-
             uniqueViolations.push({
               description: violation.description,
               helpUrl: violation.helpUrl,
@@ -71,6 +70,7 @@ export class Violations {
               routes: [data.route],
               ruleId: violation.id,
               summary: violation.help,
+              tags: violation.tags,
             })
           }
         }

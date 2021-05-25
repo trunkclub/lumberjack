@@ -105,7 +105,11 @@ const ImpactReport = ({ pageContext }: PropsT) => {
                   </Heading>
 
                   <Box as="p" variant="bodyLarge">
-                    {violation.description} <a href={violation.helpUrl}>Learn&nbsp;more&nbsp;&gt;</a>
+                    <b>Tagged with:</b>{' '}{violation.tags.join(', ')}
+                  </Box>
+
+                  <Box as="p" variant="bodyLarge">
+                    <b>Details:</b>{' '}{violation.description} <a href={violation.helpUrl}>Learn&nbsp;more&nbsp;&gt;</a>
                   </Box>
                   <Box
                     pl={2}
