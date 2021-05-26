@@ -1,5 +1,6 @@
 import mkdirp from 'mkdirp'
 import puppeteer, { Page } from 'puppeteer'
+import { scrollPageToBottom } from 'puppeteer-autoscroll-down'
 
 import fs from 'fs'
 
@@ -207,16 +208,20 @@ export class Audits {
     const contentValid = await this.hasValidContent(page, currentPath)
 
     if (contentValid) {
+
+      await scrollPageToBottom(
+        page,
+        800, // amount scrolled at a time in px
+        20 // delay between scrolls in ms
+      )
+
       let violations: any = []
 
       if (takeScreenshots) {
         console.log('Taking screenshots...')
         const fileName = ReportUtils.formatRouteToId(currentPath)
 
-        // Check for loaded page, as page.screenshot() can error without it
-        await page.on('load', async () => {
-          await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
-        })
+        await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
       }
 
       await new AxePuppeteer(page)
