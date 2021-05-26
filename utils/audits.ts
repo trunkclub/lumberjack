@@ -1,6 +1,6 @@
 import mkdirp from 'mkdirp'
 import puppeteer, { Page } from 'puppeteer'
-import { scrollPageToBottom } from 'puppeteer-autoscroll-down'
+import scrollPageToBottom from 'puppeteer-autoscroll-down'
 
 import fs from 'fs'
 
@@ -209,6 +209,7 @@ export class Audits {
 
     if (contentValid) {
 
+      // @ts-ignore: FIXME: Likely type not getting not coming in from package
       await scrollPageToBottom(
         page,
         800, // amount scrolled at a time in px
