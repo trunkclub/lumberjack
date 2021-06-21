@@ -1,10 +1,17 @@
 import React from 'react'
 
+import Layout from '../components/Layout'
 // @ts-ignore - FIXME
 import Alert from '../images/Alert.svg'
-
-import Layout from '../components/Layout'
-import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
+import {
+  Box,
+  Divider,
+  Flex,
+  ImpactList,
+  ImpactListItem,
+  Heading,
+  Text
+} from '../pattern-library'
 import { getReportDate } from '../utils'
 
 type PropsT = {
@@ -159,34 +166,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                     Violations:
                   </Text>
 
-                  <Box
-                    as="ul"
-                    pl={2}
-                    sx={{
-                      borderColor: 'borders.decorative',
-                      borderStyle: 'solid',
-                      borderWidth: '0 0 0 1px',
-                    }}
-                  >
+                  <ImpactList>
                     {route.violations.map(detail => (
-                      <Box
+                      <ImpactListItem
                         key={`${route.route_id}_${detail.id}`}
-                        as="li"
-                        my={2}
-                        py={1}
-                        sx={{
-                          listStyleType: 'none',
-                          position: detail.impact === 'critical' ? 'relative' : null,
-                          '&::before': {
-                            content: detail.impact === 'critical' ? `url(${Alert})` : null,
-                            display: 'block',
-                            height: '2rem',
-                            left: '-2.55rem',
-                            position: 'absolute',
-                            top: '0.25rem',
-                            width: '2rem',
-                          }
-                        }}
+                        isCritical={detail.impact === 'critical'}
                       >
                         <Text
                           variant="smallHeadline"
@@ -236,9 +220,9 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                         {detail.nodes.map((node) => (
                           <Box as="pre" mb={1}>{node.html}</Box>
                         ))}
-                      </Box>
+                      </ImpactListItem>
                     ))}
-                  </Box>
+                  </ImpactList>
                 </Box>
               ))}
             </>
