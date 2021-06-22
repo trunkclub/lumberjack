@@ -26,6 +26,60 @@ exports.createSchemaCustomization = ({ actions }) => {
       without: [String]
     }
 
+    type UniqueViolationsJsonOverviewViolationsByImpactModerate implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type UniqueViolationsJsonOverviewViolationsByImpactMinor implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type UniqueViolationsJsonOverviewViolationsByImpactSerious implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type UniqueViolationsJsonOverviewViolationsByImpactCritical implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type InstancesInfo implements Node @dontInfer {
+      any: [FixInfoAny]
+      all: [FixInfoAll]
+      impact: String
+      html: String
+      target: [String]
+      failureSummary: String
+      routes: [RouteData]
+    }
+
+    type FixInfoAny implements Node @dontInfer {
+      id: String
+      data: FixData
+      relatedNodes: [RelatedNodes]
+      impact: String
+      message: String
+    }
+
+    type RelatedNodes implements Node @dontInfer {
+      html: String
+      target: [String]
+    }
+
+    type FixInfoAll implements Node @dontInfer {
+      id: String
+      impact: String
+      message: String
+    }
+
+    type FixData implements Node @dontInfer {
+      role: String
+      accessibleText: String
+    }
+
+    type RouteData implements Node @dontInfer {
+      id: String
+      path: String
+    }
   `
   createTypes(typeDefs)
 }
@@ -51,7 +105,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -69,7 +128,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -87,7 +151,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -105,7 +174,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
