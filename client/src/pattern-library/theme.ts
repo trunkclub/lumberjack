@@ -15,7 +15,7 @@ const roleColors = {
     main: '#FFF',
   },
   borders: {
-    decorative: '#CCC',
+    decorative: '#D2D8E1',
     division: '#767676',
   },
   text: {
@@ -30,7 +30,7 @@ const roleColors = {
 const fontSizes = [
   '1rem', // 16px
   '1.125rem', //18px
-  '1.25rem', // 20px
+  '1.4rem',
   '1.625rem', //32px
   '2.25rem',
 ]
