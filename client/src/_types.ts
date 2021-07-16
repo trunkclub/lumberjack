@@ -49,6 +49,21 @@ export type ImpactTallyT = {
   minor: number
 }
 
+export type ImpactReportPayloadT = {
+  impact: ImpactLevelsT
+  data: any
+  reportId: string
+  summary: {
+    rules: Array<{
+      [key: string]: {
+        elements: string[]
+        totalInstances: number
+      }
+    }>,
+    totalInstancesForLevel: number
+  }
+}
+
 export type TallyReportT = {
   reportId: string
   tally: {

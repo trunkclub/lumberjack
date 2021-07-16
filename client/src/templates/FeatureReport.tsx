@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Layout from '../components/Layout'
+import SEO from '../components/SEO'
 // @ts-ignore - FIXME
 import Alert from '../images/Alert.svg'
 import {
@@ -49,6 +50,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
 
   return (
     <Layout>
+      <SEO title={`Lumberjack - Feature Report - ${pageContext.name}`} />
       <Box
         as="section"
         display="grid"
@@ -154,7 +156,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                 <Box my={2} key={route.route_id}>
                   <Heading
                     as="h3"
-                    variant="bodyLarge"
+                    variant="standardHeadline"
                   >
                     <b>Route:</b> {route.route.path}
                   </Heading>
@@ -218,7 +220,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                           Elements with this violation ({detail.nodes.length}):
                         </Heading>
                         {detail.nodes.map((node) => (
-                          <Box as="pre" mb={1}>{node.html}</Box>
+                          <Box as="pre" mb={1} tabIndex={0}>{node.html}</Box>
                         ))}
                       </ImpactListItem>
                     ))}

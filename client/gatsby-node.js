@@ -8,6 +8,44 @@ const path = require(`path`)
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
+const getImpactSummary = (violations) => {
+
+  let impactSummary = {
+    rules: {},
+    totalInstancesForLevel: 0,
+  }
+
+  for (const violation of violations) {
+
+    impactSummary.totalInstancesForLevel += violation.instances.length
+
+    let elements = {}
+
+    violation.instances.forEach(instance => {
+
+      const paths = instance.routes.map(route => route.path)
+
+      // TODO: Add a fuzzy match check here, so elements that are mostly the same get grouped
+      // together for remediation
+      // (eg. <span class="xyz1">one</span> and <span class="xyz1">two</span>)
+      if (elements[instance.html] && elements[instance.html].routes) {
+        elements[instance.html].routes.push(...paths)
+      } else {
+        elements[instance.html] = {
+          routes: [...paths]
+        }
+      }
+    })
+
+    impactSummary.rules[violation.ruleId] = {
+      elements,
+      totalInstances: violation.instances.length,
+    }
+  }
+
+  return impactSummary
+}
+
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
   const typeDefs = `
@@ -206,13 +244,18 @@ exports.createPages = async ({ graphql, actions }) => {
 
   impactLevels.forEach(async (level) => {
     const mostRecentData = impactResults.data.allUniqueViolationsJson.edges[0]
+
+    const mostRecentImpactData = mostRecentData.node.overview.violations.byImpact[level.toLowerCase()]
+    const impactSummary = getImpactSummary(mostRecentImpactData)
+
     createPage({
       path: `/report/by-impact/${level.toLowerCase()}`,
       component: path.resolve(`./src/templates/ImpactReport.tsx`),
       context: {
         impact: level,
-        data: mostRecentData.node.overview.violations.byImpact[level.toLowerCase()],
+        data: mostRecentImpactData,
         reportId: mostRecentData.node.reportId,
+        summary: impactSummary,
       },
     })
   })

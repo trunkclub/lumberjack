@@ -22,21 +22,20 @@ const Tab = ({ children, isActive, handleClick, id, panelId, ...rest }: PropsT) 
     <Button
       aria-controls={panelId}
       aria-selected={isActive}
-      bg={isActive ? 'backgrounds.main' : 'backgrounds.alt'}
+      bg="transparent"
       color="text.main"
       id={id}
       onClick={() => handleClick(id)}
-      py={2}
+      py={1}
       px={2}
       role="tab"
       type="button"
       sx={{
-        borderColor: isActive ? 'borders.decorative' : 'transparent',
+        borderColor: isActive ? 'borders.division' : 'transparent',
         borderRadius: '0',
         borderStyle: 'solid',
-        borderWidth: '1px 1px 0 1px',
+        borderWidth: '0 0 2px 0',
         cursor: 'pointer',
-        zIndex: isActive ? 2 : 0,
       }}
       {...rest}
     >

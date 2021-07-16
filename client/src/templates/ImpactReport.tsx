@@ -1,69 +1,44 @@
 import React from 'react'
+import { useLocation } from '@reach/router'
 
 import Layout from '../components/Layout'
+import RuleSummaryTable from '../components/RuleSummaryTable'
 import TabbedContent from '../components/TabbedContent'
+import ViolationCard from '../components/ViolationCard'
+import SEO from '../components/SEO'
 import ViolationFixes from '../components/ViolationFixes'
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
+import { ImpactReportPayloadT } from '../_types'
 import { getReportDate } from '../utils'
 
 type PropsT = {
-  pageContext: any
+  pageContext: ImpactReportPayloadT
 }
 
 const ImpactReport = ({ pageContext }: PropsT) => {
 
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo(0,0)
+    }
+  }, [pageContext, location])
+
   if (!pageContext) {
     return (
       <Layout>
+        <SEO title="Loading impact report" />
         <div>Loading...</div>
       </Layout>
     )
   }
 
-  let violationSummaries = {
-    totalInstancesForImpactLevel: 0,
-  }
-
-  for (const violation of pageContext.data) {
-    violationSummaries.totalInstancesForImpactLevel += violation.instances.length
-
-    const uniqueElements = new Set([])
-
-    violation.instances.forEach(instance => {
-      uniqueElements.add(instance.html)
-    })
-
-    let uniqueViolationData = {}
-    let totalInstances = 0
-
-    violation.instances.forEach(instance => {
-      if (uniqueViolationData[instance.html]?.routes) {
-
-        const paths = instance.routes.map(route => route.path)
-
-        uniqueViolationData[instance.html].instances++
-        uniqueViolationData[instance.html].routes.push(...paths)
-        totalInstances++
-      } else {
-
-        const paths = instance.routes.map(route => route.path)
-
-        uniqueViolationData[instance.html] = {
-          instances: 1,
-          routes: [...paths]
-        }
-        totalInstances++
-      }
-    })
-
-    violationSummaries[violation.ruleId] = {
-      uniqueViolationData,
-      totalInstances,
-    }
-  }
+  
 
   return (
     <Layout>
+      <SEO title={`Lumberjack - Impact Report - ${pageContext.impact} Violations`} />
       <Box
         display="grid"
         py={3}
@@ -117,67 +92,11 @@ const ImpactReport = ({ pageContext }: PropsT) => {
                   as="ul"
                 >
                   <li><b>{pageContext.data.length}</b> types of violations</li>
-                  <li><b>{violationSummaries.totalInstancesForImpactLevel}</b> total violation instances</li>
+                  <li><b>{pageContext.summary.totalInstancesForLevel}</b> total violation instances</li>
                 </Box>
               </Box>
               <Box>
-                <Box
-                  as="table"
-                  sx={{
-                    borderCollapse: 'collapse',
-                    width: '100%',
-                  }}
-                >
-                  <Box
-                    as="thead"
-                    sx={{
-                      borderColor: 'borders.division',
-                      borderStyle: 'solid',
-                      borderWidth: '0 0 1px',
-                    }}
-                  >
-                    <tr>
-                      <Box as="th" pr={2} sx={{ textAlign: 'left'}}>Violations:</Box>
-                      <Box as="th" px={2}>Elements:</Box>
-                      <Box as="th" px={2}>Instances:</Box>
-                      <th></th>
-                    </tr>
-                  </Box>
-                  <tbody>
-                    {pageContext.data.map((violation, index) => {
-
-                      const numberOfElements = Object.keys(violationSummaries[violation.ruleId].uniqueViolationData).length
-                      const numberOfInstances = violationSummaries[violation.ruleId].totalInstances
-
-                      return (
-                        <Box
-                          as="tr"
-                          key={`${violation.ruleId}-toc-${index}`}
-                          sx={{
-                            borderColor: 'borders.decorative',
-                            borderStyle: 'solid',
-                            borderWidth: '0 0 1px 0',
-                          }}
-                        >
-                          <Box
-                            variant="body"
-                            as="th"
-                            scope="row"
-                            py={1}
-                            sx={{
-                              textAlign: 'left',
-                            }}
-                          >
-                            {violation.description}
-                          </Box>
-                          <Box as="td" sx={{ textAlign: 'center' }}>{numberOfElements}</Box>
-                          <Box as="td" sx={{ textAlign: 'center' }}>{numberOfInstances}</Box>
-                          <td><a href={`#${violation.ruleId}`}>View details</a></td>
-                        </Box>
-                      )
-                    })}
-                  </tbody>
-                </Box>
+                <RuleSummaryTable violations={pageContext.data} summary={pageContext.summary} />
               </Box>
             </>
           )}
@@ -194,25 +113,38 @@ const ImpactReport = ({ pageContext }: PropsT) => {
         <Divider mt={0} />
         {pageContext.data.map(violation => {
 
-          const numberOfViolations = Object.keys(violationSummaries[violation.ruleId].uniqueViolationData).length
-          const numberOfInstances = violationSummaries[violation.ruleId].totalInstances
+          const ruleSummary = pageContext.summary.rules[violation.ruleId]
+          const numberOfElements = Object.keys(ruleSummary.elements).length
+          const numberOfInstances = Number(ruleSummary.totalInstances)
 
           return (
             <Box
               key={violation.ruleId}
               id={violation.ruleId}
               mb={3}
+              p={2}
+
+              sx={{
+                borderColor: 'borders.decorative',
+                borderStyle: 'solid',
+                borderWidth: '1px',
+              }}
             >
-              <Heading
-                variant="standardHeadline"
-                as="h3"
-                mb={2}
-                mt={0}
-              >
-                {violation.description}
-              </Heading>
+              <Box mb={2}>
+                <Heading
+                  variant="standardHeadline"
+                  as="h3"
+                  my={0}
+                >
+                  {violation.description}
+                </Heading>
+                <Text>
+                  <b>Scope:</b> There {numberOfElements > 1 ? 'are' : 'is'} <b>{numberOfElements} element{numberOfElements > 1 ? 's' : ''}</b> triggering this violation <b>{numberOfInstances} time{numberOfInstances > 1 ? 's' : ''}</b>.
+                </Text>
+              </Box>
 
               <TabbedContent
+                uniqueId={violation.ruleId}
                 details={
                   <>
                     <Heading variant="bodyLarge" as="h4" my={0}>
@@ -220,10 +152,7 @@ const ImpactReport = ({ pageContext }: PropsT) => {
                     </Heading>
                     <Box as="ul" mt={1} mb={2}>
                       <li>
-                        <b>Summary:</b> {violation.summary}{' '}<a href={violation.helpUrl}>Learn&nbsp;more&nbsp;&gt;</a>
-                      </li>
-                      <li>
-                        <b>Scope:</b> There {numberOfViolations > 1 ? 'are' : 'is'} <b>{numberOfViolations} element{numberOfViolations > 1 ? 's' : ''}</b> triggering this violation <b>{numberOfInstances} time{numberOfInstances > 1 ? 's' : ''}</b>.
+                        <b>Summary:</b> {violation.summary}{' '}<a href={violation.helpUrl}>Learn more &gt;</a>
                       </li>
                       <li>
                         <b>Tags:</b> {violation.tags.join(', ')}
@@ -252,35 +181,23 @@ const ImpactReport = ({ pageContext }: PropsT) => {
                         gridTemplateRows: 'auto auto',
                       }}
                     >
-                    {Object.keys(violationSummaries[violation.ruleId].uniqueViolationData).map((element, index) => {
+                    {Object.keys(ruleSummary.elements).map((element, index) => {
 
-                      const uniqueRoutes = new Set(violationSummaries[violation.ruleId].uniqueViolationData[element].routes)
+                      const { routes } = ruleSummary.elements[element]
+                      const uniqueRoutes: string[] = Array.from(new Set(routes))
+
+                      // A non-unique route entry exists per instance, so we can use this number to get a cound
+                      const instancesOfElement = routes.length
 
                       return (
-
-                        <Box
-                          key={`${violation.ruleId}-element-${index}`}
-                          p={2}
-                          sx={{
-                            borderColor: 'borders.division',
-                            borderStyle: 'solid',
-                            borderWidth: '1px',
-                          }}
-                        >
-                          <Heading variant="body" as="h5"><b>Element {index+1}:</b> {violationSummaries[violation.ruleId].uniqueViolationData[element].instances} instance{violationSummaries[violation.ruleId].uniqueViolationData[element].instances > 1 ? 's' : ''}</Heading>
-                          <Box
-                            as="pre"
-                            mt={1}
-                          >
-                            {element}
-                          </Box>
-                          <Heading variant="body" as="h6" mt={2}>Routes this element is on:</Heading>
-                          <ul>
-                            {Array.from(uniqueRoutes).map((route, routeIndex) => (
-                              <li key={`${violation.ruleId}-${index}-route-${routeIndex}`}>{`${route}`}</li>
-                            ))}
-                          </ul>
-                        </Box>
+                        <ViolationCard
+                          key={`${violation.ruleId}-${index}`}
+                          element={element}
+                          index={index}
+                          instances={instancesOfElement}
+                          uniqueRoutes={uniqueRoutes}
+                          violation={violation}
+                        />
                       )
                     })}
                     </Box>

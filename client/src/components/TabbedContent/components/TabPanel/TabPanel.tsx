@@ -1,4 +1,4 @@
-import React from 'React'
+import React from 'react'
 
 import { Box } from '../../../../pattern-library'
 
@@ -20,38 +20,37 @@ const TabPanel = ({
     return null
   }
 
-  // const panelRef = React.useRef<HTMLElement | null>(null)
+  const panelRef = React.useRef<HTMLElement>()
 
-  // React.useEffect(() => {
-  //   if (isActive && panelRef?.current) {
-  //     panelRef.current.focus()
-  //   }
-  // }, [isActive, panelRef])
+  React.useEffect(() => {
+    if (isActive && panelRef?.current) {
+      panelRef.current.focus()
+    }
+  }, [isActive])
 
   return (
     <Box
-        aria-hidden={!isActive}
-        aria-labelledby={tabId}
-        id={id}
-        // ref={panelRef}
-        role="tabpanel"
-        tabIndex={isActive ? -1 : null}
-        height={isActive ? undefined : '0'}
-        overflowY={isActive ? undefined : 'hidden'}
-        sx={{
-          opacity: isActive ? '1' : '0',
-          transition: 'opacity ease-in 0.2s',
-          position: 'relative',
-          visibility: isActive ? undefined : 'hidden',
-          zIndex: 1,
+      aria-hidden={!isActive}
+      aria-labelledby={tabId}
+      id={id}
+      ref={panelRef}
+      role="tabpanel"
+      tabIndex={isActive ? -1 : null}
+      height={isActive ? undefined : '0'}
+      overflowY={isActive ? undefined : 'hidden'}
+      sx={{
+        opacity: isActive ? '1' : '0',
+        transition: 'opacity ease-in 0.2s',
+        position: 'relative',
+        visibility: isActive ? undefined : 'hidden',
 
-          '&:focus': {
-            outline: isActive ? 'none' : undefined,
-          },
-        }}
-      >
-        {children}
-      </Box>
+        '&:focus': {
+          outline: isActive ? 'none' : undefined,
+        },
+      }}
+    >
+      {children}
+    </Box>
   )
 }
 
