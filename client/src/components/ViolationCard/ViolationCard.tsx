@@ -1,6 +1,7 @@
 import React from 'react'
 import TicketContentCopier from '../TicketContentCopier'
 import { Box, Flex, Heading } from '../../pattern-library'
+import { getPluralContent } from '../../utils'
 
 import { ViolationT } from '../../_types'
 
@@ -19,6 +20,9 @@ const ViolationCard = ({
   uniqueRoutes,
   violation,
 }: PropsT) => {
+
+  const instancePluralContent = getPluralContent(instances)
+
   return (
     <Flex
       key={`${violation.ruleId}-element-${index}`}
@@ -32,7 +36,7 @@ const ViolationCard = ({
       }}
     >
       <Box>
-        <Heading variant="body" as="h5"><b>Element {index+1}:</b> {instances} instance{instances > 1 ? 's' : ''}</Heading>
+        <Heading variant="body" as="h5"><b>Element {index+1}:</b> {instances} instance{instancePluralContent.makePlural}</Heading>
         <Box
           as="pre"
           mt={1}

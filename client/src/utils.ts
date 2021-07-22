@@ -9,3 +9,15 @@ export const getReportDate = (date: string): string => {
   }
   return `${reportDate.month}/${reportDate.day}/${reportDate.year}`
 }
+
+type PluralContentT = {
+  verb: 'are' | 'is'
+  makePlural: 's' | null
+}
+
+export const getPluralContent = (numberToCheck: number): PluralContentT => {
+  return {
+    verb: numberToCheck > 1 ? 'are' : 'is',
+    makePlural: numberToCheck > 1 ? 's' : null,
+  }
+} 
