@@ -1,12 +1,12 @@
 
 import React from 'react'
 
-import { Box, Heading } from '../../pattern-library'
+import { Box, Heading } from '../../../../pattern-library'
 
 type PropsT = {
   fixData: {
-    all?: [{ message: string }]
-    any?: [{ message: string }]
+    all?: Array<{ message: string }>
+    any?: Array<{ message: string }>
   }
   helpUrl: string
   ruleId: string

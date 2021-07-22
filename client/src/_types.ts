@@ -40,6 +40,7 @@ export type ViolationT = {
   instances: ViolationInstanceT[]
   ruleId: string
   summary: string
+  tags: string[]
 }
 
 export type ImpactTallyT = {
@@ -49,17 +50,19 @@ export type ImpactTallyT = {
   minor: number
 }
 
+export type RuleSummaryT = {
+  [key: string]: {
+    elements: string[]
+    totalInstances: number
+  }
+}
+
 export type ImpactReportPayloadT = {
   impact: ImpactLevelsT
   data: any
   reportId: string
   summary: {
-    rules: Array<{
-      [key: string]: {
-        elements: string[]
-        totalInstances: number
-      }
-    }>,
+    rules: RuleSummaryT[],
     totalInstancesForLevel: number
   }
 }

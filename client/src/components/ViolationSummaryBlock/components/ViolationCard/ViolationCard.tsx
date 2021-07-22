@@ -1,9 +1,10 @@
 import React from 'react'
-import TicketContentCopier from '../TicketContentCopier'
-import { Box, Flex, Heading } from '../../pattern-library'
-import { getPluralContent } from '../../utils'
 
-import { ViolationT } from '../../_types'
+import { Box, Flex, Heading } from '../../../../pattern-library'
+import { getPluralContent } from '../../../../utils'
+import { ViolationT } from '../../../../_types'
+
+import TicketContentCopier from '../../../TicketContentCopier'
 
 type PropsT = {
     element: string
