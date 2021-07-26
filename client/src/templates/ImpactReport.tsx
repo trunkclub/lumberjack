@@ -1,33 +1,41 @@
 import React from 'react'
+import { useLocation } from '@reach/router'
 
 import Layout from '../components/Layout'
-import { Box, Flex, Heading, Text } from '../pattern-library'
+import RuleSummaryTable from '../components/RuleSummaryTable'
+import SEO from '../components/SEO'
+import ViolationSummaryBlock from '../components/ViolationSummaryBlock'
+import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
+import { ImpactReportPayloadT } from '../_types'
 import { getReportDate } from '../utils'
 
 type PropsT = {
-  pageContext: any
+  pageContext: ImpactReportPayloadT
 }
 
 const ImpactReport = ({ pageContext }: PropsT) => {
 
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo(0,0)
+    }
+  }, [pageContext, location])
+
   if (!pageContext) {
     return (
       <Layout>
+        <SEO title="Loading impact report" />
         <div>Loading...</div>
       </Layout>
     )
   }
 
-  let numberOfViolationInstances = 0
-
-  for (const violation of pageContext.data) {
-    numberOfViolationInstances += violation.instances.length
-  }
-
   return (
     <Layout>
+      <SEO title={`Lumberjack - Impact Report - ${pageContext.impact} Violations`} />
       <Box
-        as="section"
         display="grid"
         py={3}
         sx={{
@@ -57,93 +65,55 @@ const ImpactReport = ({ pageContext }: PropsT) => {
           </Heading>
         </Flex>
 
-        {pageContext.data.length === 0 ? (
-            <Box as="p" variant="bodyLarge">No violations at this impact level- well done!</Box>
-          ) : (
-            <>
-          <Box
-            sx={{
-              gridColumnStart: 1,
-              gridColumnEnd: 1,
-            }}
+        <Box
+          sx={{
+            gridColumnStart: 1,
+            gridColumnEnd: 1,
+          }}
+        >
+          <Heading
+            variant="smallHeadline"
+            as="h2"
+            mb={1}
           >
-            <Heading
-              variant="smallHeadline"
-              as="h2"
-              mb={1}
-            >
-              Violation Summary for {getReportDate(pageContext.reportId)}:
-            </Heading>
+            Summary for {getReportDate(pageContext.reportId)}:
+          </Heading>
 
-            <Box
-              variant='lineList'
-              as="ul"
-            >
-              <li><b>{pageContext.data.length}</b> types of violations</li>
-              <li><b>{numberOfViolationInstances}</b> total violation instances</li>
-            </Box>
+          <Box
+            variant='lineList'
+            as="ul"
+          >
+            <li><b>{pageContext.data.length}</b> types of violations</li>
+            <li><b>{pageContext.summary.totalInstancesForLevel}</b> total violation instances</li>
           </Box>
-          <Box>
-            <Heading
-              as="h2"
-              variant="smallHeadline"
-              mb={1}
-            >
-              Violations:
-            </Heading>
-            {pageContext.data.map(violation => {
-              return (
-                <Box
-                  mb={3}
-                  key={violation.ruleId}
-                >
-                  <Heading
-                    variant="bodyLarge"
-                    as="h3"
-                  >
-                    {violation.summary}
-                  </Heading>
-
-                  <Box as="p" variant="bodyLarge">
-                    <b>Tagged with:</b>{' '}{violation.tags.join(', ')}
-                  </Box>
-
-                  <Box as="p" variant="bodyLarge">
-                    <b>Details:</b>{' '}{violation.description} <a href={violation.helpUrl}>Learn&nbsp;more&nbsp;&gt;</a>
-                  </Box>
-                  <Box
-                    pl={2}
-                    sx={{
-                      borderColor: 'borders.decorative',
-                      borderStyle: 'solid',
-                      borderWidth: '0 0 0 1px',
-                    }}
-                  >
-                    <Heading
-                      variant="bodySmall"
-                      as="h4"
-                      mt={1}
-                    >
-                      HTML triggering this violation:
-                    </Heading>
-                    
-                    {violation.instances.map((instance, index) => (
-                      <Box
-                        key={`${violation.ruleId}-${index}`}
-                        as="pre"
-                        mb={1}
-                      >
-                        {'// Route:' + instance.routes[0].path}:<br />
-                        {instance.html}
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-              )
-            })}
-          </Box>
-        </>)}
+        </Box>
+        <Box>
+          {pageContext.data.length === 0 ? (
+            <Text as="p" variant="bodyLarge">No violations at this impact level- well done!</Text>
+            ) : (
+            <RuleSummaryTable violations={pageContext.data} summary={pageContext.summary} />
+          )}
+        </Box>
       </Box>
+
+      {pageContext.data.length > 0 && (
+        <Box>
+          <Heading
+            as="h2"
+            variant="smallHeadline"
+            my={1}
+          >
+            Violation Details:
+          </Heading>
+          <Divider mt={0} />
+          {pageContext.data.map(violation => {
+            const ruleSummary = pageContext.summary.rules[violation.ruleId]
+            return (
+              <ViolationSummaryBlock ruleSummary={ruleSummary} violation={violation} />
+            )
+          })}
+        </Box>
+      )}
     </Layout>
   )
 }

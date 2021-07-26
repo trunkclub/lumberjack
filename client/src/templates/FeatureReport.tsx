@@ -1,10 +1,18 @@
 import React from 'react'
 
+import Layout from '../components/Layout'
+import SEO from '../components/SEO'
 // @ts-ignore - FIXME
 import Alert from '../images/Alert.svg'
-
-import Layout from '../components/Layout'
-import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
+import {
+  Box,
+  Divider,
+  Flex,
+  ImpactList,
+  ImpactListItem,
+  Heading,
+  Text
+} from '../pattern-library'
 import { getReportDate } from '../utils'
 
 type PropsT = {
@@ -42,6 +50,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
 
   return (
     <Layout>
+      <SEO title={`Lumberjack - Feature Report - ${pageContext.name}`} />
       <Box
         as="section"
         display="grid"
@@ -147,7 +156,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                 <Box my={2} key={route.route_id}>
                   <Heading
                     as="h3"
-                    variant="bodyLarge"
+                    variant="standardHeadline"
                   >
                     <b>Route:</b> {route.route.path}
                   </Heading>
@@ -159,34 +168,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                     Violations:
                   </Text>
 
-                  <Box
-                    as="ul"
-                    pl={2}
-                    sx={{
-                      borderColor: 'borders.decorative',
-                      borderStyle: 'solid',
-                      borderWidth: '0 0 0 1px',
-                    }}
-                  >
+                  <ImpactList>
                     {route.violations.map(detail => (
-                      <Box
+                      <ImpactListItem
                         key={`${route.route_id}_${detail.id}`}
-                        as="li"
-                        my={2}
-                        py={1}
-                        sx={{
-                          listStyleType: 'none',
-                          position: detail.impact === 'critical' ? 'relative' : null,
-                          '&::before': {
-                            content: detail.impact === 'critical' ? `url(${Alert})` : null,
-                            display: 'block',
-                            height: '2rem',
-                            left: '-2.55rem',
-                            position: 'absolute',
-                            top: '0.25rem',
-                            width: '2rem',
-                          }
-                        }}
+                        isCritical={detail.impact === 'critical'}
                       >
                         <Text
                           variant="smallHeadline"
@@ -234,11 +220,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                           Elements with this violation ({detail.nodes.length}):
                         </Heading>
                         {detail.nodes.map((node) => (
-                          <Box as="pre" mb={1}>{node.html}</Box>
+                          <Box as="pre" mb={1} tabIndex={0}>{node.html}</Box>
                         ))}
-                      </Box>
+                      </ImpactListItem>
                     ))}
-                  </Box>
+                  </ImpactList>
                 </Box>
               ))}
             </>

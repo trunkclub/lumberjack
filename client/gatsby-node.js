@@ -8,6 +8,44 @@ const path = require(`path`)
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
+const getImpactSummary = (violations) => {
+
+  let impactSummary = {
+    rules: {},
+    totalInstancesForLevel: 0,
+  }
+
+  for (const violation of violations) {
+
+    impactSummary.totalInstancesForLevel += violation.instances.length
+
+    let elements = {}
+
+    violation.instances.forEach(instance => {
+
+      const paths = instance.routes.map(route => route.path)
+
+      // TODO: Add a fuzzy match check here, so elements that are mostly the same get grouped
+      // together for remediation
+      // (eg. <span class="xyz1">one</span> and <span class="xyz1">two</span>)
+      if (elements[instance.html] && elements[instance.html].routes) {
+        elements[instance.html].routes.push(...paths)
+      } else {
+        elements[instance.html] = {
+          routes: [...paths]
+        }
+      }
+    })
+
+    impactSummary.rules[violation.ruleId] = {
+      elements,
+      totalInstances: violation.instances.length,
+    }
+  }
+
+  return impactSummary
+}
+
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
   const typeDefs = `
@@ -26,6 +64,60 @@ exports.createSchemaCustomization = ({ actions }) => {
       without: [String]
     }
 
+    type UniqueViolationsJsonOverviewViolationsByImpactModerate implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type UniqueViolationsJsonOverviewViolationsByImpactMinor implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type UniqueViolationsJsonOverviewViolationsByImpactSerious implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type UniqueViolationsJsonOverviewViolationsByImpactCritical implements Node {
+      instances: [InstancesInfo]
+    }
+
+    type InstancesInfo implements Node @dontInfer {
+      any: [FixInfoAny]
+      all: [FixInfoAll]
+      impact: String
+      html: String
+      target: [String]
+      failureSummary: String
+      routes: [RouteData]
+    }
+
+    type FixInfoAny implements Node @dontInfer {
+      id: String
+      data: FixData
+      relatedNodes: [RelatedNodes]
+      impact: String
+      message: String
+    }
+
+    type RelatedNodes implements Node @dontInfer {
+      html: String
+      target: [String]
+    }
+
+    type FixInfoAll implements Node @dontInfer {
+      id: String
+      impact: String
+      message: String
+    }
+
+    type FixData implements Node @dontInfer {
+      role: String
+      accessibleText: String
+    }
+
+    type RouteData implements Node @dontInfer {
+      id: String
+      path: String
+    }
   `
   createTypes(typeDefs)
 }
@@ -51,7 +143,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -69,7 +166,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -87,7 +189,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -105,7 +212,12 @@ exports.createPages = async ({ graphql, actions }) => {
                       routes {
                         path
                       }
-                      failureSummary
+                      all {
+                        message
+                      }
+                      any {
+                        message
+                      }
                     }
                     routes {
                       path
@@ -132,13 +244,18 @@ exports.createPages = async ({ graphql, actions }) => {
 
   impactLevels.forEach(async (level) => {
     const mostRecentData = impactResults.data.allUniqueViolationsJson.edges[0]
+
+    const mostRecentImpactData = mostRecentData.node.overview.violations.byImpact[level.toLowerCase()]
+    const impactSummary = getImpactSummary(mostRecentImpactData)
+
     createPage({
       path: `/report/by-impact/${level.toLowerCase()}`,
       component: path.resolve(`./src/templates/ImpactReport.tsx`),
       context: {
         impact: level,
-        data: mostRecentData.node.overview.violations.byImpact[level.toLowerCase()],
+        data: mostRecentImpactData,
         reportId: mostRecentData.node.reportId,
+        summary: impactSummary,
       },
     })
   })
