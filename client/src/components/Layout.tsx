@@ -22,6 +22,11 @@ type PropsT = {
 const Layout = ({ children }: PropsT) => {
   const data = useStaticQuery(graphql`
     query SideNavQuery {
+      site {
+        siteMetadata {
+          appName
+        }
+      }
       allSummariesJson(sort: {fields: reportId, order: DESC}, limit: 1) {
         nodes {
           reportId
@@ -37,6 +42,7 @@ const Layout = ({ children }: PropsT) => {
     }
   `)
 
+  const appName = data?.site?.siteMetadata?.appName
   const navigation = data?.allSummariesJson?.nodes[0]?.features || []
 
   return (
@@ -52,6 +58,7 @@ const Layout = ({ children }: PropsT) => {
     >
       <Box>
         <Header
+          appName={appName}
           navigation={navigation}
         />
       </Box>

@@ -6,7 +6,7 @@ Lumberjack is designed to help identify and remediate accessibility issues in yo
 
 Lumberjack's auditing utilities:
 
-- Visit every route provided in your config files and runs the Axe tool, creating a report per route with any accessibility violations found.
+- Visit every route provided in your config file and runs the Axe tool, creating a report per route with any accessibility violations found.
 - Consolidate violation data into a set of unique violation reports that can be used for additional auditing or reporting.
 
 Lumberjack's client:
@@ -17,7 +17,7 @@ Lumberjack's client:
 ## Setup:
 
 1.  Run `yarn setup` in the root directory.
-1.  Copy or rename the `./config_example` folder so you have a `./config` folder.Then edit the `app.json` and `routes.json` files to suit your application's needs. We recommend starting small with just a few routes to test your setup.
+1.  Copy or rename the `./example.lsconfig.js` file so you have a `./.ljconfig.js` file. Then edit it to suit your application's needs. We recommend starting small with just a few routes to test your setup.
 1.  Run `yarn lumberjack` in the root directory. This will present some options. To begin, select `Generate a11y reports for routes`. At this point, Axe will crawl your routes and generate reports. Please note this can take some time for larger sites, but the terminal will keep you updated about progress as it runs.
 
 1.  Once that is complete, run `yarn lumberjack` again, and select `Combine and tally report data`. You'll be prompted with report IDs based on the date the report was run. Select the one you just ran, and summary reports will be generated.

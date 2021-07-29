@@ -1,41 +1,48 @@
 export type AppConfig = {
-  id: string
-  login: {
-    path: string
-    fields: {
-      // Identifiers for each login form field
-      username: string
-      password: string
-      submitButton: string
-    }
-  }
-  root: string
   errors: {
     content: string[]
     featureId: string
   }
+  login: {
+    fields?: {
+      // Identifiers for each login form field
+      username?: string
+      password?: string
+      submitButton?: string
+    }
+    path: string
+  }
+  name: string
+  root: string
   viewports?: Array<{
     height: number
     width: number
   }>
   mainContentElement?: string
-} | null
+}
 
 export type FeatureInfo = {
-  name: string
   id: string
+  name: string
+}
+
+export type User = {
+  username: string
+  password: string
+  params?: {
+    [key: string]: string | number
+  }
 }
 
 export type FeatureConfig = {
-  name: string
-  id: string
+  account?: User
   paths: string[]
-}
+} & FeatureInfo
 
 export type RoutesConfig = {
   params: any // this will vary by project
   features: FeatureConfig[]
-} | null
+}
 
 export type FeatureAuditSummary = {
   completedAudits: number
@@ -72,12 +79,6 @@ export type Route = {
   feature: string
   id: string
   paths: string[]
-}
-
-export type User = {
-  email: string
-  password: string
-  [param_key: string]: string
 }
 
 export type Impact = 'critical' | 'serious' | 'moderate' | 'minor'

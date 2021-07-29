@@ -9,10 +9,12 @@ import { NavItemT } from '../_types'
 import Logo from '../images/Logo.svg'
 
 type PropsT = {
+  appName: string
   navigation: NavItemT[]
 }
 
 const Header = ({
+  appName,
   navigation,
 }: PropsT) => (
   <Box
@@ -26,6 +28,9 @@ const Header = ({
     }}
   >
     <img src={Logo} width="200" alt="Lumberjack" />
+
+    <div>Dashboard for: {appName}</div>
+
     <div role="navigation" className="navigation">
 
       <ul>

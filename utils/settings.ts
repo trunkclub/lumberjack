@@ -1,6 +1,8 @@
 import fs from 'fs'
 
-import { APP_CONFIG, AUDIT_FOLDER, ROUTE_CONFIG } from './_constants'
+import config from '../.ljconfig'
+
+import { AUDIT_FOLDER } from './_constants'
 import { RouteReport, User } from './_types'
 
 /**
@@ -9,54 +11,35 @@ import { RouteReport, User } from './_types'
  * @returns {boolean} Returns true if minimum config values are set
  */
 export const isMissingRequiredConfig = (): boolean => {
-  if (!APP_CONFIG.id) {
+  if (!config.app?.id) {
     // error
     console.log(
-      'An application id needs to be provided. Please check your config/app.json file.\n'
+      'An application id needs to be provided. Please check your .ljconfig.js file.\n'
     )
     return true
   }
 
-  if (!APP_CONFIG.root) {
+  if (!config.app?.root) {
     // error
     console.log(
-      'An application root needs to be provided. Please check your config/app.json file.\n'
+      'An application root needs to be provided. Please check your .ljconfig.js file.\n'
     )
     return true
   }
 
   if (
-    !ROUTE_CONFIG.features ||
-    ROUTE_CONFIG.features.length === 0 ||
-    (ROUTE_CONFIG.features[0] && !ROUTE_CONFIG.features[0].paths)
+    !config.features ||
+    config.features.length === 0 ||
+    (config.features[0] && !config.features[0].paths)
   ) {
     // error
     console.log(
-      'Features and routes need to be provided. Please check your config/routes.json file.\n'
+      'Features and paths need to be provided. Please check your .ljconfig.js file.\n'
     )
     return true
   }
 
   return false
-}
-
-// Check current audit settings
-
-// Fetch all users
-export const getUsers = async (): Promise<User[]> => {
-  const userConfigDirectory = './config/users'
-  const filenames = await fs.readdirSync(`${userConfigDirectory}/`)
-  const users: User[] = []
-
-  // fetch all json files
-  for (const file of filenames) {
-    const userData = fs.readFileSync(`${userConfigDirectory}/${file}`, 'utf-8')
-
-    const user: User = JSON.parse(userData)
-    users.push(user)
-  }
-
-  return users
 }
 
 /**
