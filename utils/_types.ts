@@ -3,7 +3,6 @@ export type AppConfig = {
     content: string[]
     featureId: string
   }
-  id: string
   login: {
     fields?: {
       // Identifiers for each login form field
@@ -13,6 +12,7 @@ export type AppConfig = {
     }
     path: string
   }
+  name: string
   root: string
   viewports?: Array<{
     height: number

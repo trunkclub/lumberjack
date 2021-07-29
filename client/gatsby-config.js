@@ -1,6 +1,9 @@
+const config = require('../.ljconfig.js');
+
 module.exports = {
   siteMetadata: {
-    title: 'Lumberjack',
+    appName: config.app.name,
+    title: `Lumberjack | ${config.app.name}`,
     description: 'Accessibility violation reports client',
     author: ''
   },

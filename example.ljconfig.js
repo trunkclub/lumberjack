@@ -9,7 +9,7 @@ module.exports = {
     }
   },
   app: {
-    id: 'my-app',
+    name: 'My App',
     login: {
       path: '/login',
       fields: {
