@@ -1,5 +1,7 @@
 import inquirer, { QuestionCollection } from 'inquirer'
-import { ROUTE_CONFIG } from './_constants'
+
+import config from '../.ljconfig'
+
 import { FeatureConfig } from './_types'
 
 import { Audits } from './audits'
@@ -28,8 +30,6 @@ const runAudit = (): void => {
     ],
   }
 
-  const routes = ROUTE_CONFIG
-
   inquirer
     .prompt([
       {
@@ -47,7 +47,7 @@ const runAudit = (): void => {
     ])
     .then(({ check }) => {
       if (check === 'one') {
-        const featureList = routes.features.map((feature: FeatureConfig) => {
+        const featureList = config.features.map((feature: FeatureConfig) => {
           return {
             name: feature.name,
             value: [feature],
@@ -69,7 +69,7 @@ const runAudit = (): void => {
     })
     .then(answers => {
       if (!answers.features) {
-        answers.features = routes.features
+        answers.features = config.features
       }
 
       const notHeadless = !!answers.settings.includes('not-headless')

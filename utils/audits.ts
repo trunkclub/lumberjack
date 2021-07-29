@@ -6,7 +6,9 @@ import fs from 'fs'
 
 import { AxePuppeteer } from '@axe-core/puppeteer'
 
-import { APP_CONFIG, AUDIT_FOLDER, REPORT_ID, ROUTE_CONFIG } from './_constants'
+import config from '../.ljconfig'
+
+import { AUDIT_FOLDER, REPORT_ID } from './_constants'
 import {
   FeatureAuditSummary,
   AuditResultsSummary,
@@ -18,7 +20,6 @@ import {
 
 import { Reports } from './reports'
 import { Violations } from './Violations'
-import { getUsers } from './settings'
 
 const ReportUtils = new Reports()
 const ViolationUtils = new Violations()
@@ -44,20 +45,20 @@ export class Audits {
     console.log('Redirected to login screen. Logging in...')
 
     try {
-      await page.click(APP_CONFIG.login.fields.username)
-      await page.keyboard.type(user.email)
+      await page.click(config.app.login.fields.username)
+      await page.keyboard.type(user.username)
 
-      await page.click(APP_CONFIG.login.fields.password)
+      await page.click(config.app.login.fields.password)
       await page.keyboard.type(user.password)
 
       
-      await page.click(APP_CONFIG.login.fields.submitButton),
+      await page.click(config.app.login.fields.submitButton),
       await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 })
 
       return Promise.resolve()
     } catch (error) {
       console.log('Unable to login. To troubleshoot:')
-      console.log(`- check the config for ${user.email} or`)
+      console.log(`- check the config for ${user.username} or`)
       console.log('- run Lumberjack with headless mode turned off')
       process.exit()
     }
@@ -97,10 +98,10 @@ export class Audits {
     page: Page,
     currentPath: string
   ): Promise<boolean> => {
-    const { errors, mainContentElement = 'main' } = APP_CONFIG
+    const { errors, mainContentElement = 'body' } = config.app
     const { featureId, content:errorContent } = errors
 
-    const is404 = ROUTE_CONFIG.features.some((feature: FeatureConfig) => {
+    const is404 = config.features.some((feature: FeatureConfig) => {
       return feature.id === featureId && feature.paths.includes(currentPath)
     })
 
@@ -139,7 +140,7 @@ export class Audits {
     page: Page,
     user: User
   ): Promise<void> => {
-    const destinationUrl = APP_CONFIG.root + currentPath
+    const destinationUrl = config.app.root + currentPath
 
     await page
       .goto(destinationUrl, { waitUntil: 'networkidle2' })
@@ -149,8 +150,8 @@ export class Audits {
         throw error
       })
 
-    const isAtLogin = page.url().includes(APP_CONFIG.login.path)
-    const isScanningLoginPath = currentPath === APP_CONFIG.login.path
+    const isAtLogin = page.url().includes(config.app.login.path)
+    const isScanningLoginPath = currentPath === config.app.login.path
 
     if (isAtLogin && !isScanningLoginPath) {
       await this.userLogin(page, user)
@@ -209,7 +210,7 @@ export class Audits {
 
     if (contentValid) {
 
-      // @ts-ignore: FIXME: Likely type not getting not coming in from package
+      // @ts-ignore: FIXME: Likely type not coming in from package
       await scrollPageToBottom(
         page,
         800, // amount scrolled at a time in px
@@ -281,24 +282,20 @@ export class Audits {
    * @param {string} path Current path
    * @returns {string} Current path with param values in place
    */
-  public pathWithParamsAdded = (path: string, user: Partial<User>): string | 'invalidPath' => {
+  public pathWithParamsAdded = (path: string, user: User): string | null => {
     const paramRegex = /(?<=:)([a-zA-Z0-9_\-]+)/g
     const paramsInPath = path.match(paramRegex)
     let newPath = path
 
     paramsInPath.forEach(param => {
 
-      if (newPath != 'invalidPath') {
-        if (user[param]) {
-          newPath = newPath.replace(`:${param}`, user[param])
-        } else if (ROUTE_CONFIG.params[param]) {
-          newPath = newPath.replace(`:${param}`, ROUTE_CONFIG.params[param])
-        } else {
-          // if there's no match in config data for this param,
-          // set newPath to 'invalidPath' and return it so this
-          // path will be skipped.
-          newPath = 'invalidPath'
-        }
+      if (user.params?.[param]) {
+        newPath = newPath.replace(`:${param}`, String(user.params[param]))
+      } else {
+        // if there's no match in config data for this param,
+        // set newPath to 'invalidPath' and return it so this
+        // path will be skipped.
+        newPath = 'invalidPath'
       }
     })
     return newPath
@@ -310,7 +307,6 @@ export class Audits {
    * @function
    * @param {string} reportId Report ID
    * @param {Feature} feature Config data for this route or feature
-   * @param {User[]} users All user data
    * @param {boolean} [headless=true] Should tests run in headless mode?
    * @param {boolean} [screenshot=false] Should screenshots be taken?
    * @returns {AuditResultsSummary} Full audit summary
@@ -318,7 +314,6 @@ export class Audits {
   public auditFeature = async (
     reportId: string,
     feature: FeatureConfig,
-    users: User[],
     headless = true,
     screenshot = false
   ): Promise<AuditResultsSummary> => {
@@ -333,8 +328,10 @@ export class Audits {
       results: [],
     }
 
-    for (const user of users) {
-      const userId = user.email
+    const user = feature.account ?? config.accounts.default
+
+    if (user) {
+
       const auditSummary: FeatureAuditSummary = {
         completedAudits: 0,
         totalAudits: 0,
@@ -343,7 +340,7 @@ export class Audits {
         routesNotValidated: [],
       }
 
-      console.group(`\n Auditing as user ${userId}...`)
+      console.group(`\n Auditing as user ${user.username}...`)
 
       const featureInfo = {
         name: feature.name,
@@ -360,7 +357,7 @@ export class Audits {
       for (const path of feature.paths) {
         const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, user) : path
 
-        if (auditPath !== 'invalidPath') {
+        if (auditPath) {
           try {
             const auditStatus = await this.runAxeOnPath(
               page,
@@ -412,7 +409,6 @@ export class Audits {
   ): Promise<void> => {
     const summary = []
     const reportId = REPORT_ID
-    const users = await getUsers()
 
     mkdirp(`${AUDIT_FOLDER}/route-reports`)
     if (takeScreenshots) {
@@ -420,11 +416,11 @@ export class Audits {
     }
 
     for (const feature of features) {
+
       try {
         const auditSummary = await this.auditFeature(
           reportId,
           feature,
-          users,
           headless,
           takeScreenshots
         )
