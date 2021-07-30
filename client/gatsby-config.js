@@ -21,6 +21,7 @@ module.exports = {
       options: {
         name: 'audits',
         path: '../audit-data/',
+        ignore: [`**/route-reports/*`]
       },
     },
     {
