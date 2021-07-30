@@ -461,20 +461,17 @@ export class Audits {
 
     // success
     console.log('\n Success! ')
-
-    console.log(
-      ` Completed audits on ${validatedRoutes.length +
-        notValidatedRoutes.length} routes. ${totalViolationsForAllFeatures} violations found.`
-    )
-
-    mkdirp(`${AUDIT_FOLDER}/summaries`)
+    console.log(` Generating summary file...\n`)
 
     const routeSummary = await ViolationUtils.getRouteData(reportId)
     const featureSummary = await ViolationUtils.getFeatureSummariesByReportId(reportId)
+    const summaryFilePath = `${AUDIT_FOLDER}/summaries/${reportId}.json`
+
+    await mkdirp(`${AUDIT_FOLDER}/summaries`)
 
     try {
-      fs.writeFileSync(
-        `${AUDIT_FOLDER}/summaries/${reportId}.json`,
+      await fs.writeFileSync(
+        summaryFilePath,
         JSON.stringify({
           reportId,
           totalViolationsForAllFeatures,
