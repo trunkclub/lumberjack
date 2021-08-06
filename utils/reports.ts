@@ -101,7 +101,9 @@ export class Reports {
       )
 
       combinedData = combinedData.concat(filteredData)
-    } catch (error) {}
+    } catch (error) {
+      // just catch the error for now
+    }
 
     combinedData.push(thisReportData)
 
