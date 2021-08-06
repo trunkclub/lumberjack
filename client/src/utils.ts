@@ -1,4 +1,3 @@
-import { ViolationT } from './_types' 
 
 export const getReportDate = (date: string): string => {
   const explodedId = date.split('')
@@ -20,4 +19,4 @@ export const getPluralContent = (numberToCheck: number): PluralContentT => {
     verb: numberToCheck > 1 ? 'are' : 'is',
     makePlural: numberToCheck > 1 ? 's' : null,
   }
-} 
+}

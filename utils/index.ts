@@ -2,7 +2,7 @@ import inquirer, { QuestionCollection } from 'inquirer'
 
 import config from '../.ljconfig'
 
-import { FeatureConfig } from './_types'
+import { FeatureConfig } from '../lumberjack.types'
 
 import { Audits } from './audits'
 import { Reports } from './reports'

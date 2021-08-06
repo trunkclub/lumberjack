@@ -3,7 +3,7 @@ import fs from 'fs'
 import config from '../.ljconfig'
 
 import { AUDIT_FOLDER } from './_constants'
-import { RouteReport, User } from './_types'
+import { RouteReport } from '../lumberjack.types'
 
 /**
  * Verify minimum config is available
@@ -11,10 +11,10 @@ import { RouteReport, User } from './_types'
  * @returns {boolean} Returns true if minimum config values are set
  */
 export const isMissingRequiredConfig = (): boolean => {
-  if (!config.app?.id) {
+  if (!config.app?.name) {
     // error
     console.log(
-      'An application id needs to be provided. Please check your .ljconfig.js file.\n'
+      'An application name needs to be provided. Please check your .ljconfig.js file.\n'
     )
     return true
   }

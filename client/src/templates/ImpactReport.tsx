@@ -6,20 +6,19 @@ import RuleSummaryTable from '../components/RuleSummaryTable'
 import SEO from '../components/SEO'
 import ViolationSummaryBlock from '../components/ViolationSummaryBlock'
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
-import { ImpactReportPayloadT } from '../_types'
+import { ImpactReportPayload } from '../../../lumberjack.types'
 import { getReportDate } from '../utils'
 
 type PropsT = {
-  pageContext: ImpactReportPayloadT
+  pageContext: ImpactReportPayload
 }
 
-const ImpactReport = ({ pageContext }: PropsT) => {
-
-  const location = useLocation();
+const ImpactReport = ({ pageContext }: PropsT): React.ReactElement => {
+  const location = useLocation()
 
   React.useEffect(() => {
     if (!location.hash) {
-      window.scrollTo(0,0)
+      window.scrollTo(0, 0)
     }
   }, [pageContext, location])
 
@@ -88,11 +87,13 @@ const ImpactReport = ({ pageContext }: PropsT) => {
           </Box>
         </Box>
         <Box>
-          {pageContext.data.length === 0 ? (
+          {pageContext.data.length === 0
+            ? (
             <Text as="p" variant="bodyLarge">No violations at this impact level- well done!</Text>
-            ) : (
+              )
+            : (
             <RuleSummaryTable violations={pageContext.data} summary={pageContext.summary} />
-          )}
+              )}
         </Box>
       </Box>
 

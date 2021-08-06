@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Box, Flex, Heading } from '../../../../pattern-library'
 import { getPluralContent } from '../../../../utils'
-import { ViolationT } from '../../../../_types'
+import { UniqueViolation } from '../../../../../../lumberjack.types'
 
 import TicketContentCopier from '../../../TicketContentCopier'
 
@@ -11,7 +11,7 @@ type PropsT = {
     index: number
     instances: number
     uniqueRoutes: string[]
-    violation: ViolationT
+    violation: UniqueViolation
 }
 
 const ViolationCard = ({
@@ -20,13 +20,12 @@ const ViolationCard = ({
   instances,
   uniqueRoutes,
   violation,
-}: PropsT) => {
-
+}: PropsT): React.ReactElement => {
   const instancePluralContent = getPluralContent(instances)
 
   return (
     <Flex
-      key={`${violation.ruleId}-element-${index}`}
+      key={`${violation.id}-element-${index}`}
       justifyContent="space-between"
       flexDirection="column"
       p={2}
@@ -37,7 +36,7 @@ const ViolationCard = ({
       }}
     >
       <Box>
-        <Heading variant="body" as="h5"><b>Element {index+1}:</b> {instances} instance{instancePluralContent.makePlural}</Heading>
+        <Heading variant="body" as="h5"><b>Element {index + 1}:</b> {instances} instance{instancePluralContent.makePlural}</Heading>
         <Box
           as="pre"
           mt={1}
@@ -48,7 +47,7 @@ const ViolationCard = ({
         <Heading variant="body" as="h6" mt={2}>Routes this element is on:</Heading>
         <ul>
           {uniqueRoutes.map((route, routeIndex) => (
-            <li key={`${violation.ruleId}-${index}-route-${routeIndex}`}>{`${route}`}</li>
+            <li key={`${violation.id}-${index}-route-${routeIndex}`}>{`${route}`}</li>
           ))}
         </ul>
       </Box>

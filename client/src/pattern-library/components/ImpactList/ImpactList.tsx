@@ -10,7 +10,7 @@ type ImpactListItemT = {
   isCritical: boolean
 }
 
-export const ImpactListItem = ({ children, isCritical }: ImpactListItemT) => {
+export const ImpactListItem = ({ children, isCritical }: ImpactListItemT): React.ReactElement => {
   return (
     <Box
       as="li"
@@ -27,7 +27,7 @@ export const ImpactListItem = ({ children, isCritical }: ImpactListItemT) => {
           position: 'absolute',
           top: '0.25rem',
           width: '2rem',
-        }
+        },
       }}
     >
       {children}
@@ -39,7 +39,7 @@ type ImpactListT = {
   children: React.ReactNode
 }
 
-const ImpactList = ({ children }: ImpactListT) => {
+const ImpactList = ({ children }: ImpactListT): React.ReactElement => {
   return (
     <Box
       as="ul"
@@ -55,4 +55,4 @@ const ImpactList = ({ children }: ImpactListT) => {
   )
 }
 
-export default ImpactList;
+export default ImpactList

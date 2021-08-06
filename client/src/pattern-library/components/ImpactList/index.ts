@@ -1,1 +1,1 @@
-export { default as ImpactList, ImpactListItem } from './ImpactList';
+export { default as ImpactList, ImpactListItem } from './ImpactList'

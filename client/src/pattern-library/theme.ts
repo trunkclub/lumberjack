@@ -24,14 +24,14 @@ const roleColors = {
   trends: {
     positive: '#357935',
     negative: colors.red,
-  }
+  },
 }
 
 const fontSizes = [
   '1rem', // 16px
-  '1.125rem', //18px
+  '1.125rem', // 18px
   '1.3rem',
-  '1.625rem', //32px
+  '1.625rem', // 32px
   '2.25rem',
 ]
 const fontStack = 'Cairo, Helvetica, Arial, sans-serif'
@@ -91,7 +91,7 @@ const theme = {
     bold: 700,
   },
   headings: {},
-  space: [ '0', '0.5rem', '1.5rem', '3rem', '4rem', ],
+  space: ['0', '0.5rem', '1.5rem', '3rem', '4rem'],
   text: typography,
   variants: {
     link: {
@@ -123,9 +123,9 @@ const theme = {
           position: 'absolute',
           left: 0,
           width: '1rem',
-        }
+        },
       },
-    }
+    },
   },
 }
 

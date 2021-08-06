@@ -1,15 +1,11 @@
-import { AppConfig, User } from './utils/_types'
+import { AccountConfig, AppConfig, FeatureConfig } from './lumberjack.types'
 
 declare const config: {
   accounts: {
-    default: User
+    default: AccountConfig
   }
   app: AppConfig
-  features: Array<{
-    name: string
-    id: string
-    paths: string[]
-  }>
+  features: FeatureConfig[]
   params?: {
     [key: string]: string | number
   }

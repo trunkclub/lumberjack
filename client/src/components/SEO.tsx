@@ -17,12 +17,12 @@ type PropsT = {
   title: string
 }
 
-function SEO({
+function SEO ({
   description = '',
   lang = 'en',
   meta = [],
-  title
-}: PropsT) {
+  title,
+}: PropsT): React.ReactElement {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -48,7 +48,7 @@ function SEO({
       titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
         {
-          name: `description`,
+          name: 'description',
           content: metaDescription,
         },
       ].concat(meta)}
@@ -57,9 +57,9 @@ function SEO({
 }
 
 SEO.defaultProps = {
-  lang: `en`,
+  lang: 'en',
   meta: [],
-  description: ``,
+  description: '',
 }
 
 SEO.propTypes = {

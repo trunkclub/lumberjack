@@ -1,22 +1,21 @@
+import { AxeResults, Result } from 'axe-core'
+import { AxePuppeteer } from '@axe-core/puppeteer'
+import fs from 'fs'
 import mkdirp from 'mkdirp'
 import puppeteer, { Page } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
 
-import fs from 'fs'
-
-import { AxePuppeteer } from '@axe-core/puppeteer'
-
 import config from '../.ljconfig'
-
-import { AUDIT_FOLDER, REPORT_ID } from './_constants'
 import {
-  FeatureAuditSummary,
+  AccountConfig,
   AuditResultsSummary,
+  FeatureAuditSummary,
   FeatureConfig,
   FeatureInfo,
-  RouteAuditSummary,
-  User
-} from './_types'
+  RouteAuditSummary
+} from '../lumberjack.types'
+
+import { AUDIT_FOLDER, REPORT_ID } from './_constants'
 
 import { Reports } from './reports'
 import { Violations } from './Violations'
@@ -38,27 +37,26 @@ export class Audits {
    * 
    * @function
    * @param  {Page} page Puppeteer page
-   * @param  {User} user Current user data
+   * @param  {AccountConfig} user Current user data
    * @returns {Promise<void>}
    */
-  public userLogin = async (page: Page, user: User): Promise<void> => {
+  public userLogin = async (page: Page, account: AccountConfig): Promise<void> => {
     console.log('Redirected to login screen. Logging in...')
 
     try {
       await page.click(config.app.login.fields.username)
-      await page.keyboard.type(user.username)
+      await page.keyboard.type(account.username)
 
       await page.click(config.app.login.fields.password)
-      await page.keyboard.type(user.password)
+      await page.keyboard.type(account.password)
 
-      
-      await page.click(config.app.login.fields.submitButton),
+      await page.click(config.app.login.fields.submitButton)
       await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 })
 
       return Promise.resolve()
     } catch (error) {
       console.log('Unable to login. To troubleshoot:')
-      console.log(`- check the config for ${user.username} or`)
+      console.log(`- check the config for ${account.username} or`)
       console.log('- run Lumberjack with headless mode turned off')
       process.exit()
     }
@@ -99,7 +97,7 @@ export class Audits {
     currentPath: string
   ): Promise<boolean> => {
     const { errors, mainContentElement = 'body' } = config.app
-    const { featureId, content:errorContent } = errors
+    const { featureId, content: errorContent } = errors
 
     const is404 = config.features.some((feature: FeatureConfig) => {
       return feature.id === featureId && feature.paths.includes(currentPath)
@@ -117,7 +115,7 @@ export class Audits {
       await page.waitFor(2000)
     }
 
-    const hasErrorContent = errorContent.some((error) => pageContent.includes(error))
+    const hasErrorContent = errorContent.some((error: string) => pageContent.includes(error))
 
     if (hasErrorContent) {
       console.log('Error content found; This route will be skipped.')
@@ -138,7 +136,7 @@ export class Audits {
   public loadUrl = async (
     currentPath: string,
     page: Page,
-    user: User
+    account: AccountConfig
   ): Promise<void> => {
     const destinationUrl = config.app.root + currentPath
 
@@ -154,7 +152,7 @@ export class Audits {
     const isScanningLoginPath = currentPath === config.app.login.path
 
     if (isAtLogin && !isScanningLoginPath) {
-      await this.userLogin(page, user)
+      await this.userLogin(page, account)
     }
 
     if (page.url() !== destinationUrl) {
@@ -180,10 +178,9 @@ export class Audits {
   public runAxeOnPath = async (
     page: Page,
     currentPath: string,
-    user: User,
+    account: AccountConfig,
     featureInfo: FeatureInfo,
     reportId: string,
-    headless = true,
     takeScreenshots = false
   ): Promise<RouteAuditSummary> => {
     let completedAudit = false
@@ -192,7 +189,7 @@ export class Audits {
     console.group(`\n Auditing ${currentPath}...`)
 
     try {
-      await this.loadUrl(currentPath, page, user)
+      await this.loadUrl(currentPath, page, account)
     } catch (error) {
       // error
       console.log('Problem loading route.\n')
@@ -209,7 +206,6 @@ export class Audits {
     const contentValid = await this.hasValidContent(page, currentPath)
 
     if (contentValid) {
-
       // @ts-ignore: FIXME: Likely type not coming in from package
       await scrollPageToBottom(
         page,
@@ -217,18 +213,18 @@ export class Audits {
         20 // delay between scrolls in ms
       )
 
-      let violations: any = []
+      let violations: Result[] = []
 
       if (takeScreenshots) {
         console.log('Taking screenshots...')
         const fileName = ReportUtils.formatRouteToId(currentPath)
 
-        await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
+        await page.screenshot({ path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true })
       }
 
       await new AxePuppeteer(page)
         .analyze()
-        .then(async (results: any) => {
+        .then(async (results: AxeResults) => {
           if (results.violations && results.violations.length) {
             numberOfViolations = results.violations.length
 
@@ -282,15 +278,14 @@ export class Audits {
    * @param {string} path Current path
    * @returns {string} Current path with param values in place
    */
-  public pathWithParamsAdded = (path: string, user: User): string | null => {
-    const paramRegex = /(?<=:)([a-zA-Z0-9_\-]+)/g
+  public pathWithParamsAdded = (path: string, account: AccountConfig): string | null => {
+    const paramRegex = /(?<=:)([a-zA-Z0-9_-]+)/g
     const paramsInPath = path.match(paramRegex)
     let newPath = path
 
     paramsInPath.forEach(param => {
-
-      if (user.params?.[param]) {
-        newPath = newPath.replace(`:${param}`, String(user.params[param]))
+      if (account.params?.[param]) {
+        newPath = newPath.replace(`:${param}`, String(account.params[param]))
       } else {
         // if there's no match in config data for this param,
         // set newPath to 'invalidPath' and return it so this
@@ -328,10 +323,9 @@ export class Audits {
       results: [],
     }
 
-    const user = feature.account ?? config.accounts.default
+    const account = feature.account ?? config.accounts.default
 
-    if (user) {
-
+    if (account) {
       const auditSummary: FeatureAuditSummary = {
         completedAudits: 0,
         totalAudits: 0,
@@ -340,7 +334,7 @@ export class Audits {
         routesNotValidated: [],
       }
 
-      console.group(`\n Auditing as user ${user.username}...`)
+      console.group(`\n Auditing as user ${account.username}...`)
 
       const featureInfo = {
         name: feature.name,
@@ -355,17 +349,16 @@ export class Audits {
       await page.setBypassCSP(true)
 
       for (const path of feature.paths) {
-        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, user) : path
+        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, account) : path
 
         if (auditPath) {
           try {
             const auditStatus = await this.runAxeOnPath(
               page,
               auditPath,
-              user,
+              account,
               featureInfo,
               reportId,
-              headless,
               screenshot
             )
 
@@ -416,7 +409,6 @@ export class Audits {
     }
 
     for (const feature of features) {
-
       try {
         const auditSummary = await this.auditFeature(
           reportId,
@@ -461,20 +453,17 @@ export class Audits {
 
     // success
     console.log('\n Success! ')
-
-    console.log(
-      ` Completed audits on ${validatedRoutes.length +
-        notValidatedRoutes.length} routes. ${totalViolationsForAllFeatures} violations found.`
-    )
-
-    mkdirp(`${AUDIT_FOLDER}/summaries`)
+    console.log(' Generating summary file...\n')
 
     const routeSummary = await ViolationUtils.getRouteData(reportId)
     const featureSummary = await ViolationUtils.getFeatureSummariesByReportId(reportId)
+    const summaryFilePath = `${AUDIT_FOLDER}/summaries/${reportId}.json`
+
+    await mkdirp(`${AUDIT_FOLDER}/summaries`)
 
     try {
-      fs.writeFileSync(
-        `${AUDIT_FOLDER}/summaries/${reportId}.json`,
+      await fs.writeFileSync(
+        summaryFilePath,
         JSON.stringify({
           reportId,
           totalViolationsForAllFeatures,

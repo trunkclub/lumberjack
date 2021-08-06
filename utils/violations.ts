@@ -1,16 +1,17 @@
 import fs from 'fs'
 
+import { ImpactValue } from 'axe-core'
+
 import { AUDIT_FOLDER } from './_constants'
 import {
   FeatureViolationSummaryReport,
-  Impact,
   RouteReport,
   RouteViolationSummaryReport,
   UniqueViolation,
-  ViolationNode,
+  UniqueViolationNode,
   ViolationOverview,
   ViolationTally
-} from './_types'
+} from '../lumberjack.types'
 
 const violationGenerator = function * (reportId: string): Generator<RouteReport, void, null> {
   // look in audit folder
@@ -43,11 +44,8 @@ export class Violations {
     for (const data of violationGenerator(reportId)) {
       if (data?.violations?.length >= 0) {
         for (const violation of data.violations) {
-          // Does this violation already exist in the uniqueViolations?
-          const ruleIdEntry = uniqueViolations.find(entry => entry.ruleId === violation.id)
-
           // Update each node with CSS scrubbed classes and route info
-          violation.nodes.forEach((node: ViolationNode) => {
+          violation.nodes.forEach((node: UniqueViolationNode) => {
             // If any `nth-child` elements are found, those
             // violations can be combined into one instance
             const regex = /nth-child.[0-9]*./g
@@ -55,22 +53,18 @@ export class Violations {
             node.routes = [data.route]
           })
 
-          if (ruleIdEntry) {
+          // Does this violation already exist in the uniqueViolations?
+          const ruleIdEntry = uniqueViolations.find(entry => entry.id === violation.id)
 
+          if (ruleIdEntry) {
             ruleIdEntry.routes.push(data.route)
 
             // Add all nodes to the entry for this rule ID
-            ruleIdEntry.instances = ruleIdEntry.instances.concat(violation.nodes)
+            ruleIdEntry.nodes = ruleIdEntry.nodes.concat(violation.nodes)
           } else {
             uniqueViolations.push({
-              description: violation.description,
-              helpUrl: violation.helpUrl,
-              impact: violation.impact,
-              instances: violation.nodes,
+              ...violation,
               routes: [data.route],
-              ruleId: violation.id,
-              summary: violation.help,
-              tags: violation.tags,
             })
           }
         }
@@ -84,11 +78,11 @@ export class Violations {
   public getSortedViolationData = async (reportId: string): Promise<ViolationOverview> => {
     const uniqueViolations = await this.getUniqueViolationData(reportId)
 
-    const getIdsByImpact = (impact: Impact): string[] => {
+    const getIdsByImpact = (impact: ImpactValue): string[] => {
       const ids: string[] = []
       uniqueViolations.forEach(violation => {
         if (violation.impact === impact) {
-          ids.push(violation.ruleId)
+          ids.push(violation.id)
         }
       })
 
@@ -97,7 +91,7 @@ export class Violations {
 
     const violationData: ViolationOverview = {
       ids: {
-        all: uniqueViolations.map(violation => violation.ruleId),
+        all: uniqueViolations.map(violation => violation.id),
         byImpact: {
           minor: getIdsByImpact('minor'),
           moderate: getIdsByImpact('moderate'),
@@ -119,12 +113,12 @@ export class Violations {
     return violationData
   }
 
-  public countViolationsByInstance = (violations: UniqueViolation[], impact: Impact): number => {
+  public countViolationsByInstance = (violations: UniqueViolation[], impact: ImpactValue): number => {
     const violationsForImpactLevel = violations.filter(violation => violation.impact === impact)
     let numberOfInstances = 0
 
     violationsForImpactLevel.forEach(violation => {
-      numberOfInstances += violation.instances.length
+      numberOfInstances += violation.nodes.length
     })
 
     return numberOfInstances
@@ -164,8 +158,8 @@ export class Violations {
    * @returns {RouteViolationSummaryReport}
    */
   public getRouteData = (reportId: string): RouteViolationSummaryReport => {
-    let routesWithoutViolations = []
-    let routesWithViolations = []
+    const routesWithoutViolations = []
+    const routesWithViolations = []
     for (const data of violationGenerator(reportId)) {
       if (data?.route?.path) {
         if (data?.violations?.length) {
@@ -194,72 +188,68 @@ export class Violations {
  * @returns {FeatureViolationSummaryReport}
  */
 public getFeatureSummariesByReportId = (reportId: string): FeatureViolationSummaryReport => {
+  const summary: FeatureViolationSummaryReport = {
+    reportId: reportId,
+    features: [],
+  }
 
-    const summary: FeatureViolationSummaryReport = {
-      reportId: reportId,
-      features: [],
-    }
+  for (const data of violationGenerator(reportId)) {
+    if (data) {
+      const featureIndex = summary.features.findIndex((feature) => {
+        return feature.id === data.featureInfo?.id
+      })
 
-    for (const data of violationGenerator(reportId)) {
-
-      if (data) {
-
-        const featureIndex = summary.features.findIndex((feature) => {
-          return feature.id === data.featureInfo?.id
+      if (featureIndex >= 0) {
+        summary.features[featureIndex].details.push({
+          needsManualCheck: data.needsManualCheck,
+          route: data.route,
+          violations: data.violations,
         })
-
-        if (featureIndex >= 0) {
-          summary.features[featureIndex].details.push({
+      } else {
+        summary.features.push({
+          id: data.featureInfo.id,
+          name: data.featureInfo.name,
+          details: [{
             needsManualCheck: data.needsManualCheck,
             route: data.route,
             violations: data.violations,
-          })
-        } else {
-          summary.features.push({
-            id: data.featureInfo.id,
-            name: data.featureInfo.name,
-            details: [{
-              needsManualCheck: data.needsManualCheck,
-              route: data.route,
-              violations: data.violations,
-            }],
-            tally: {
-              byImpact: {
-                critical: 0,
-                minor: 0,
-                moderate: 0,
-                serious: 0,
-              },
-            }
-          })
-        }
+          }],
+          tally: {
+            byImpact: {
+              critical: 0,
+              minor: 0,
+              moderate: 0,
+              serious: 0,
+            },
+          },
+        })
       }
     }
+  }
 
-    const featuresWithTally = summary.features.map(feature => {
-
-      let tally
-      feature.details.forEach(detail => {
-        tally = {
-          byImpact: {
-            minor: +detail.violations.filter(violation => violation.impact === 'minor').length,
-            moderate: +detail.violations.filter(violation => violation.impact === 'moderate').length,
-            serious: +detail.violations.filter(violation => violation.impact === 'serious').length,
-            critical: +detail.violations.filter(violation => violation.impact === 'critical').length,
-          },
-        }
-      })
-
-      feature.tally = tally
-
-      return feature
+  const featuresWithTally = summary.features.map(feature => {
+    let tally
+    feature.details.forEach(detail => {
+      tally = {
+        byImpact: {
+          minor: +detail.violations.filter(violation => violation.impact === 'minor').length,
+          moderate: +detail.violations.filter(violation => violation.impact === 'moderate').length,
+          serious: +detail.violations.filter(violation => violation.impact === 'serious').length,
+          critical: +detail.violations.filter(violation => violation.impact === 'critical').length,
+        },
+      }
     })
 
-    summary.features = featuresWithTally
+    feature.tally = tally
 
-    return {
-      reportId: reportId,
-      features: featuresWithTally
-    }
+    return feature
+  })
+
+  summary.features = featuresWithTally
+
+  return {
+    reportId: reportId,
+    features: featuresWithTally,
   }
+}
 }

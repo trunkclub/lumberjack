@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import { ThemeProvider as RebassThemeProvider } from 'emotion-theming'
 import { createGlobalStyle } from 'styled-components'
 import theme from './theme'
@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const ThemeProvider = ({ children }) => (
+const ThemeProvider = ({ children }): React.ReactElement => (
   <RebassThemeProvider theme={theme}>
     <GlobalStyle />
     {children}

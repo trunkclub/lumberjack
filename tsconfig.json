@@ -12,13 +12,13 @@
     "paths": {
       "*": [
         "node_modules/*",
-        "client/types/*",
         "utils/*"
       ]
     }
   },
   "include": [
     "utils/**/*",
+    "node_modules/axe-core",
     "node_modules/@types/puppeteer/index.d.ts"
   ]
 }

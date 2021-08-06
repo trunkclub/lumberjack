@@ -8,6 +8,8 @@ const path = require(`path`)
 
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
+const generatedSchema = require(`./__generated__/schema`)
+
 const getImpactSummary = (violations) => {
 
   let impactSummary = {
@@ -48,78 +50,7 @@ const getImpactSummary = (violations) => {
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
-  const typeDefs = `
-
-    type SummariesJson implements Node {
-      reportId: String!
-      totalViolationsForAllFeature: Int!
-      routes: RoutesInfo
-    }
-
-    type RoutesInfo implements Node @dontInfer {
-      notValidated: [String]
-      validated: [String]
-      numberChecked: Int!
-      with: [String]
-      without: [String]
-    }
-
-    type UniqueViolationsJsonOverviewViolationsByImpactModerate implements Node {
-      instances: [InstancesInfo]
-    }
-
-    type UniqueViolationsJsonOverviewViolationsByImpactMinor implements Node {
-      instances: [InstancesInfo]
-    }
-
-    type UniqueViolationsJsonOverviewViolationsByImpactSerious implements Node {
-      instances: [InstancesInfo]
-    }
-
-    type UniqueViolationsJsonOverviewViolationsByImpactCritical implements Node {
-      instances: [InstancesInfo]
-    }
-
-    type InstancesInfo implements Node @dontInfer {
-      any: [FixInfoAny]
-      all: [FixInfoAll]
-      impact: String
-      html: String
-      target: [String]
-      failureSummary: String
-      routes: [RouteData]
-    }
-
-    type FixInfoAny implements Node @dontInfer {
-      id: String
-      data: FixData
-      relatedNodes: [RelatedNodes]
-      impact: String
-      message: String
-    }
-
-    type RelatedNodes implements Node @dontInfer {
-      html: String
-      target: [String]
-    }
-
-    type FixInfoAll implements Node @dontInfer {
-      id: String
-      impact: String
-      message: String
-    }
-
-    type FixData implements Node @dontInfer {
-      role: String
-      accessibleText: String
-    }
-
-    type RouteData implements Node @dontInfer {
-      id: String
-      path: String
-    }
-  `
-  createTypes(typeDefs)
+  createTypes(generatedSchema)
 }
 
 exports.createPages = async ({ graphql, actions }) => {
