@@ -10,13 +10,11 @@ import { useStaticQuery, graphql } from 'gatsby'
 
 import { Box, Flex } from '../pattern-library'
 
-import { NavItemT } from '../_types'
-
-import Header from './Header'
+import Header, { NavItem } from './Header'
 
 type PropsT = {
   children: React.ReactNode
-  navigation?: NavItemT[]
+  navigation?: NavItem[]
 }
 
 const Layout = ({ children }: PropsT) => {

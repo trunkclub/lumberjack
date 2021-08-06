@@ -24,8 +24,8 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
 
   return (
     <Box
-      key={violation.ruleId}
-      id={violation.ruleId}
+      key={violation.id}
+      id={violation.id}
       mb={3}
       p={2}
       sx={{
@@ -48,7 +48,7 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
       </Box>
 
       <TabbedContent
-        uniqueId={violation.ruleId}
+        uniqueId={violation.id}
         details={
           <>
             <Heading variant="bodyLarge" as="h4" my={0}>
@@ -64,11 +64,11 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
             </Box>
             <ViolationFixes
               fixData={{
-                all: violation.instances[0].all,
-                any: violation.instances[0].any,
+                all: violation.nodes[0].all,
+                any: violation.nodes[0].any,
               }}
               helpUrl={violation.helpUrl}
-              ruleId={violation.ruleId}
+              ruleId={violation.id}
             />
           </>
         }
@@ -95,7 +95,7 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
 
               return (
                 <ViolationCard
-                  key={`${violation.ruleId}-${index}`}
+                  key={`${violation.id}-${index}`}
                   element={element}
                   index={index}
                   instances={instancesOfElement}

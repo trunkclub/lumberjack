@@ -6,11 +6,11 @@ import RuleSummaryTable from '../components/RuleSummaryTable'
 import SEO from '../components/SEO'
 import ViolationSummaryBlock from '../components/ViolationSummaryBlock'
 import { Box, Divider, Flex, Heading, Text } from '../pattern-library'
-import { ImpactReportPayloadT } from '../_types'
+import { ImpactReportPayload } from '../../../lumberjack.types'
 import { getReportDate } from '../utils'
 
 type PropsT = {
-  pageContext: ImpactReportPayloadT
+  pageContext: ImpactReportPayload
 }
 
 const ImpactReport = ({ pageContext }: PropsT) => {

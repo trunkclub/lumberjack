@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { TallyReportT } from '../_types'
+import { TallyReport } from '../../../lumberjack.types'
 
 import { Box, Text } from '../pattern-library'
 
@@ -24,7 +24,7 @@ const calculateDifference = (thisWeekValue, lastWeekValue) => {
 }
 
 type PropsT = {
-  tallyData: TallyReportT[]
+  tallyData: TallyReport[]
 }
 
 const ReportSummaries = ({ tallyData }: PropsT) => {

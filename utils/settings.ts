@@ -3,7 +3,7 @@ import fs from 'fs'
 import config from '../.ljconfig'
 
 import { AUDIT_FOLDER } from './_constants'
-import { RouteReport, User } from './_types'
+import { RouteReport } from '../lumberjack.types'
 
 /**
  * Verify minimum config is available

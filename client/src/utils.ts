@@ -1,4 +1,3 @@
-import { ViolationT } from './_types' 
 
 export const getReportDate = (date: string): string => {
   const explodedId = date.split('')

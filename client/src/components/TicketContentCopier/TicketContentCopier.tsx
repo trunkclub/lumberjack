@@ -2,16 +2,13 @@ import React from 'react'
 
 import { Box, Button, Flex } from '../../pattern-library'
 
-import { ViolationT } from '../../_types'
-
-
-// import JiraElementInstance from './components/JiraElementInstance'
+import { UniqueViolation } from '../../../../lumberjack.types'
 
 type PropsT = {
   element: string
   instances: number
   routes: string[]
-  violation: ViolationT
+  violation: UniqueViolation
 }
 
 const TicketContentCopier = ({
@@ -85,7 +82,7 @@ const TicketContentCopier = ({
         <p> </p>
         <p>**Routes impacted:**</p>
         {routes.map((route, index) => (
-          <div key={`${violation.ruleId}-ticket-${index}`}>
+          <div key={`${violation.id}-ticket-${index}`}>
             - {route}
           </div>
         ))}

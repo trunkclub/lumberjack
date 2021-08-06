@@ -1,9 +1,15 @@
+import { Result } from 'axe-core'
+import dayjs from 'dayjs'
 import fs from 'fs'
 
-import dayjs from 'dayjs'
+import {
+  FeatureInfo,
+  ReportEntry,
+  ViolationReport,
+  ViolationTallyReport,
+} from '../lumberjack.types'
 
 import { AUDIT_FOLDER } from './_constants'
-import { FeatureInfo, ReportEntry, Violation, ViolationReport, ViolationTallyReport } from './_types'
 import { Violations } from './Violations'
 
 const ViolationUtilities = new Violations()
@@ -65,7 +71,7 @@ export class Reports {
    */
   public writeFeatureReport = async (
     path: string,
-    violations: Violation[],
+    violations: Result[],
     featureInfo: FeatureInfo,
     reportId: string,
     needsManualCheck = false

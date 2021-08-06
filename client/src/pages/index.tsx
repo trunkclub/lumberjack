@@ -8,33 +8,38 @@ import ReportSummaries from '../components/ReportSummaries'
 import SEO from '../components/SEO'
 import { Divider, Text } from '../pattern-library'
 
-import { ImpactTallyT, SummaryReportT, TallyChartDataT, TallyReportT } from '../_types'
+import {
+  ImpactTally,
+  SummaryReport,
+  TallyChartData,
+  TallyReport
+} from '../../../lumberjack.types'
 
 import { getReportDate } from '../utils'
 
 type PropsT = {
-  summaryData: SummaryReportT[]
-  tallyData: TallyReportT[]
+  summaryData: SummaryReport[]
+  tallyData: TallyReport[]
 }
 
 const IndexPage = ({ summaryData, tallyData }: PropsT) => {
 
   // TODO: Consolidate tallying functions with their BarCharts into dedicated components
 
-  const tallybyImpact: TallyChartDataT[] = tallyData.map((data) => {
+  const tallybyImpact: TallyChartData[] = tallyData.map((data) => {
     return {
       date: getReportDate(data.reportId),
       ...data.tally.byImpact,
     }
   }).reverse()
-  const tallyByTotalInstances: TallyChartDataT[] = tallyData.map((data) => {
+  const tallyByTotalInstances: TallyChartData[] = tallyData.map((data) => {
     return {
       date: getReportDate(data.reportId),
       ...data.tally.byInstance,
     }
   }).reverse()
 
-  const highestImpactPerRoute = (report: SummaryReportT): ImpactTallyT => {
+  const highestImpactPerRoute = (report: SummaryReport): ImpactTally => {
 
     const tally = {
       critical: 0,
@@ -78,7 +83,7 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
     return tally
   }
 
-  const allRoutesByMostImpactfulViolation: TallyChartDataT[] = summaryData.map(data => {
+  const allRoutesByMostImpactfulViolation: TallyChartData[] = summaryData.map(data => {
     return {
       date: getReportDate(data.reportId),
       none: data.routes.without.length,

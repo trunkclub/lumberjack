@@ -1,16 +1,17 @@
 import fs from 'fs'
 
+import { ImpactValue } from 'axe-core'
+
 import { AUDIT_FOLDER } from './_constants'
 import {
   FeatureViolationSummaryReport,
-  Impact,
   RouteReport,
   RouteViolationSummaryReport,
   UniqueViolation,
-  ViolationNode,
+  UniqueViolationNode,
   ViolationOverview,
   ViolationTally
-} from './_types'
+} from '../lumberjack.types'
 
 const violationGenerator = function * (reportId: string): Generator<RouteReport, void, null> {
   // look in audit folder
@@ -43,11 +44,9 @@ export class Violations {
     for (const data of violationGenerator(reportId)) {
       if (data?.violations?.length >= 0) {
         for (const violation of data.violations) {
-          // Does this violation already exist in the uniqueViolations?
-          const ruleIdEntry = uniqueViolations.find(entry => entry.ruleId === violation.id)
 
           // Update each node with CSS scrubbed classes and route info
-          violation.nodes.forEach((node: ViolationNode) => {
+          violation.nodes.forEach((node: UniqueViolationNode) => {
             // If any `nth-child` elements are found, those
             // violations can be combined into one instance
             const regex = /nth-child.[0-9]*./g
@@ -55,22 +54,19 @@ export class Violations {
             node.routes = [data.route]
           })
 
+          // Does this violation already exist in the uniqueViolations?
+          const ruleIdEntry = uniqueViolations.find(entry => entry.id === violation.id)
+
           if (ruleIdEntry) {
 
             ruleIdEntry.routes.push(data.route)
 
             // Add all nodes to the entry for this rule ID
-            ruleIdEntry.instances = ruleIdEntry.instances.concat(violation.nodes)
+            ruleIdEntry.nodes = ruleIdEntry.nodes.concat(violation.nodes)
           } else {
             uniqueViolations.push({
-              description: violation.description,
-              helpUrl: violation.helpUrl,
-              impact: violation.impact,
-              instances: violation.nodes,
+              ...violation,
               routes: [data.route],
-              ruleId: violation.id,
-              summary: violation.help,
-              tags: violation.tags,
             })
           }
         }
@@ -84,11 +80,11 @@ export class Violations {
   public getSortedViolationData = async (reportId: string): Promise<ViolationOverview> => {
     const uniqueViolations = await this.getUniqueViolationData(reportId)
 
-    const getIdsByImpact = (impact: Impact): string[] => {
+    const getIdsByImpact = (impact: ImpactValue): string[] => {
       const ids: string[] = []
       uniqueViolations.forEach(violation => {
         if (violation.impact === impact) {
-          ids.push(violation.ruleId)
+          ids.push(violation.id)
         }
       })
 
@@ -97,7 +93,7 @@ export class Violations {
 
     const violationData: ViolationOverview = {
       ids: {
-        all: uniqueViolations.map(violation => violation.ruleId),
+        all: uniqueViolations.map(violation => violation.id),
         byImpact: {
           minor: getIdsByImpact('minor'),
           moderate: getIdsByImpact('moderate'),
@@ -119,12 +115,12 @@ export class Violations {
     return violationData
   }
 
-  public countViolationsByInstance = (violations: UniqueViolation[], impact: Impact): number => {
+  public countViolationsByInstance = (violations: UniqueViolation[], impact: ImpactValue): number => {
     const violationsForImpactLevel = violations.filter(violation => violation.impact === impact)
     let numberOfInstances = 0
 
     violationsForImpactLevel.forEach(violation => {
-      numberOfInstances += violation.instances.length
+      numberOfInstances += violation.nodes.length
     })
 
     return numberOfInstances
