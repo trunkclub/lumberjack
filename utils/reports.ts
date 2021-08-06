@@ -6,7 +6,7 @@ import {
   FeatureInfo,
   ReportEntry,
   ViolationReport,
-  ViolationTallyReport,
+  ViolationTallyReport
 } from '../lumberjack.types'
 
 import { AUDIT_FOLDER } from './_constants'
@@ -40,19 +40,19 @@ export class Reports {
    * @returns {string} Route with / replaced with _
    */
   public formatRouteToId = (route: string): string => {
-
     if (route === '/') {
       return 'root'
     }
 
-    let cleanRoute = route.split('').map((character, index) => {
+    const cleanRoute = route.split('').map((character, index) => {
       if (character === '/') {
         if (index !== 0) {
           return '_'
         }
-      } else if (character !== ':') {
-        return character
+      } else if (character === ':') {
+        return ''
       }
+      return character
     })
 
     return cleanRoute.join('')
@@ -109,7 +109,7 @@ export class Reports {
       await fs.writeFileSync(
         reportPath,
         JSON.stringify(combinedData),
-        { encoding: 'utf8', flag: 'w' },
+        { encoding: 'utf8', flag: 'w' }
       )
     } catch (error) {
       if (error) {

@@ -2,32 +2,28 @@ module.exports = {
   env: {
     browser: true,
     commonjs: true,
-    es6: true
+    es6: true,
   },
   extends: [
     'standard',
-    'plugin:jsdoc/recommended',
     'plugin:@typescript-eslint/recommended',
-    'react-app',
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: "module"
+    sourceType: 'module',
   },
-  plugins: [
-    'jsdoc'
-  ],
+  plugins: [],
   rules: {
     'no-trailing-spaces': [
-      "error",
-      { "ignoreComments": true }
+      'error',
+      { ignoreComments: true },
     ],
     'comma-dangle': [
-      "error",
+      'error',
       {
         arrays: 'always-multiline',
         objects: 'always-multiline',
@@ -37,12 +33,13 @@ module.exports = {
       },
     ],
     '@typescript-eslint/member-delimiter-style': [
-      "error",
+      'error',
       {
         multiline: {
           delimiter: 'none',
         },
-      }
-    ]
-  }
+      },
+    ],
+    '@typescript-eslint/ban-ts-comment': 'off',
+  },
 }

@@ -1,11 +1,9 @@
-import { ImpactValue, Result, NodeResult } from 'axe-core'
+import { AxeResults, Result } from 'axe-core'
+import { AxePuppeteer } from '@axe-core/puppeteer'
+import fs from 'fs'
 import mkdirp from 'mkdirp'
 import puppeteer, { Page } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
-
-import fs from 'fs'
-
-import { AxePuppeteer } from '@axe-core/puppeteer'
 
 import config from '../.ljconfig'
 import {
@@ -14,7 +12,7 @@ import {
   FeatureAuditSummary,
   FeatureConfig,
   FeatureInfo,
-  RouteAuditSummary,
+  RouteAuditSummary
 } from '../lumberjack.types'
 
 import { AUDIT_FOLDER, REPORT_ID } from './_constants'
@@ -52,8 +50,7 @@ export class Audits {
       await page.click(config.app.login.fields.password)
       await page.keyboard.type(account.password)
 
-      
-      await page.click(config.app.login.fields.submitButton),
+      await page.click(config.app.login.fields.submitButton)
       await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 })
 
       return Promise.resolve()
@@ -100,7 +97,7 @@ export class Audits {
     currentPath: string
   ): Promise<boolean> => {
     const { errors, mainContentElement = 'body' } = config.app
-    const { featureId, content:errorContent } = errors
+    const { featureId, content: errorContent } = errors
 
     const is404 = config.features.some((feature: FeatureConfig) => {
       return feature.id === featureId && feature.paths.includes(currentPath)
@@ -139,7 +136,7 @@ export class Audits {
   public loadUrl = async (
     currentPath: string,
     page: Page,
-    account: AccountConfig,
+    account: AccountConfig
   ): Promise<void> => {
     const destinationUrl = config.app.root + currentPath
 
@@ -184,7 +181,6 @@ export class Audits {
     account: AccountConfig,
     featureInfo: FeatureInfo,
     reportId: string,
-    headless = true,
     takeScreenshots = false
   ): Promise<RouteAuditSummary> => {
     let completedAudit = false
@@ -210,7 +206,6 @@ export class Audits {
     const contentValid = await this.hasValidContent(page, currentPath)
 
     if (contentValid) {
-
       // @ts-ignore: FIXME: Likely type not coming in from package
       await scrollPageToBottom(
         page,
@@ -218,18 +213,18 @@ export class Audits {
         20 // delay between scrolls in ms
       )
 
-      let violations: any = []
+      let violations: Result[] = []
 
       if (takeScreenshots) {
         console.log('Taking screenshots...')
         const fileName = ReportUtils.formatRouteToId(currentPath)
 
-        await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
+        await page.screenshot({ path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true })
       }
 
       await new AxePuppeteer(page)
         .analyze()
-        .then(async (results: any) => {
+        .then(async (results: AxeResults) => {
           if (results.violations && results.violations.length) {
             numberOfViolations = results.violations.length
 
@@ -284,12 +279,11 @@ export class Audits {
    * @returns {string} Current path with param values in place
    */
   public pathWithParamsAdded = (path: string, account: AccountConfig): string | null => {
-    const paramRegex = /(?<=:)([a-zA-Z0-9_\-]+)/g
+    const paramRegex = /(?<=:)([a-zA-Z0-9_-]+)/g
     const paramsInPath = path.match(paramRegex)
     let newPath = path
 
     paramsInPath.forEach(param => {
-
       if (account.params?.[param]) {
         newPath = newPath.replace(`:${param}`, String(account.params[param]))
       } else {
@@ -332,7 +326,6 @@ export class Audits {
     const account = feature.account ?? config.accounts.default
 
     if (account) {
-
       const auditSummary: FeatureAuditSummary = {
         completedAudits: 0,
         totalAudits: 0,
@@ -366,7 +359,6 @@ export class Audits {
               account,
               featureInfo,
               reportId,
-              headless,
               screenshot
             )
 
@@ -417,7 +409,6 @@ export class Audits {
     }
 
     for (const feature of features) {
-
       try {
         const auditSummary = await this.auditFeature(
           reportId,
@@ -462,7 +453,7 @@ export class Audits {
 
     // success
     console.log('\n Success! ')
-    console.log(` Generating summary file...\n`)
+    console.log(' Generating summary file...\n')
 
     const routeSummary = await ViolationUtils.getRouteData(reportId)
     const featureSummary = await ViolationUtils.getFeatureSummariesByReportId(reportId)
