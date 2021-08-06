@@ -11,13 +11,12 @@ export type PropsT = {
 } & ButtonProps
 
 const Tab = ({ children, isActive, handleClick, id, panelId, ...rest }: PropsT) => {
-  
   // id and panelId are needed to create an accessible connection
   // between the elements.
   if (!id || !panelId) {
     return null
   }
-  
+
   return (
     <Button
       aria-controls={panelId}

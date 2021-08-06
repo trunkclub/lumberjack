@@ -7,7 +7,6 @@ import { Box, Text } from '../pattern-library'
 import { getReportDate } from '../utils'
 
 const calculateDifference = (thisWeekValue, lastWeekValue) => {
-
   let difference
 
   if (!lastWeekValue || (thisWeekValue === lastWeekValue)) {
@@ -28,18 +27,17 @@ type PropsT = {
 }
 
 const ReportSummaries = ({ tallyData }: PropsT) => {
-
   const impacts = Object.keys(tallyData[0].tally.byImpact)
   return (
     <Box
       as="table"
       sx={{
         borderCollapse: 'collapse',
-        'th': {
+        th: {
           fontSize: 0,
           fontWeight: 'normal',
           textTransform: 'uppercase',
-        }
+        },
       }}
     >
       <Box
@@ -91,12 +89,12 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
           </Box>
         </tr>
       </Box>
-      
+
       {tallyData.map((data, index) => {
-        const previousDateEntry = tallyData[index+1] ?? null
+        const previousDateEntry = tallyData[index + 1] ?? null
         const reportDate = getReportDate(data.reportId)
 
-        return(
+        return (
           <Box
             key={`section_${index}`}
             as="tbody"
@@ -107,7 +105,6 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
             }}
           >
             {impacts.map((impact, index) => {
-
               const numberByElement = Number(data.tally.byImpact[impact])
               const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byImpact[impact]) : 0
               const differenceByElement = calculateDifference(numberByElement, previousByElement)
@@ -116,7 +113,7 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
               const previousByInstances = previousDateEntry ? Number(previousDateEntry.tally.byInstance[impact]) : 0
               const differenceByInstances = calculateDifference(numberByInstances, previousByInstances)
 
-              return(
+              return (
                 <tr>
                   {index === 0 && (
                     <Box
@@ -160,7 +157,7 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
                         >
                           {differenceByElement}
                         </Text>
-                      </>  
+                      </>
                     )}
                   </Box>
                   <Box
@@ -185,11 +182,12 @@ const ReportSummaries = ({ tallyData }: PropsT) => {
                         >
                           {differenceByInstances}
                         </Text>
-                      </>  
+                      </>
                     )}
                   </Box>
                 </tr>
-            )})}
+              )
+            })}
           </Box>
         )
       })}

@@ -17,12 +17,10 @@ const TicketContentCopier = ({
   routes,
   violation,
 }: PropsT) => {
-
   const [contentStatus, setContentStatus] = React.useState('')
   const panelRef = React.createRef<HTMLElement>()
 
   const copyContent = () => {
-
     const panelContent = panelRef.current?.innerText
 
     navigator.permissions.query({ name: 'clipboard-write' }).then(result => {
@@ -50,7 +48,7 @@ const TicketContentCopier = ({
         color="inherit"
         onClick={copyContent}
         sx={{
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
       >
         Copy Ticket Content

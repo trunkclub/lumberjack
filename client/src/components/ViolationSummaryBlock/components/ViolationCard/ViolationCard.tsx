@@ -21,7 +21,6 @@ const ViolationCard = ({
   uniqueRoutes,
   violation,
 }: PropsT) => {
-
   const instancePluralContent = getPluralContent(instances)
 
   return (
@@ -37,7 +36,7 @@ const ViolationCard = ({
       }}
     >
       <Box>
-        <Heading variant="body" as="h5"><b>Element {index+1}:</b> {instances} instance{instancePluralContent.makePlural}</Heading>
+        <Heading variant="body" as="h5"><b>Element {index + 1}:</b> {instances} instance{instancePluralContent.makePlural}</Heading>
         <Box
           as="pre"
           mt={1}

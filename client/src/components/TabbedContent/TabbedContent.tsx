@@ -12,8 +12,7 @@ type PropsT = {
 }
 
 const TabbedContent = ({ details, uniqueId, whatToFix }: PropsT) => {
-
-  const [ currentTab, setCurrentTab ] = useState('details')
+  const [currentTab, setCurrentTab] = useState('details')
 
   const idMap = {
     details: {
@@ -23,7 +22,7 @@ const TabbedContent = ({ details, uniqueId, whatToFix }: PropsT) => {
     whatToFix: {
       tab: `tab-${uniqueId}-whatToFix`,
       panel: `panel-${uniqueId}-whatToFix`,
-    }
+    },
   }
 
   return (
@@ -37,7 +36,7 @@ const TabbedContent = ({ details, uniqueId, whatToFix }: PropsT) => {
 
       <Flex justifyContent="flex-start" >
         <Tab
-          handleClick={() => { setCurrentTab('details')}}
+          handleClick={() => { setCurrentTab('details') }}
           id={idMap.details.tab}
           isActive={currentTab === 'details'}
           mr={1}
@@ -46,7 +45,7 @@ const TabbedContent = ({ details, uniqueId, whatToFix }: PropsT) => {
           Details
         </Tab>
         <Tab
-          handleClick={() => { setCurrentTab('what')}}
+          handleClick={() => { setCurrentTab('what') }}
           id={idMap.whatToFix.tab}
           isActive={currentTab === 'what'}
           panelId={idMap.whatToFix.panel}

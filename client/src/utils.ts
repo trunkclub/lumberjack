@@ -19,4 +19,4 @@ export const getPluralContent = (numberToCheck: number): PluralContentT => {
     verb: numberToCheck > 1 ? 'are' : 'is',
     makePlural: numberToCheck > 1 ? 's' : null,
   }
-} 
+}

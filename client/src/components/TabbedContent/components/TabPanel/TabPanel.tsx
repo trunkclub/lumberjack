@@ -3,7 +3,7 @@ import React from 'react'
 import { Box } from '../../../../pattern-library'
 
 type PropsT = {
-  children,
+  children
   id: string
   isActive: boolean
   tabId: string
@@ -15,7 +15,6 @@ const TabPanel = ({
   id,
   tabId,
 }: PropsT) => {
-
   if (!id || !tabId) {
     return null
   }

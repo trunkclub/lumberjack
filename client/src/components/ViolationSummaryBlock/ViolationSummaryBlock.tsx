@@ -14,8 +14,7 @@ type PropsT = {
   violation: ViolationT
 }
 
-const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
-
+const ViolationSummaryBlock = ({ violation, ruleSummary }: PropsT) => {
   const numberOfElements = Object.keys(ruleSummary.elements).length
   const numberOfInstances = Number(ruleSummary.totalInstances)
 
@@ -86,7 +85,6 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
               }}
             >
             {Object.keys(ruleSummary.elements).map((element, index) => {
-
               const { routes } = ruleSummary.elements[element]
               const uniqueRoutes: string[] = Array.from(new Set(routes))
 

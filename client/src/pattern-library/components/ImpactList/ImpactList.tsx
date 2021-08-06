@@ -27,7 +27,7 @@ export const ImpactListItem = ({ children, isCritical }: ImpactListItemT) => {
           position: 'absolute',
           top: '0.25rem',
           width: '2rem',
-        }
+        },
       }}
     >
       {children}
@@ -55,4 +55,4 @@ const ImpactList = ({ children }: ImpactListT) => {
   )
 }
 
-export default ImpactList;
+export default ImpactList

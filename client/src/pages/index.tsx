@@ -23,7 +23,6 @@ type PropsT = {
 }
 
 const IndexPage = ({ summaryData, tallyData }: PropsT) => {
-
   // TODO: Consolidate tallying functions with their BarCharts into dedicated components
 
   const tallybyImpact: TallyChartData[] = tallyData.map((data) => {
@@ -40,20 +39,16 @@ const IndexPage = ({ summaryData, tallyData }: PropsT) => {
   }).reverse()
 
   const highestImpactPerRoute = (report: SummaryReport): ImpactTally => {
-
     const tally = {
       critical: 0,
       serious: 0,
       moderate: 0,
       minor: 0,
     }
-    
+
     report.features.map((data) => {
-    
       data.details.forEach(entry => {
-
         if (entry.violations) {
-
           const hasCritical = entry.violations.find(violation => {
             return violation.impact === 'critical'
           })

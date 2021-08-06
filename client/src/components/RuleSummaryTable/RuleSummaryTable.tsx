@@ -9,7 +9,7 @@ import { RuleSummary, UniqueViolation } from '../../../../lumberjack.types'
 type PropsT = {
   violations: UniqueViolation[]
   summary: {
-    rules: RuleSummary[],
+    rules: RuleSummary[]
     totalInstancesForLevel: number
   }
 }
@@ -18,7 +18,6 @@ const RuleSummaryTable = ({
   violations,
   summary,
 }: PropsT) => {
-
   return (
     <Box
       as="table"
@@ -36,7 +35,7 @@ const RuleSummaryTable = ({
         }}
       >
         <tr>
-          <Box as="th" pr={2} sx={{ textAlign: 'left'}}>Violations:</Box>
+          <Box as="th" pr={2} sx={{ textAlign: 'left' }}>Violations:</Box>
           <Box as="th" px={2}>Elements:</Box>
           <Box as="th" px={2}>Instances:</Box>
           <td></td>
@@ -44,7 +43,6 @@ const RuleSummaryTable = ({
       </Box>
       <tbody>
         {violations.map((violation, index) => {
-
           const numberOfElements = Object.keys(summary.rules[violation.id].elements).length
           const numberOfInstances = summary.rules[violation.id].totalInstances
           return (

@@ -4,7 +4,7 @@ import { Box, BoxProps } from '../../index'
 
 type Props = BoxProps
 
-const Divider = ({ ...rest }:Props ) => (
+const Divider = ({ ...rest }:Props) => (
   <Box
     as="hr"
     my={4}
