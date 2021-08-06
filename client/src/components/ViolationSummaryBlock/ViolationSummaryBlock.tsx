@@ -56,7 +56,7 @@ const ViolationSummaryBlock = ({ violation, ruleSummary }: PropsT): React.ReactE
             </Heading>
             <Box as="ul" mt={1} mb={2}>
               <li>
-                <b>Summary:</b> {violation.summary}{' '}<a href={violation.helpUrl}>Learn more &gt;</a>
+                <b>Summary:</b> {violation.help}{' '}<a href={violation.helpUrl}>Learn more &gt;</a>
               </li>
               <li>
                 <b>Tags:</b> {violation.tags.join(', ')}
