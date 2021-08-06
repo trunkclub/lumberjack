@@ -5,18 +5,22 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'standard',
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-app/recommended',
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  plugins: [],
+  plugins: [
+    '@typescript-eslint',
+  ],
   rules: {
     'no-trailing-spaces': [
       'error',
