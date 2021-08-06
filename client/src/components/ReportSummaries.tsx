@@ -26,7 +26,7 @@ type PropsT = {
   tallyData: TallyReport[]
 }
 
-const ReportSummaries = ({ tallyData }: PropsT) => {
+const ReportSummaries = ({ tallyData }: PropsT): React.ReactElement => {
   const impacts = Object.keys(tallyData[0].tally.byImpact)
   return (
     <Box

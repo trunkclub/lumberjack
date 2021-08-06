@@ -11,7 +11,7 @@ type PropsT = {
   whatToFix: React.ReactNode
 }
 
-const TabbedContent = ({ details, uniqueId, whatToFix }: PropsT) => {
+const TabbedContent = ({ details, uniqueId, whatToFix }: PropsT): React.ReactElement => {
   const [currentTab, setCurrentTab] = useState('details')
 
   const idMap = {

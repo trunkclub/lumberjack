@@ -17,7 +17,7 @@ type PropsT = {
   navigation?: NavItem[]
 }
 
-const Layout = ({ children }: PropsT) => {
+const Layout = ({ children }: PropsT): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query SideNavQuery {
       site {

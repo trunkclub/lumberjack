@@ -20,7 +20,7 @@ const ViolationCard = ({
   instances,
   uniqueRoutes,
   violation,
-}: PropsT) => {
+}: PropsT): React.ReactElement => {
   const instancePluralContent = getPluralContent(instances)
 
   return (

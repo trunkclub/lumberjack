@@ -22,7 +22,7 @@ function SEO ({
   lang = 'en',
   meta = [],
   title,
-}: PropsT) {
+}: PropsT): React.ReactElement {
   const { site } = useStaticQuery(
     graphql`
       query {

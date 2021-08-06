@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const ThemeProvider = ({ children }) => (
+const ThemeProvider = ({ children }): React.ReactElement => (
   <RebassThemeProvider theme={theme}>
     <GlobalStyle />
     {children}

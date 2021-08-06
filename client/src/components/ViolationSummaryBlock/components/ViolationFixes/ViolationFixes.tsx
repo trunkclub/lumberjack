@@ -12,7 +12,7 @@ type PropsT = {
   ruleId: string
 }
 
-const ViolationFixes = ({ fixData, helpUrl, ruleId }: PropsT) => {
+const ViolationFixes = ({ fixData, helpUrl, ruleId }: PropsT): React.ReactElement => {
   return (
     <Box>
       {fixData.all.length > 0 || fixData.any.length > 0

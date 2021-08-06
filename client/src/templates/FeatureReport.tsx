@@ -19,7 +19,7 @@ type PropsT = {
   pageContext: any
 }
 
-const FeatureReport = ({ pageContext }: PropsT) => {
+const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
   const reportDate = getReportDate(pageContext.reportId)
 
   const summaryData = {

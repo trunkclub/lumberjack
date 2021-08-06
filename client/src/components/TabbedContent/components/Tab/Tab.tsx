@@ -10,7 +10,7 @@ export type PropsT = {
   panelId: string
 } & ButtonProps
 
-const Tab = ({ children, isActive, handleClick, id, panelId, ...rest }: PropsT) => {
+const Tab = ({ children, isActive, handleClick, id, panelId, ...rest }: PropsT): React.ReactElement => {
   // id and panelId are needed to create an accessible connection
   // between the elements.
   if (!id || !panelId) {

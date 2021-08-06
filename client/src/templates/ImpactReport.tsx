@@ -13,7 +13,7 @@ type PropsT = {
   pageContext: ImpactReportPayload
 }
 
-const ImpactReport = ({ pageContext }: PropsT) => {
+const ImpactReport = ({ pageContext }: PropsT): React.ReactElement => {
   const location = useLocation()
 
   React.useEffect(() => {

@@ -17,7 +17,7 @@ type PropsT = {
 const RuleSummaryTable = ({
   violations,
   summary,
-}: PropsT) => {
+}: PropsT): React.ReactElement => {
   return (
     <Box
       as="table"

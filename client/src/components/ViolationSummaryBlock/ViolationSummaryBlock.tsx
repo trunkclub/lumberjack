@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { RuleSummary, UniqueViolation } from '../../../../lumberjack.types'
+
 import { Box, Heading, Text } from '../../pattern-library'
-import { RuleSummaryT, ViolationT } from '../../_types'
 import { getPluralContent } from '../../utils'
 
 import TabbedContent from '../TabbedContent'
@@ -10,11 +11,11 @@ import ViolationCard from './components/ViolationCard'
 import ViolationFixes from './components/ViolationFixes'
 
 type PropsT = {
-  ruleSummary: RuleSummaryT
-  violation: ViolationT
+  ruleSummary: RuleSummary
+  violation: UniqueViolation
 }
 
-const ViolationSummaryBlock = ({ violation, ruleSummary }: PropsT) => {
+const ViolationSummaryBlock = ({ violation, ruleSummary }: PropsT): React.ReactElement => {
   const numberOfElements = Object.keys(ruleSummary.elements).length
   const numberOfInstances = Number(ruleSummary.totalInstances)
 

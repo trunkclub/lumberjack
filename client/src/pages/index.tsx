@@ -1,7 +1,7 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 
-import BarChart from '../components/Charts/BarChart'
+import BarChart, { TallyChartData } from '../components/Charts/BarChart'
 
 import Layout from '../components/Layout'
 import ReportSummaries from '../components/ReportSummaries'
@@ -11,7 +11,6 @@ import { Divider, Text } from '../pattern-library'
 import {
   ImpactTally,
   SummaryReport,
-  TallyChartData,
   TallyReport
 } from '../../../lumberjack.types'
 
@@ -22,7 +21,7 @@ type PropsT = {
   tallyData: TallyReport[]
 }
 
-const IndexPage = ({ summaryData, tallyData }: PropsT) => {
+const IndexPage = ({ summaryData, tallyData }: PropsT): React.ReactElement => {
   // TODO: Consolidate tallying functions with their BarCharts into dedicated components
 
   const tallybyImpact: TallyChartData[] = tallyData.map((data) => {

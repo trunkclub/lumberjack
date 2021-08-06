@@ -16,7 +16,8 @@ const TicketContentCopier = ({
   instances,
   routes,
   violation,
-}: PropsT) => {
+}: PropsT): React.ReactElement => {
+
   const [contentStatus, setContentStatus] = React.useState('')
   const panelRef = React.createRef<HTMLElement>()
 

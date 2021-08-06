@@ -6,7 +6,7 @@ import { Box } from '../../../pattern-library'
 
 import { COLORS } from '../constants'
 
-export type TallyChartDataT = {
+export type TallyChartData = {
   date: string
   critical: number
   serious: number
@@ -16,12 +16,12 @@ export type TallyChartDataT = {
 }
 
 type PropsT = {
-  data: TallyChartDataT[]
+  data: TallyChartData[]
   dataTalliedLabel?: string
   showNone?: boolean
 }
 
-const BarChart = ({ data, showNone = false, dataTalliedLabel = 'violations' }: PropsT) => {
+const BarChart = ({ data, showNone = false, dataTalliedLabel = 'violations' }: PropsT): React.ReactElement => {
   const barColors: any = {
     criticalColor: COLORS.critical,
     seriousColor: COLORS.serious,

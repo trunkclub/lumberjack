@@ -19,7 +19,7 @@ type PropsT = {
 const Header = ({
   appName,
   navigation,
-}: PropsT) => (
+}: PropsT): React.ReactElement => (
   <Box
     as="header"
     bg="backgrounds.faded"
