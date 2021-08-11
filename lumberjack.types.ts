@@ -1,4 +1,5 @@
 import { ImpactValue, Result, NodeResult } from 'axe-core'
+import { Page } from 'puppeteer'
 
 // Client Types
 
@@ -35,11 +36,15 @@ export type SummaryReport = {
 // CLI Utility Types
 
 export type AppConfig = {
+  accounts?: {
+    default: AccountConfig
+    [key: string]: AccountConfig 
+  }
   errors: {
     content: string[]
     featureId: string
   }
-  login: {
+  login?: {
     fields?: {
       // Identifiers for each login form field
       username?: string
