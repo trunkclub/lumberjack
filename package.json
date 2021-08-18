@@ -4,6 +4,12 @@
   "description": "An automated accessibility crawler.",
   "author": "Beck Kramer <beck.kramer@nordstrom.com>",
   "main": "index.ts",
+  "private": true,
+  "files": [
+    "CHANGELOG.md",
+    "package.json",
+    "yarn-lock.json"
+  ],
   "scripts": {
     "app": "cd app && yarn start",
     "commitizen": "commitizen",
@@ -29,6 +35,11 @@
     "typescript": "^4.2.2"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.3",
+    "@semantic-release/release-notes-generator": "^9.0.3",
     "@types/node": "^15.0.2",
     "@types/puppeteer": "^5.4.3",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
@@ -42,6 +53,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react-app": "^6.2.2",
     "prettier": "2.2.1",
+    "semantic-release": "^17.4.5",
     "ts-node": "^9.1.1"
   },
   "config": {
