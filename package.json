@@ -4,6 +4,12 @@
   "description": "An automated accessibility crawler.",
   "author": "Beck Kramer <beck.kramer@nordstrom.com>",
   "main": "index.ts",
+  "private": true,
+  "files": [
+    "CHANGELOG.md",
+    "package.json",
+    "yarn-lock.json"
+  ],
   "scripts": {
     "app": "cd app && yarn start",
     "commitizen": "commitizen",
