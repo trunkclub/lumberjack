@@ -4,9 +4,9 @@ module.exports = {
       username: 'fake@email.com',
       password: 'password',
       params: {
-        userId: 1234
-      }
-    }
+        userId: 1234,
+      },
+    },
   },
   app: {
     name: 'My App',
@@ -24,7 +24,7 @@ module.exports = {
         'Whoops! Page not found!',
       ],
       featureId: 'invalid',
-    }
+    },
   },
   features: [
     {
@@ -32,14 +32,14 @@ module.exports = {
       id: 'invalid',
       paths: [
         '/not-found',
-      ]
+      ],
     },
     {
       name: 'Auth',
       id: 'auth',
       paths: [
         '/sign-in',
-      ]
+      ],
     },
   ],
 }

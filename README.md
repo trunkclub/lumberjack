@@ -42,7 +42,7 @@ If you'd like to see everything that is loaded as Lumberjack runs, turn off head
 
 An error like the following:
 
-```
+```bash
 Error: failed to find element matching selector [your mainElement value]
 ```
 can appear if your application or website requires some kind of authorization to view with headless tools like Lumberjack. You may need to be connected to your organization's VPN to run tests in headless mode.
