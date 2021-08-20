@@ -1,27 +1,36 @@
+import { AxeResults, Result } from 'axe-core'
+import { AxePuppeteer } from '@axe-core/puppeteer'
+import fs from 'fs'
 import mkdirp from 'mkdirp'
 import puppeteer, { Page } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
 
-import fs from 'fs'
-
-import { AxePuppeteer } from '@axe-core/puppeteer'
-
-import { APP_CONFIG, AUDIT_FOLDER, REPORT_ID, ROUTE_CONFIG } from './_constants'
+import config from '../.ljconfig'
 import {
-  FeatureAuditSummary,
+  AccountConfig,
   AuditResultsSummary,
+  FeatureAuditSummary,
   FeatureConfig,
   FeatureInfo,
-  RouteAuditSummary,
-  User
-} from './_types'
+  RouteAuditSummary
+} from '../lumberjack.types'
+
+import { AUDIT_FOLDER, REPORT_ID } from './_constants'
 
 import { Reports } from './reports'
 import { Violations } from './Violations'
-import { getUsers } from './settings'
 
 const ReportUtils = new Reports()
 const ViolationUtils = new Violations()
+
+type AxeRunnerData = {
+  account?: AccountConfig,
+  puppeteerPage: Page,
+  currentPath: string,
+  featureInfo: FeatureInfo,
+  reportId: string,
+  takeScreenshots?: boolean
+}
 
 /**
  * Anything concerned with running the audit itself, from
@@ -37,27 +46,26 @@ export class Audits {
    * 
    * @function
    * @param  {Page} page Puppeteer page
-   * @param  {User} user Current user data
+   * @param  {AccountConfig} user Current user data
    * @returns {Promise<void>}
    */
-  public userLogin = async (page: Page, user: User): Promise<void> => {
+  public userLogin = async (page: Page, account: AccountConfig): Promise<void> => {
     console.log('Redirected to login screen. Logging in...')
 
     try {
-      await page.click(APP_CONFIG.login.fields.username)
-      await page.keyboard.type(user.email)
+      await page.click(config.app.login.fields.username)
+      await page.keyboard.type(account.username)
 
-      await page.click(APP_CONFIG.login.fields.password)
-      await page.keyboard.type(user.password)
+      await page.click(config.app.login.fields.password)
+      await page.keyboard.type(account.password)
 
-      
-      await page.click(APP_CONFIG.login.fields.submitButton),
+      await page.click(config.app.login.fields.submitButton)
       await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 })
 
       return Promise.resolve()
     } catch (error) {
       console.log('Unable to login. To troubleshoot:')
-      console.log(`- check the config for ${user.email} or`)
+      console.log(`- check the config for ${account.username} or`)
       console.log('- run Lumberjack with headless mode turned off')
       process.exit()
     }
@@ -97,10 +105,10 @@ export class Audits {
     page: Page,
     currentPath: string
   ): Promise<boolean> => {
-    const { errors, mainContentElement = 'main' } = APP_CONFIG
-    const { featureId, content:errorContent } = errors
+    const { errors, mainContentElement = 'body' } = config.app
+    const { featureId, content: errorContent } = errors
 
-    const is404 = ROUTE_CONFIG.features.some((feature: FeatureConfig) => {
+    const is404 = config.features.some((feature: FeatureConfig) => {
       return feature.id === featureId && feature.paths.includes(currentPath)
     })
 
@@ -116,7 +124,7 @@ export class Audits {
       await page.waitFor(2000)
     }
 
-    const hasErrorContent = errorContent.some((error) => pageContent.includes(error))
+    const hasErrorContent = errorContent.some((error: string) => pageContent.includes(error))
 
     if (hasErrorContent) {
       console.log('Error content found; This route will be skipped.')
@@ -132,14 +140,14 @@ export class Audits {
    * @function
    * @param {string} currentPath Current path being checked
    * @param {Page} page Puppeteer page
-   * @param {User} user Current user info
+   * @param {AccountConfig} account Current user info
    */
   public loadUrl = async (
     currentPath: string,
     page: Page,
-    user: User
+    account?: AccountConfig
   ): Promise<void> => {
-    const destinationUrl = APP_CONFIG.root + currentPath
+    const destinationUrl = config.app.root + currentPath
 
     await page
       .goto(destinationUrl, { waitUntil: 'networkidle2' })
@@ -149,17 +157,28 @@ export class Audits {
         throw error
       })
 
-    const isAtLogin = page.url().includes(APP_CONFIG.login.path)
-    const isScanningLoginPath = currentPath === APP_CONFIG.login.path
+    const isAtLogin = page.url().includes(config.app.login.path)
+    const isScanningLoginPath = currentPath === config.app.login.path
 
     if (isAtLogin && !isScanningLoginPath) {
-      await this.userLogin(page, user)
+      console.log('Redirected to login...')
+      if (!config.app.login) {
+        console.log(`Unable to audit ${destinationUrl}; login required and login config found. Please check your config file.`)
+        throw new Error()
+      } else {
+        if (account) {
+          console.log(`Logging in as ${account.username}...`)
+          await this.userLogin(page, account)
+        } else {
+          console.log(`Unable to audit ${destinationUrl}; login required and no account data found. Please check your config file.`)
+          throw new Error()
+        }
+      }
     }
 
     if (page.url() !== destinationUrl) {
-      throw new Error(
-        `Unable to go to ${destinationUrl}. Current URL is ${page.url()}.`
-      )
+      console.log(`Unable to go to ${destinationUrl}:\n - redirected to ${page.url()}.`)
+      throw new Error()
     }
   }
 
@@ -167,34 +186,33 @@ export class Audits {
    * Loads route and runs AxePuppeteer on it
    * 
    * @function
-   * @param {Page} page Puppeteer page
+   * @param {Page} puppeteerPage Puppeteer page
    * @param {string} currentPath Current path being checked
-   * @param {User} user Current user account information
+   * @param {AccountConfig} account Current user account information
    * @param {*} featureInfo This feature's data
    * @param {string} reportId Report ID
    * @param {boolean} [headless=true] Should tests run in headless mode?
    * @param {boolean} [takeScreenshots=false] Should screenshots be taken?
    * @returns {Promise<RouteAuditSummary>} Returns audit summary for this route
    */
-  public runAxeOnPath = async (
-    page: Page,
-    currentPath: string,
-    user: User,
-    featureInfo: FeatureInfo,
-    reportId: string,
-    headless = true,
-    takeScreenshots = false
-  ): Promise<RouteAuditSummary> => {
+  public runAxeOnPath = async ({
+    account,
+    currentPath,
+    featureInfo,
+    puppeteerPage,
+    reportId,
+    takeScreenshots,
+  }: AxeRunnerData): Promise<RouteAuditSummary> => {
     let completedAudit = false
     let numberOfViolations = 0
 
     console.group(`\n Auditing ${currentPath}...`)
 
     try {
-      await this.loadUrl(currentPath, page, user)
+      await this.loadUrl(currentPath, puppeteerPage, account)
     } catch (error) {
       // error
-      console.log('Problem loading route.\n')
+      console.log('Problem loading route; this route will be skipped.\n')
 
       console.groupEnd()
 
@@ -205,29 +223,28 @@ export class Audits {
       }
     }
 
-    const contentValid = await this.hasValidContent(page, currentPath)
+    const contentValid = await this.hasValidContent(puppeteerPage, currentPath)
 
     if (contentValid) {
-
-      // @ts-ignore: FIXME: Likely type not getting not coming in from package
+      // @ts-ignore: FIXME: Likely type not coming in from package
       await scrollPageToBottom(
-        page,
+        puppeteerPage,
         800, // amount scrolled at a time in px
         20 // delay between scrolls in ms
       )
 
-      let violations: any = []
+      let violations: Result[] = []
 
       if (takeScreenshots) {
         console.log('Taking screenshots...')
         const fileName = ReportUtils.formatRouteToId(currentPath)
 
-        await page.screenshot({path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true})
+        await puppeteerPage.screenshot({ path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true })
       }
 
-      await new AxePuppeteer(page)
+      await new AxePuppeteer(puppeteerPage)
         .analyze()
-        .then(async (results: any) => {
+        .then(async (results: AxeResults) => {
           if (results.violations && results.violations.length) {
             numberOfViolations = results.violations.length
 
@@ -281,24 +298,19 @@ export class Audits {
    * @param {string} path Current path
    * @returns {string} Current path with param values in place
    */
-  public pathWithParamsAdded = (path: string, user: Partial<User>): string | 'invalidPath' => {
-    const paramRegex = /(?<=:)([a-zA-Z0-9_\-]+)/g
+  public pathWithParamsAdded = (path: string, account: AccountConfig): string | null => {
+    const paramRegex = /(?<=:)([a-zA-Z0-9_-]+)/g
     const paramsInPath = path.match(paramRegex)
     let newPath = path
 
     paramsInPath.forEach(param => {
-
-      if (newPath != 'invalidPath') {
-        if (user[param]) {
-          newPath = newPath.replace(`:${param}`, user[param])
-        } else if (ROUTE_CONFIG.params[param]) {
-          newPath = newPath.replace(`:${param}`, ROUTE_CONFIG.params[param])
-        } else {
-          // if there's no match in config data for this param,
-          // set newPath to 'invalidPath' and return it so this
-          // path will be skipped.
-          newPath = 'invalidPath'
-        }
+      if (account.params?.[param]) {
+        newPath = newPath.replace(`:${param}`, String(account.params[param]))
+      } else {
+        // if there's no match in config data for this param,
+        // set newPath to 'invalidPath' and return it so this
+        // path will be skipped.
+        newPath = 'invalidPath'
       }
     })
     return newPath
@@ -310,7 +322,6 @@ export class Audits {
    * @function
    * @param {string} reportId Report ID
    * @param {Feature} feature Config data for this route or feature
-   * @param {User[]} users All user data
    * @param {boolean} [headless=true] Should tests run in headless mode?
    * @param {boolean} [screenshot=false] Should screenshots be taken?
    * @returns {AuditResultsSummary} Full audit summary
@@ -318,7 +329,6 @@ export class Audits {
   public auditFeature = async (
     reportId: string,
     feature: FeatureConfig,
-    users: User[],
     headless = true,
     screenshot = false
   ): Promise<AuditResultsSummary> => {
@@ -333,66 +343,62 @@ export class Audits {
       results: [],
     }
 
-    for (const user of users) {
-      const userId = user.email
-      const auditSummary: FeatureAuditSummary = {
-        completedAudits: 0,
-        totalAudits: 0,
-        totalViolations: 0,
-        routesValidated: [],
-        routesNotValidated: [],
-      }
+    const account = feature.account ?? config.accounts.default
 
-      console.group(`\n Auditing as user ${userId}...`)
+    const auditSummary: FeatureAuditSummary = {
+      completedAudits: 0,
+      totalAudits: 0,
+      totalViolations: 0,
+      routesValidated: [],
+      routesNotValidated: [],
+    }
 
-      const featureInfo = {
-        name: feature.name,
-        id: feature.id,
-      }
-      const browser = await puppeteer.launch({
-        defaultViewport: null,
-        headless: headless,
-      })
-      const page = await browser.newPage()
+    const featureInfo = {
+      name: feature.name,
+      id: feature.id,
+    }
+    const browser = await puppeteer.launch({
+      defaultViewport: null,
+      headless: headless,
+    })
+    const page = await browser.newPage()
 
-      await page.setBypassCSP(true)
+    await page.setBypassCSP(true)
 
-      for (const path of feature.paths) {
-        const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, user) : path
+    for (const path of feature.paths) {
+      const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, account) : path
 
-        if (auditPath !== 'invalidPath') {
-          try {
-            const auditStatus = await this.runAxeOnPath(
-              page,
-              auditPath,
-              user,
-              featureInfo,
-              reportId,
-              headless,
-              screenshot
-            )
+      if (auditPath) {
+        try {
+          const auditStatus = await this.runAxeOnPath({
+            account,
+            currentPath: auditPath,
+            featureInfo,
+            puppeteerPage: page,
+            reportId,
+            takeScreenshots: screenshot
+          })
 
-            if (auditStatus.completedAudit) {
-              auditSummary.completedAudits++
-              auditSummary.routesValidated.push(auditStatus.route)
-            } else {
-              auditSummary.routesNotValidated.push(auditStatus.route)
-            }
-
-            auditSummary.totalAudits++
-            auditSummary.totalViolations += auditStatus.numberOfViolations
-          } catch (error) {
-            console.log(error)
+          if (auditStatus.completedAudit) {
+            auditSummary.completedAudits++
+            auditSummary.routesValidated.push(auditStatus.route)
+          } else {
+            auditSummary.routesNotValidated.push(auditStatus.route)
           }
+
+          auditSummary.totalAudits++
+          auditSummary.totalViolations += auditStatus.numberOfViolations
+        } catch (error) {
+          console.log(error)
         }
       }
-
-      summary.results.push(auditSummary)
-
-      await page.close()
-      await browser.close()
-      console.groupEnd()
     }
+
+    summary.results.push(auditSummary)
+
+    await page.close()
+    await browser.close()
+    console.groupEnd()
 
     return summary
   }
@@ -412,7 +418,6 @@ export class Audits {
   ): Promise<void> => {
     const summary = []
     const reportId = REPORT_ID
-    const users = await getUsers()
 
     mkdirp(`${AUDIT_FOLDER}/route-reports`)
     if (takeScreenshots) {
@@ -424,7 +429,6 @@ export class Audits {
         const auditSummary = await this.auditFeature(
           reportId,
           feature,
-          users,
           headless,
           takeScreenshots
         )
@@ -465,20 +469,17 @@ export class Audits {
 
     // success
     console.log('\n Success! ')
-
-    console.log(
-      ` Completed audits on ${validatedRoutes.length +
-        notValidatedRoutes.length} routes. ${totalViolationsForAllFeatures} violations found.`
-    )
-
-    mkdirp(`${AUDIT_FOLDER}/summaries`)
+    console.log(' Generating summary file...\n')
 
     const routeSummary = await ViolationUtils.getRouteData(reportId)
     const featureSummary = await ViolationUtils.getFeatureSummariesByReportId(reportId)
+    const summaryFilePath = `${AUDIT_FOLDER}/summaries/${reportId}.json`
+
+    await mkdirp(`${AUDIT_FOLDER}/summaries`)
 
     try {
-      fs.writeFileSync(
-        `${AUDIT_FOLDER}/summaries/${reportId}.json`,
+      await fs.writeFileSync(
+        summaryFilePath,
         JSON.stringify({
           reportId,
           totalViolationsForAllFeatures,

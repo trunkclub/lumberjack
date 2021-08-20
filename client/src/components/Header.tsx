@@ -3,18 +3,23 @@ import React from 'react'
 
 import { Box, Heading } from '../pattern-library'
 
-import { NavItemT } from '../_types' 
-
 // @ts-ignore - FIXME
 import Logo from '../images/Logo.svg'
 
+export type NavItem = {
+  id: string
+  name: string
+}
+
 type PropsT = {
-  navigation: NavItemT[]
+  appName: string
+  navigation: NavItem[]
 }
 
 const Header = ({
+  appName,
   navigation,
-}: PropsT) => (
+}: PropsT): React.ReactElement => (
   <Box
     as="header"
     bg="backgrounds.faded"
@@ -26,6 +31,9 @@ const Header = ({
     }}
   >
     <img src={Logo} width="200" alt="Lumberjack" />
+
+    <div>Dashboard for: {appName}</div>
+
     <div role="navigation" className="navigation">
 
       <ul>

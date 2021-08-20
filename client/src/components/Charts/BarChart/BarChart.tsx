@@ -6,8 +6,8 @@ import { Box } from '../../../pattern-library'
 
 import { COLORS } from '../constants'
 
-export type TallyChartDataT = {
-  date: string,
+export type TallyChartData = {
+  date: string
   critical: number
   serious: number
   moderate: number
@@ -16,14 +16,13 @@ export type TallyChartDataT = {
 }
 
 type PropsT = {
-  data: TallyChartDataT[],
+  data: TallyChartData[]
   dataTalliedLabel?: string
   showNone?: boolean
 }
 
-const BarChart = ({data, showNone=false, dataTalliedLabel='violations'}: PropsT) => {
-
-  let barColors: any = {
+const BarChart = ({ data, showNone = false, dataTalliedLabel = 'violations' }: PropsT): React.ReactElement => {
+  const barColors: any = {
     criticalColor: COLORS.critical,
     seriousColor: COLORS.serious,
     moderateColor: COLORS.moderate,
@@ -64,7 +63,7 @@ const BarChart = ({data, showNone=false, dataTalliedLabel='violations'}: PropsT)
           tickRotation: 0,
           legend: `number of ${dataTalliedLabel}`,
           legendPosition: 'middle',
-          legendOffset: -40
+          legendOffset: -40,
         }}
         borderColor='#FFF'
         borderWidth={1}
@@ -89,7 +88,7 @@ const BarChart = ({data, showNone=false, dataTalliedLabel='violations'}: PropsT)
             itemDirection: 'left-to-right',
             itemOpacity: 1,
             symbolSize: 20,
-          }
+          },
         ]}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         motionStiffness={90}

@@ -4,12 +4,18 @@
   "description": "An automated accessibility crawler.",
   "author": "Beck Kramer <beck.kramer@nordstrom.com>",
   "main": "index.ts",
+  "private": true,
+  "files": [
+    "CHANGELOG.md",
+    "package.json",
+    "yarn-lock.json"
+  ],
   "scripts": {
     "app": "cd app && yarn start",
-    "automated": "ts-node utils/automated.ts",
     "commitizen": "commitizen",
     "generate-docs": "jsdoc -c ./jsdoc.json",
-    "lint": "eslint 'utils/**/*.{ts,tsx}' --max-warnings=0",
+    "lint:client": "eslint 'client/**/*.{ts,tsx}' --max-warnings=0",
+    "lint:utils": "eslint 'utils/**/*.{ts,tsx}' --max-warnings=0",
     "lumberjack": "ts-node utils/index.ts",
     "prettier": "prettier --write '{app,utils}/**/*.{ts,js,json,scss,md}'",
     "setup": "yarn install && cd client && yarn install && git remote add upstream https://github.com/trunkclub/lumberjack.git",
@@ -29,9 +35,14 @@
     "typescript": "^4.2.2"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.3",
+    "@semantic-release/release-notes-generator": "^9.0.3",
     "@types/node": "^15.0.2",
     "@types/puppeteer": "^5.4.3",
-    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.20.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "3.3.0",
@@ -40,7 +51,9 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react-app": "^6.2.2",
     "prettier": "2.2.1",
+    "semantic-release": "^17.4.5",
     "ts-node": "^9.1.1"
   },
   "config": {

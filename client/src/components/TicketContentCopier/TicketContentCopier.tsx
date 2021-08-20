@@ -2,16 +2,13 @@ import React from 'react'
 
 import { Box, Button, Flex } from '../../pattern-library'
 
-import { ViolationT } from '../../_types'
-
-
-// import JiraElementInstance from './components/JiraElementInstance'
+import { UniqueViolation } from '../../../../lumberjack.types'
 
 type PropsT = {
   element: string
   instances: number
   routes: string[]
-  violation: ViolationT
+  violation: UniqueViolation
 }
 
 const TicketContentCopier = ({
@@ -19,13 +16,12 @@ const TicketContentCopier = ({
   instances,
   routes,
   violation,
-}: PropsT) => {
+}: PropsT): React.ReactElement => {
 
   const [contentStatus, setContentStatus] = React.useState('')
   const panelRef = React.createRef<HTMLElement>()
 
   const copyContent = () => {
-
     const panelContent = panelRef.current?.innerText
 
     navigator.permissions.query({ name: 'clipboard-write' }).then(result => {
@@ -53,7 +49,7 @@ const TicketContentCopier = ({
         color="inherit"
         onClick={copyContent}
         sx={{
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
       >
         Copy Ticket Content
@@ -85,7 +81,7 @@ const TicketContentCopier = ({
         <p> </p>
         <p>**Routes impacted:**</p>
         {routes.map((route, index) => (
-          <div key={`${violation.ruleId}-ticket-${index}`}>
+          <div key={`${violation.id}-ticket-${index}`}>
             - {route}
           </div>
         ))}

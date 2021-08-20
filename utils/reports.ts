@@ -1,9 +1,15 @@
+import { Result } from 'axe-core'
+import dayjs from 'dayjs'
 import fs from 'fs'
 
-import dayjs from 'dayjs'
+import {
+  FeatureInfo,
+  ReportEntry,
+  ViolationReport,
+  ViolationTallyReport
+} from '../lumberjack.types'
 
 import { AUDIT_FOLDER } from './_constants'
-import { FeatureInfo, ReportEntry, Violation, ViolationReport, ViolationTallyReport } from './_types'
 import { Violations } from './Violations'
 
 const ViolationUtilities = new Violations()
@@ -34,19 +40,19 @@ export class Reports {
    * @returns {string} Route with / replaced with _
    */
   public formatRouteToId = (route: string): string => {
-
     if (route === '/') {
       return 'root'
     }
 
-    let cleanRoute = route.split('').map((character, index) => {
+    const cleanRoute = route.split('').map((character, index) => {
       if (character === '/') {
         if (index !== 0) {
           return '_'
         }
-      } else if (character !== ':') {
-        return character
+      } else if (character === ':') {
+        return ''
       }
+      return character
     })
 
     return cleanRoute.join('')
@@ -65,7 +71,7 @@ export class Reports {
    */
   public writeFeatureReport = async (
     path: string,
-    violations: Violation[],
+    violations: Result[],
     featureInfo: FeatureInfo,
     reportId: string,
     needsManualCheck = false
@@ -95,7 +101,9 @@ export class Reports {
       )
 
       combinedData = combinedData.concat(filteredData)
-    } catch (error) {}
+    } catch (error) {
+      // just catch the error for now
+    }
 
     combinedData.push(thisReportData)
 
@@ -103,7 +111,7 @@ export class Reports {
       await fs.writeFileSync(
         reportPath,
         JSON.stringify(combinedData),
-        { encoding: 'utf8', flag: 'w' },
+        { encoding: 'utf8', flag: 'w' }
       )
     } catch (error) {
       if (error) {

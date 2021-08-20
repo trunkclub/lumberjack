@@ -1,0 +1,3754 @@
+
+type SitePageContext {
+  impact: String
+  data: [SitePageContextData]
+  reportId: Date
+  summary: SitePageContextSummary
+  id: String
+  name: String
+  details: [SitePageContextDetails]
+  tally: SitePageContextTally
+}
+
+type SitePageContextData {
+  description: String
+  helpUrl: String
+  impact: String
+  instances: [SitePageContextDataInstances]
+  routes: [SitePageContextDataRoutes]
+  ruleId: String
+  summary: String
+  tags: [String]
+}
+
+type SitePageContextDataInstances {
+  html: String
+  routes: [SitePageContextDataInstancesRoutes]
+  all: [SitePageContextDataInstancesAll]
+  any: [SitePageContextDataInstancesAny]
+}
+
+type SitePageContextDataInstancesRoutes {
+  path: String
+}
+
+type SitePageContextDataInstancesAll {
+  message: String
+}
+
+type SitePageContextDataInstancesAny {
+  message: String
+}
+
+type SitePageContextDataRoutes {
+  path: String
+}
+
+type SitePageContextDetails {
+  route: SitePageContextDetailsRoute
+  violations: [SitePageContextDetailsViolations]
+}
+
+type SitePageContextDetailsRoute {
+  id: String
+  path: String
+}
+
+type SitePageContextDetailsViolations {
+  help: String
+  impact: String
+  helpUrl: String
+  description: String
+  nodes: [SitePageContextDetailsViolationsNodes]
+  id: String
+}
+
+type SitePageContextDetailsViolationsNodes {
+  html: String
+}
+
+type SitePageContextTally {
+  byImpact: SitePageContextTallyByImpact
+}
+
+type SitePageContextTallyByImpact {
+  critical: Int
+  minor: Int
+  moderate: Int
+  serious: Int
+}
+
+type SummariesJson implements Node {
+  reportId: String!
+  totalViolationsForAllFeature: Int!
+  routes: RoutesInfo
+  totalViolationsForAllFeatures: Int
+  features: [SummariesJsonFeatures]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type SummariesJsonFeatures {
+  id: String
+  name: String
+  details: [SummariesJsonFeaturesDetails]
+  tally: SummariesJsonFeaturesTally
+}
+
+type SummariesJsonFeaturesDetails {
+  needsManualCheck: Boolean
+  route: SummariesJsonFeaturesDetailsRoute
+  violations: [SummariesJsonFeaturesDetailsViolations]
+}
+
+type SummariesJsonFeaturesDetailsRoute {
+  id: String
+  path: String
+}
+
+type SummariesJsonFeaturesDetailsViolations {
+  id: String
+  impact: String
+  tags: [String]
+  description: String
+  help: String
+  helpUrl: String
+  nodes: [SummariesJsonFeaturesDetailsViolationsNodes]
+}
+
+type SummariesJsonFeaturesDetailsViolationsNodes {
+  any: [SummariesJsonFeaturesDetailsViolationsNodesAny]
+  all: [SummariesJsonFeaturesDetailsViolationsNodesAll]
+  impact: String
+  html: String
+  target: [String]
+  failureSummary: String
+}
+
+type SummariesJsonFeaturesDetailsViolationsNodesAny {
+  id: String
+  relatedNodes: [SummariesJsonFeaturesDetailsViolationsNodesAnyRelatedNodes]
+  impact: String
+  message: String
+}
+
+type SummariesJsonFeaturesDetailsViolationsNodesAnyRelatedNodes {
+  html: String
+  target: [String]
+}
+
+type SummariesJsonFeaturesDetailsViolationsNodesAll {
+  id: String
+  impact: String
+  message: String
+}
+
+type SummariesJsonFeaturesTally {
+  byImpact: SummariesJsonFeaturesTallyByImpact
+}
+
+type SummariesJsonFeaturesTallyByImpact {
+  minor: Int
+  moderate: Int
+  serious: Int
+  critical: Int
+}
+
+type RoutesInfo implements Node {
+  notValidated: [String]
+  validated: [String]
+  numberChecked: Int!
+  with: [String]
+  without: [String]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactModerate implements Node {
+  instances: [InstancesInfo]
+  description: String
+  helpUrl: String
+  impact: String
+  routes: [UniqueViolationsJsonOverviewViolationsByImpactModerateRoutes]
+  ruleId: String
+  summary: String
+  tags: [String]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactModerateRoutes {
+  id: String
+  path: String
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactMinor implements Node {
+  instances: [InstancesInfo]
+  description: String
+  helpUrl: String
+  impact: String
+  routes: [UniqueViolationsJsonOverviewViolationsByImpactMinorRoutes]
+  ruleId: String
+  summary: String
+  tags: [String]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactMinorRoutes {
+  id: String
+  path: String
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactSerious implements Node {
+  instances: [InstancesInfo]
+  description: String
+  helpUrl: String
+  impact: String
+  routes: [UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutes]
+  ruleId: String
+  summary: String
+  tags: [String]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutes {
+  id: String
+  path: String
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactCritical implements Node {
+  instances: [InstancesInfo]
+  description: String
+  helpUrl: String
+  impact: String
+  routes: [UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutes]
+  ruleId: String
+  summary: String
+  tags: [String]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutes {
+  id: String
+  path: String
+}
+
+type InstancesInfo implements Node {
+  any: [FixInfoAny]
+  all: [FixInfoAll]
+  impact: String
+  html: String
+  target: [String]
+  failureSummary: String
+  routes: [RouteData]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type FixInfoAny implements Node {
+  id: ID!
+  data: FixData
+  relatedNodes: [RelatedNodes]
+  impact: String
+  message: String
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type RelatedNodes implements Node {
+  html: String
+  target: [String]
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type FixInfoAll implements Node {
+  id: ID!
+  impact: String
+  message: String
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type FixData implements Node {
+  role: String
+  accessibleText: String
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type RouteData implements Node {
+  id: ID!
+  path: String
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type UniqueViolationsJson implements Node {
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+  reportId(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date
+  overview: UniqueViolationsJsonOverview
+}
+
+type UniqueViolationsJsonOverview {
+  ids: UniqueViolationsJsonOverviewIds
+  violations: UniqueViolationsJsonOverviewViolations
+}
+
+type UniqueViolationsJsonOverviewIds {
+  all: [String]
+  byImpact: UniqueViolationsJsonOverviewIdsByImpact
+}
+
+type UniqueViolationsJsonOverviewIdsByImpact {
+  minor: [String]
+  moderate: [String]
+  serious: [String]
+  critical: [String]
+}
+
+type UniqueViolationsJsonOverviewViolations {
+  all: [UniqueViolationsJsonOverviewViolationsAll]
+  byImpact: UniqueViolationsJsonOverviewViolationsByImpact
+}
+
+type UniqueViolationsJsonOverviewViolationsAll {
+  description: String
+  helpUrl: String
+  impact: String
+  instances: [UniqueViolationsJsonOverviewViolationsAllInstances]
+  routes: [UniqueViolationsJsonOverviewViolationsAllRoutes]
+  ruleId: String
+  summary: String
+  tags: [String]
+}
+
+type UniqueViolationsJsonOverviewViolationsAllInstances {
+  any: [UniqueViolationsJsonOverviewViolationsAllInstancesAny]
+  all: [UniqueViolationsJsonOverviewViolationsAllInstancesAll]
+  impact: String
+  html: String
+  target: [String]
+  failureSummary: String
+  routes: [UniqueViolationsJsonOverviewViolationsAllInstancesRoutes]
+}
+
+type UniqueViolationsJsonOverviewViolationsAllInstancesAny {
+  id: String
+  relatedNodes: [UniqueViolationsJsonOverviewViolationsAllInstancesAnyRelatedNodes]
+  impact: String
+  message: String
+}
+
+type UniqueViolationsJsonOverviewViolationsAllInstancesAnyRelatedNodes {
+  html: String
+  target: [String]
+}
+
+type UniqueViolationsJsonOverviewViolationsAllInstancesAll {
+  id: String
+  impact: String
+  message: String
+}
+
+type UniqueViolationsJsonOverviewViolationsAllInstancesRoutes {
+  id: String
+  path: String
+}
+
+type UniqueViolationsJsonOverviewViolationsAllRoutes {
+  id: String
+  path: String
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpact {
+  minor: [UniqueViolationsJsonOverviewViolationsByImpactMinor]
+  moderate: [UniqueViolationsJsonOverviewViolationsByImpactModerate]
+  serious: [UniqueViolationsJsonOverviewViolationsByImpactSerious]
+  critical: [UniqueViolationsJsonOverviewViolationsByImpactCritical]
+}
+
+type UniqueViolationsTallyJson implements Node {
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+  reportId(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date
+  tally: UniqueViolationsTallyJsonTally
+}
+
+type UniqueViolationsTallyJsonTally {
+  byImpact: UniqueViolationsTallyJsonTallyByImpact
+  byInstance: UniqueViolationsTallyJsonTallyByInstance
+}
+
+type UniqueViolationsTallyJsonTallyByImpact {
+  minor: Int
+  moderate: Int
+  serious: Int
+  critical: Int
+}
+
+type UniqueViolationsTallyJsonTallyByInstance {
+  minor: Int
+  moderate: Int
+  serious: Int
+  critical: Int
+}
+
+type Query {
+  file(sourceInstanceName: StringQueryOperatorInput, absolutePath: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, extension: StringQueryOperatorInput, size: IntQueryOperatorInput, prettySize: StringQueryOperatorInput, modifiedTime: DateQueryOperatorInput, accessTime: DateQueryOperatorInput, changeTime: DateQueryOperatorInput, birthTime: DateQueryOperatorInput, root: StringQueryOperatorInput, dir: StringQueryOperatorInput, base: StringQueryOperatorInput, ext: StringQueryOperatorInput, name: StringQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, dev: IntQueryOperatorInput, mode: IntQueryOperatorInput, nlink: IntQueryOperatorInput, uid: IntQueryOperatorInput, gid: IntQueryOperatorInput, rdev: IntQueryOperatorInput, ino: FloatQueryOperatorInput, atimeMs: FloatQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, atime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, ctime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, publicURL: StringQueryOperatorInput, childrenSummariesJson: SummariesJsonFilterListInput, childSummariesJson: SummariesJsonFilterInput, childrenUniqueViolationsJson: UniqueViolationsJsonFilterListInput, childUniqueViolationsJson: UniqueViolationsJsonFilterInput, childrenUniqueViolationsTallyJson: UniqueViolationsTallyJsonFilterListInput, childUniqueViolationsTallyJson: UniqueViolationsTallyJsonFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): File
+  allFile(filter: FileFilterInput, sort: FileSortInput, skip: Int, limit: Int): FileConnection!
+  directory(sourceInstanceName: StringQueryOperatorInput, absolutePath: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, extension: StringQueryOperatorInput, size: IntQueryOperatorInput, prettySize: StringQueryOperatorInput, modifiedTime: DateQueryOperatorInput, accessTime: DateQueryOperatorInput, changeTime: DateQueryOperatorInput, birthTime: DateQueryOperatorInput, root: StringQueryOperatorInput, dir: StringQueryOperatorInput, base: StringQueryOperatorInput, ext: StringQueryOperatorInput, name: StringQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, dev: IntQueryOperatorInput, mode: IntQueryOperatorInput, nlink: IntQueryOperatorInput, uid: IntQueryOperatorInput, gid: IntQueryOperatorInput, rdev: IntQueryOperatorInput, ino: FloatQueryOperatorInput, atimeMs: FloatQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, atime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, ctime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Directory
+  allDirectory(filter: DirectoryFilterInput, sort: DirectorySortInput, skip: Int, limit: Int): DirectoryConnection!
+  site(buildTime: DateQueryOperatorInput, siteMetadata: SiteSiteMetadataFilterInput, port: IntQueryOperatorInput, host: StringQueryOperatorInput, polyfill: BooleanQueryOperatorInput, pathPrefix: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Site
+  allSite(filter: SiteFilterInput, sort: SiteSortInput, skip: Int, limit: Int): SiteConnection!
+  siteFunction(apiRoute: StringQueryOperatorInput, originalFilePath: StringQueryOperatorInput, relativeCompiledFilePath: StringQueryOperatorInput, absoluteCompiledFilePath: StringQueryOperatorInput, matchPath: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SiteFunction
+  allSiteFunction(filter: SiteFunctionFilterInput, sort: SiteFunctionSortInput, skip: Int, limit: Int): SiteFunctionConnection!
+  sitePage(path: StringQueryOperatorInput, component: StringQueryOperatorInput, internalComponentName: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, matchPath: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, isCreatedByStatefulCreatePages: BooleanQueryOperatorInput, context: SitePageContextFilterInput, pluginCreator: SitePluginFilterInput, pluginCreatorId: StringQueryOperatorInput): SitePage
+  allSitePage(filter: SitePageFilterInput, sort: SitePageSortInput, skip: Int, limit: Int): SitePageConnection!
+  summariesJson(reportId: StringQueryOperatorInput, totalViolationsForAllFeature: IntQueryOperatorInput, routes: RoutesInfoFilterInput, totalViolationsForAllFeatures: IntQueryOperatorInput, features: SummariesJsonFeaturesFilterListInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SummariesJson
+  allSummariesJson(filter: SummariesJsonFilterInput, sort: SummariesJsonSortInput, skip: Int, limit: Int): SummariesJsonConnection!
+  routesInfo(notValidated: StringQueryOperatorInput, validated: StringQueryOperatorInput, numberChecked: IntQueryOperatorInput, with: StringQueryOperatorInput, without: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): RoutesInfo
+  allRoutesInfo(filter: RoutesInfoFilterInput, sort: RoutesInfoSortInput, skip: Int, limit: Int): RoutesInfoConnection!
+  uniqueViolationsJsonOverviewViolationsByImpactModerate(instances: InstancesInfoFilterListInput, description: StringQueryOperatorInput, helpUrl: StringQueryOperatorInput, impact: StringQueryOperatorInput, routes: UniqueViolationsJsonOverviewViolationsByImpactModerateRoutesFilterListInput, ruleId: StringQueryOperatorInput, summary: StringQueryOperatorInput, tags: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): UniqueViolationsJsonOverviewViolationsByImpactModerate
+  allUniqueViolationsJsonOverviewViolationsByImpactModerate(filter: UniqueViolationsJsonOverviewViolationsByImpactModerateFilterInput, sort: UniqueViolationsJsonOverviewViolationsByImpactModerateSortInput, skip: Int, limit: Int): UniqueViolationsJsonOverviewViolationsByImpactModerateConnection!
+  uniqueViolationsJsonOverviewViolationsByImpactMinor(instances: InstancesInfoFilterListInput, description: StringQueryOperatorInput, helpUrl: StringQueryOperatorInput, impact: StringQueryOperatorInput, routes: UniqueViolationsJsonOverviewViolationsByImpactMinorRoutesFilterListInput, ruleId: StringQueryOperatorInput, summary: StringQueryOperatorInput, tags: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): UniqueViolationsJsonOverviewViolationsByImpactMinor
+  allUniqueViolationsJsonOverviewViolationsByImpactMinor(filter: UniqueViolationsJsonOverviewViolationsByImpactMinorFilterInput, sort: UniqueViolationsJsonOverviewViolationsByImpactMinorSortInput, skip: Int, limit: Int): UniqueViolationsJsonOverviewViolationsByImpactMinorConnection!
+  uniqueViolationsJsonOverviewViolationsByImpactSerious(instances: InstancesInfoFilterListInput, description: StringQueryOperatorInput, helpUrl: StringQueryOperatorInput, impact: StringQueryOperatorInput, routes: UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutesFilterListInput, ruleId: StringQueryOperatorInput, summary: StringQueryOperatorInput, tags: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): UniqueViolationsJsonOverviewViolationsByImpactSerious
+  allUniqueViolationsJsonOverviewViolationsByImpactSerious(filter: UniqueViolationsJsonOverviewViolationsByImpactSeriousFilterInput, sort: UniqueViolationsJsonOverviewViolationsByImpactSeriousSortInput, skip: Int, limit: Int): UniqueViolationsJsonOverviewViolationsByImpactSeriousConnection!
+  uniqueViolationsJsonOverviewViolationsByImpactCritical(instances: InstancesInfoFilterListInput, description: StringQueryOperatorInput, helpUrl: StringQueryOperatorInput, impact: StringQueryOperatorInput, routes: UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutesFilterListInput, ruleId: StringQueryOperatorInput, summary: StringQueryOperatorInput, tags: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): UniqueViolationsJsonOverviewViolationsByImpactCritical
+  allUniqueViolationsJsonOverviewViolationsByImpactCritical(filter: UniqueViolationsJsonOverviewViolationsByImpactCriticalFilterInput, sort: UniqueViolationsJsonOverviewViolationsByImpactCriticalSortInput, skip: Int, limit: Int): UniqueViolationsJsonOverviewViolationsByImpactCriticalConnection!
+  instancesInfo(any: FixInfoAnyFilterListInput, all: FixInfoAllFilterListInput, impact: StringQueryOperatorInput, html: StringQueryOperatorInput, target: StringQueryOperatorInput, failureSummary: StringQueryOperatorInput, routes: RouteDataFilterListInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): InstancesInfo
+  allInstancesInfo(filter: InstancesInfoFilterInput, sort: InstancesInfoSortInput, skip: Int, limit: Int): InstancesInfoConnection!
+  fixInfoAny(id: StringQueryOperatorInput, data: FixDataFilterInput, relatedNodes: RelatedNodesFilterListInput, impact: StringQueryOperatorInput, message: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): FixInfoAny
+  allFixInfoAny(filter: FixInfoAnyFilterInput, sort: FixInfoAnySortInput, skip: Int, limit: Int): FixInfoAnyConnection!
+  relatedNodes(html: StringQueryOperatorInput, target: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): RelatedNodes
+  allRelatedNodes(filter: RelatedNodesFilterInput, sort: RelatedNodesSortInput, skip: Int, limit: Int): RelatedNodesConnection!
+  fixInfoAll(id: StringQueryOperatorInput, impact: StringQueryOperatorInput, message: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): FixInfoAll
+  allFixInfoAll(filter: FixInfoAllFilterInput, sort: FixInfoAllSortInput, skip: Int, limit: Int): FixInfoAllConnection!
+  fixData(role: StringQueryOperatorInput, accessibleText: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): FixData
+  allFixData(filter: FixDataFilterInput, sort: FixDataSortInput, skip: Int, limit: Int): FixDataConnection!
+  routeData(id: StringQueryOperatorInput, path: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): RouteData
+  allRouteData(filter: RouteDataFilterInput, sort: RouteDataSortInput, skip: Int, limit: Int): RouteDataConnection!
+  uniqueViolationsJson(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, reportId: DateQueryOperatorInput, overview: UniqueViolationsJsonOverviewFilterInput): UniqueViolationsJson
+  allUniqueViolationsJson(filter: UniqueViolationsJsonFilterInput, sort: UniqueViolationsJsonSortInput, skip: Int, limit: Int): UniqueViolationsJsonConnection!
+  uniqueViolationsTallyJson(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, reportId: DateQueryOperatorInput, tally: UniqueViolationsTallyJsonTallyFilterInput): UniqueViolationsTallyJson
+  allUniqueViolationsTallyJson(filter: UniqueViolationsTallyJsonFilterInput, sort: UniqueViolationsTallyJsonSortInput, skip: Int, limit: Int): UniqueViolationsTallyJsonConnection!
+  siteBuildMetadata(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, buildTime: DateQueryOperatorInput): SiteBuildMetadata
+  allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, sort: SiteBuildMetadataSortInput, skip: Int, limit: Int): SiteBuildMetadataConnection!
+  sitePlugin(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, resolve: StringQueryOperatorInput, name: StringQueryOperatorInput, version: StringQueryOperatorInput, pluginOptions: SitePluginPluginOptionsFilterInput, nodeAPIs: StringQueryOperatorInput, browserAPIs: StringQueryOperatorInput, ssrAPIs: StringQueryOperatorInput, pluginFilepath: StringQueryOperatorInput, packageJson: SitePluginPackageJsonFilterInput): SitePlugin
+  allSitePlugin(filter: SitePluginFilterInput, sort: SitePluginSortInput, skip: Int, limit: Int): SitePluginConnection!
+}
+
+input SummariesJsonFilterListInput {
+  elemMatch: SummariesJsonFilterInput
+}
+
+input SummariesJsonFilterInput {
+  reportId: StringQueryOperatorInput
+  totalViolationsForAllFeature: IntQueryOperatorInput
+  routes: RoutesInfoFilterInput
+  totalViolationsForAllFeatures: IntQueryOperatorInput
+  features: SummariesJsonFeaturesFilterListInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input RoutesInfoFilterInput {
+  notValidated: StringQueryOperatorInput
+  validated: StringQueryOperatorInput
+  numberChecked: IntQueryOperatorInput
+  with: StringQueryOperatorInput
+  without: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input SummariesJsonFeaturesFilterListInput {
+  elemMatch: SummariesJsonFeaturesFilterInput
+}
+
+input SummariesJsonFeaturesFilterInput {
+  id: StringQueryOperatorInput
+  name: StringQueryOperatorInput
+  details: SummariesJsonFeaturesDetailsFilterListInput
+  tally: SummariesJsonFeaturesTallyFilterInput
+}
+
+input SummariesJsonFeaturesDetailsFilterListInput {
+  elemMatch: SummariesJsonFeaturesDetailsFilterInput
+}
+
+input SummariesJsonFeaturesDetailsFilterInput {
+  needsManualCheck: BooleanQueryOperatorInput
+  route: SummariesJsonFeaturesDetailsRouteFilterInput
+  violations: SummariesJsonFeaturesDetailsViolationsFilterListInput
+}
+
+input SummariesJsonFeaturesDetailsRouteFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsFilterListInput {
+  elemMatch: SummariesJsonFeaturesDetailsViolationsFilterInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsFilterInput {
+  id: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  help: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  nodes: SummariesJsonFeaturesDetailsViolationsNodesFilterListInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesFilterListInput {
+  elemMatch: SummariesJsonFeaturesDetailsViolationsNodesFilterInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesFilterInput {
+  any: SummariesJsonFeaturesDetailsViolationsNodesAnyFilterListInput
+  all: SummariesJsonFeaturesDetailsViolationsNodesAllFilterListInput
+  impact: StringQueryOperatorInput
+  html: StringQueryOperatorInput
+  target: StringQueryOperatorInput
+  failureSummary: StringQueryOperatorInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesAnyFilterListInput {
+  elemMatch: SummariesJsonFeaturesDetailsViolationsNodesAnyFilterInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesAnyFilterInput {
+  id: StringQueryOperatorInput
+  relatedNodes: SummariesJsonFeaturesDetailsViolationsNodesAnyRelatedNodesFilterListInput
+  impact: StringQueryOperatorInput
+  message: StringQueryOperatorInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesAnyRelatedNodesFilterListInput {
+  elemMatch: SummariesJsonFeaturesDetailsViolationsNodesAnyRelatedNodesFilterInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesAnyRelatedNodesFilterInput {
+  html: StringQueryOperatorInput
+  target: StringQueryOperatorInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesAllFilterListInput {
+  elemMatch: SummariesJsonFeaturesDetailsViolationsNodesAllFilterInput
+}
+
+input SummariesJsonFeaturesDetailsViolationsNodesAllFilterInput {
+  id: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  message: StringQueryOperatorInput
+}
+
+input SummariesJsonFeaturesTallyFilterInput {
+  byImpact: SummariesJsonFeaturesTallyByImpactFilterInput
+}
+
+input SummariesJsonFeaturesTallyByImpactFilterInput {
+  minor: IntQueryOperatorInput
+  moderate: IntQueryOperatorInput
+  serious: IntQueryOperatorInput
+  critical: IntQueryOperatorInput
+}
+
+input UniqueViolationsJsonFilterListInput {
+  elemMatch: UniqueViolationsJsonFilterInput
+}
+
+input UniqueViolationsJsonFilterInput {
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+  reportId: DateQueryOperatorInput
+  overview: UniqueViolationsJsonOverviewFilterInput
+}
+
+input UniqueViolationsJsonOverviewFilterInput {
+  ids: UniqueViolationsJsonOverviewIdsFilterInput
+  violations: UniqueViolationsJsonOverviewViolationsFilterInput
+}
+
+input UniqueViolationsJsonOverviewIdsFilterInput {
+  all: StringQueryOperatorInput
+  byImpact: UniqueViolationsJsonOverviewIdsByImpactFilterInput
+}
+
+input UniqueViolationsJsonOverviewIdsByImpactFilterInput {
+  minor: StringQueryOperatorInput
+  moderate: StringQueryOperatorInput
+  serious: StringQueryOperatorInput
+  critical: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsFilterInput {
+  all: UniqueViolationsJsonOverviewViolationsAllFilterListInput
+  byImpact: UniqueViolationsJsonOverviewViolationsByImpactFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllFilterInput {
+  description: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  instances: UniqueViolationsJsonOverviewViolationsAllInstancesFilterListInput
+  routes: UniqueViolationsJsonOverviewViolationsAllRoutesFilterListInput
+  ruleId: StringQueryOperatorInput
+  summary: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllInstancesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesFilterInput {
+  any: UniqueViolationsJsonOverviewViolationsAllInstancesAnyFilterListInput
+  all: UniqueViolationsJsonOverviewViolationsAllInstancesAllFilterListInput
+  impact: StringQueryOperatorInput
+  html: StringQueryOperatorInput
+  target: StringQueryOperatorInput
+  failureSummary: StringQueryOperatorInput
+  routes: UniqueViolationsJsonOverviewViolationsAllInstancesRoutesFilterListInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesAnyFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllInstancesAnyFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesAnyFilterInput {
+  id: StringQueryOperatorInput
+  relatedNodes: UniqueViolationsJsonOverviewViolationsAllInstancesAnyRelatedNodesFilterListInput
+  impact: StringQueryOperatorInput
+  message: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesAnyRelatedNodesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllInstancesAnyRelatedNodesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesAnyRelatedNodesFilterInput {
+  html: StringQueryOperatorInput
+  target: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesAllFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllInstancesAllFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesAllFilterInput {
+  id: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  message: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesRoutesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllInstancesRoutesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllInstancesRoutesFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllRoutesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsAllRoutesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsAllRoutesFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactFilterInput {
+  minor: UniqueViolationsJsonOverviewViolationsByImpactMinorFilterListInput
+  moderate: UniqueViolationsJsonOverviewViolationsByImpactModerateFilterListInput
+  serious: UniqueViolationsJsonOverviewViolationsByImpactSeriousFilterListInput
+  critical: UniqueViolationsJsonOverviewViolationsByImpactCriticalFilterListInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactMinorFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactMinorFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactMinorFilterInput {
+  instances: InstancesInfoFilterListInput
+  description: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  routes: UniqueViolationsJsonOverviewViolationsByImpactMinorRoutesFilterListInput
+  ruleId: StringQueryOperatorInput
+  summary: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input InstancesInfoFilterListInput {
+  elemMatch: InstancesInfoFilterInput
+}
+
+input InstancesInfoFilterInput {
+  any: FixInfoAnyFilterListInput
+  all: FixInfoAllFilterListInput
+  impact: StringQueryOperatorInput
+  html: StringQueryOperatorInput
+  target: StringQueryOperatorInput
+  failureSummary: StringQueryOperatorInput
+  routes: RouteDataFilterListInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input FixInfoAnyFilterListInput {
+  elemMatch: FixInfoAnyFilterInput
+}
+
+input FixInfoAnyFilterInput {
+  id: StringQueryOperatorInput
+  data: FixDataFilterInput
+  relatedNodes: RelatedNodesFilterListInput
+  impact: StringQueryOperatorInput
+  message: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input FixDataFilterInput {
+  role: StringQueryOperatorInput
+  accessibleText: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input RelatedNodesFilterListInput {
+  elemMatch: RelatedNodesFilterInput
+}
+
+input RelatedNodesFilterInput {
+  html: StringQueryOperatorInput
+  target: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input FixInfoAllFilterListInput {
+  elemMatch: FixInfoAllFilterInput
+}
+
+input FixInfoAllFilterInput {
+  id: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  message: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input RouteDataFilterListInput {
+  elemMatch: RouteDataFilterInput
+}
+
+input RouteDataFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactMinorRoutesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactMinorRoutesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactMinorRoutesFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactModerateFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactModerateFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactModerateFilterInput {
+  instances: InstancesInfoFilterListInput
+  description: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  routes: UniqueViolationsJsonOverviewViolationsByImpactModerateRoutesFilterListInput
+  ruleId: StringQueryOperatorInput
+  summary: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactModerateRoutesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactModerateRoutesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactModerateRoutesFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactSeriousFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactSeriousFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactSeriousFilterInput {
+  instances: InstancesInfoFilterListInput
+  description: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  routes: UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutesFilterListInput
+  ruleId: StringQueryOperatorInput
+  summary: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutesFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactCriticalFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactCriticalFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactCriticalFilterInput {
+  instances: InstancesInfoFilterListInput
+  description: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  routes: UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutesFilterListInput
+  ruleId: StringQueryOperatorInput
+  summary: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutesFilterListInput {
+  elemMatch: UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutesFilterInput
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutesFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input UniqueViolationsTallyJsonFilterListInput {
+  elemMatch: UniqueViolationsTallyJsonFilterInput
+}
+
+input UniqueViolationsTallyJsonFilterInput {
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+  reportId: DateQueryOperatorInput
+  tally: UniqueViolationsTallyJsonTallyFilterInput
+}
+
+input UniqueViolationsTallyJsonTallyFilterInput {
+  byImpact: UniqueViolationsTallyJsonTallyByImpactFilterInput
+  byInstance: UniqueViolationsTallyJsonTallyByInstanceFilterInput
+}
+
+input UniqueViolationsTallyJsonTallyByImpactFilterInput {
+  minor: IntQueryOperatorInput
+  moderate: IntQueryOperatorInput
+  serious: IntQueryOperatorInput
+  critical: IntQueryOperatorInput
+}
+
+input UniqueViolationsTallyJsonTallyByInstanceFilterInput {
+  minor: IntQueryOperatorInput
+  moderate: IntQueryOperatorInput
+  serious: IntQueryOperatorInput
+  critical: IntQueryOperatorInput
+}
+
+enum FileFieldsEnum {
+  sourceInstanceName
+  absolutePath
+  relativePath
+  extension
+  size
+  prettySize
+  modifiedTime
+  accessTime
+  changeTime
+  birthTime
+  root
+  dir
+  base
+  ext
+  name
+  relativeDirectory
+  dev
+  mode
+  nlink
+  uid
+  gid
+  rdev
+  ino
+  atimeMs
+  mtimeMs
+  ctimeMs
+  atime
+  mtime
+  ctime
+  birthtime
+  birthtimeMs
+  blksize
+  blocks
+  publicURL
+  childrenSummariesJson
+  childrenSummariesJson___reportId
+  childrenSummariesJson___totalViolationsForAllFeature
+  childrenSummariesJson___routes___notValidated
+  childrenSummariesJson___routes___validated
+  childrenSummariesJson___routes___numberChecked
+  childrenSummariesJson___routes___with
+  childrenSummariesJson___routes___without
+  childrenSummariesJson___routes___id
+  childrenSummariesJson___routes___parent___id
+  childrenSummariesJson___routes___parent___children
+  childrenSummariesJson___routes___children
+  childrenSummariesJson___routes___children___id
+  childrenSummariesJson___routes___children___children
+  childrenSummariesJson___routes___internal___content
+  childrenSummariesJson___routes___internal___contentDigest
+  childrenSummariesJson___routes___internal___description
+  childrenSummariesJson___routes___internal___fieldOwners
+  childrenSummariesJson___routes___internal___ignoreType
+  childrenSummariesJson___routes___internal___mediaType
+  childrenSummariesJson___routes___internal___owner
+  childrenSummariesJson___routes___internal___type
+  childrenSummariesJson___totalViolationsForAllFeatures
+  childrenSummariesJson___features
+  childrenSummariesJson___features___id
+  childrenSummariesJson___features___name
+  childrenSummariesJson___features___details
+  childrenSummariesJson___features___details___needsManualCheck
+  childrenSummariesJson___features___details___violations
+  childrenSummariesJson___id
+  childrenSummariesJson___parent___id
+  childrenSummariesJson___parent___parent___id
+  childrenSummariesJson___parent___parent___children
+  childrenSummariesJson___parent___children
+  childrenSummariesJson___parent___children___id
+  childrenSummariesJson___parent___children___children
+  childrenSummariesJson___parent___internal___content
+  childrenSummariesJson___parent___internal___contentDigest
+  childrenSummariesJson___parent___internal___description
+  childrenSummariesJson___parent___internal___fieldOwners
+  childrenSummariesJson___parent___internal___ignoreType
+  childrenSummariesJson___parent___internal___mediaType
+  childrenSummariesJson___parent___internal___owner
+  childrenSummariesJson___parent___internal___type
+  childrenSummariesJson___children
+  childrenSummariesJson___children___id
+  childrenSummariesJson___children___parent___id
+  childrenSummariesJson___children___parent___children
+  childrenSummariesJson___children___children
+  childrenSummariesJson___children___children___id
+  childrenSummariesJson___children___children___children
+  childrenSummariesJson___children___internal___content
+  childrenSummariesJson___children___internal___contentDigest
+  childrenSummariesJson___children___internal___description
+  childrenSummariesJson___children___internal___fieldOwners
+  childrenSummariesJson___children___internal___ignoreType
+  childrenSummariesJson___children___internal___mediaType
+  childrenSummariesJson___children___internal___owner
+  childrenSummariesJson___children___internal___type
+  childrenSummariesJson___internal___content
+  childrenSummariesJson___internal___contentDigest
+  childrenSummariesJson___internal___description
+  childrenSummariesJson___internal___fieldOwners
+  childrenSummariesJson___internal___ignoreType
+  childrenSummariesJson___internal___mediaType
+  childrenSummariesJson___internal___owner
+  childrenSummariesJson___internal___type
+  childSummariesJson___reportId
+  childSummariesJson___totalViolationsForAllFeature
+  childSummariesJson___routes___notValidated
+  childSummariesJson___routes___validated
+  childSummariesJson___routes___numberChecked
+  childSummariesJson___routes___with
+  childSummariesJson___routes___without
+  childSummariesJson___routes___id
+  childSummariesJson___routes___parent___id
+  childSummariesJson___routes___parent___children
+  childSummariesJson___routes___children
+  childSummariesJson___routes___children___id
+  childSummariesJson___routes___children___children
+  childSummariesJson___routes___internal___content
+  childSummariesJson___routes___internal___contentDigest
+  childSummariesJson___routes___internal___description
+  childSummariesJson___routes___internal___fieldOwners
+  childSummariesJson___routes___internal___ignoreType
+  childSummariesJson___routes___internal___mediaType
+  childSummariesJson___routes___internal___owner
+  childSummariesJson___routes___internal___type
+  childSummariesJson___totalViolationsForAllFeatures
+  childSummariesJson___features
+  childSummariesJson___features___id
+  childSummariesJson___features___name
+  childSummariesJson___features___details
+  childSummariesJson___features___details___needsManualCheck
+  childSummariesJson___features___details___violations
+  childSummariesJson___id
+  childSummariesJson___parent___id
+  childSummariesJson___parent___parent___id
+  childSummariesJson___parent___parent___children
+  childSummariesJson___parent___children
+  childSummariesJson___parent___children___id
+  childSummariesJson___parent___children___children
+  childSummariesJson___parent___internal___content
+  childSummariesJson___parent___internal___contentDigest
+  childSummariesJson___parent___internal___description
+  childSummariesJson___parent___internal___fieldOwners
+  childSummariesJson___parent___internal___ignoreType
+  childSummariesJson___parent___internal___mediaType
+  childSummariesJson___parent___internal___owner
+  childSummariesJson___parent___internal___type
+  childSummariesJson___children
+  childSummariesJson___children___id
+  childSummariesJson___children___parent___id
+  childSummariesJson___children___parent___children
+  childSummariesJson___children___children
+  childSummariesJson___children___children___id
+  childSummariesJson___children___children___children
+  childSummariesJson___children___internal___content
+  childSummariesJson___children___internal___contentDigest
+  childSummariesJson___children___internal___description
+  childSummariesJson___children___internal___fieldOwners
+  childSummariesJson___children___internal___ignoreType
+  childSummariesJson___children___internal___mediaType
+  childSummariesJson___children___internal___owner
+  childSummariesJson___children___internal___type
+  childSummariesJson___internal___content
+  childSummariesJson___internal___contentDigest
+  childSummariesJson___internal___description
+  childSummariesJson___internal___fieldOwners
+  childSummariesJson___internal___ignoreType
+  childSummariesJson___internal___mediaType
+  childSummariesJson___internal___owner
+  childSummariesJson___internal___type
+  childrenUniqueViolationsJson
+  childrenUniqueViolationsJson___id
+  childrenUniqueViolationsJson___parent___id
+  childrenUniqueViolationsJson___parent___parent___id
+  childrenUniqueViolationsJson___parent___parent___children
+  childrenUniqueViolationsJson___parent___children
+  childrenUniqueViolationsJson___parent___children___id
+  childrenUniqueViolationsJson___parent___children___children
+  childrenUniqueViolationsJson___parent___internal___content
+  childrenUniqueViolationsJson___parent___internal___contentDigest
+  childrenUniqueViolationsJson___parent___internal___description
+  childrenUniqueViolationsJson___parent___internal___fieldOwners
+  childrenUniqueViolationsJson___parent___internal___ignoreType
+  childrenUniqueViolationsJson___parent___internal___mediaType
+  childrenUniqueViolationsJson___parent___internal___owner
+  childrenUniqueViolationsJson___parent___internal___type
+  childrenUniqueViolationsJson___children
+  childrenUniqueViolationsJson___children___id
+  childrenUniqueViolationsJson___children___parent___id
+  childrenUniqueViolationsJson___children___parent___children
+  childrenUniqueViolationsJson___children___children
+  childrenUniqueViolationsJson___children___children___id
+  childrenUniqueViolationsJson___children___children___children
+  childrenUniqueViolationsJson___children___internal___content
+  childrenUniqueViolationsJson___children___internal___contentDigest
+  childrenUniqueViolationsJson___children___internal___description
+  childrenUniqueViolationsJson___children___internal___fieldOwners
+  childrenUniqueViolationsJson___children___internal___ignoreType
+  childrenUniqueViolationsJson___children___internal___mediaType
+  childrenUniqueViolationsJson___children___internal___owner
+  childrenUniqueViolationsJson___children___internal___type
+  childrenUniqueViolationsJson___internal___content
+  childrenUniqueViolationsJson___internal___contentDigest
+  childrenUniqueViolationsJson___internal___description
+  childrenUniqueViolationsJson___internal___fieldOwners
+  childrenUniqueViolationsJson___internal___ignoreType
+  childrenUniqueViolationsJson___internal___mediaType
+  childrenUniqueViolationsJson___internal___owner
+  childrenUniqueViolationsJson___internal___type
+  childrenUniqueViolationsJson___reportId
+  childrenUniqueViolationsJson___overview___ids___all
+  childrenUniqueViolationsJson___overview___violations___all
+  childUniqueViolationsJson___id
+  childUniqueViolationsJson___parent___id
+  childUniqueViolationsJson___parent___parent___id
+  childUniqueViolationsJson___parent___parent___children
+  childUniqueViolationsJson___parent___children
+  childUniqueViolationsJson___parent___children___id
+  childUniqueViolationsJson___parent___children___children
+  childUniqueViolationsJson___parent___internal___content
+  childUniqueViolationsJson___parent___internal___contentDigest
+  childUniqueViolationsJson___parent___internal___description
+  childUniqueViolationsJson___parent___internal___fieldOwners
+  childUniqueViolationsJson___parent___internal___ignoreType
+  childUniqueViolationsJson___parent___internal___mediaType
+  childUniqueViolationsJson___parent___internal___owner
+  childUniqueViolationsJson___parent___internal___type
+  childUniqueViolationsJson___children
+  childUniqueViolationsJson___children___id
+  childUniqueViolationsJson___children___parent___id
+  childUniqueViolationsJson___children___parent___children
+  childUniqueViolationsJson___children___children
+  childUniqueViolationsJson___children___children___id
+  childUniqueViolationsJson___children___children___children
+  childUniqueViolationsJson___children___internal___content
+  childUniqueViolationsJson___children___internal___contentDigest
+  childUniqueViolationsJson___children___internal___description
+  childUniqueViolationsJson___children___internal___fieldOwners
+  childUniqueViolationsJson___children___internal___ignoreType
+  childUniqueViolationsJson___children___internal___mediaType
+  childUniqueViolationsJson___children___internal___owner
+  childUniqueViolationsJson___children___internal___type
+  childUniqueViolationsJson___internal___content
+  childUniqueViolationsJson___internal___contentDigest
+  childUniqueViolationsJson___internal___description
+  childUniqueViolationsJson___internal___fieldOwners
+  childUniqueViolationsJson___internal___ignoreType
+  childUniqueViolationsJson___internal___mediaType
+  childUniqueViolationsJson___internal___owner
+  childUniqueViolationsJson___internal___type
+  childUniqueViolationsJson___reportId
+  childUniqueViolationsJson___overview___ids___all
+  childUniqueViolationsJson___overview___violations___all
+  childrenUniqueViolationsTallyJson
+  childrenUniqueViolationsTallyJson___id
+  childrenUniqueViolationsTallyJson___parent___id
+  childrenUniqueViolationsTallyJson___parent___parent___id
+  childrenUniqueViolationsTallyJson___parent___parent___children
+  childrenUniqueViolationsTallyJson___parent___children
+  childrenUniqueViolationsTallyJson___parent___children___id
+  childrenUniqueViolationsTallyJson___parent___children___children
+  childrenUniqueViolationsTallyJson___parent___internal___content
+  childrenUniqueViolationsTallyJson___parent___internal___contentDigest
+  childrenUniqueViolationsTallyJson___parent___internal___description
+  childrenUniqueViolationsTallyJson___parent___internal___fieldOwners
+  childrenUniqueViolationsTallyJson___parent___internal___ignoreType
+  childrenUniqueViolationsTallyJson___parent___internal___mediaType
+  childrenUniqueViolationsTallyJson___parent___internal___owner
+  childrenUniqueViolationsTallyJson___parent___internal___type
+  childrenUniqueViolationsTallyJson___children
+  childrenUniqueViolationsTallyJson___children___id
+  childrenUniqueViolationsTallyJson___children___parent___id
+  childrenUniqueViolationsTallyJson___children___parent___children
+  childrenUniqueViolationsTallyJson___children___children
+  childrenUniqueViolationsTallyJson___children___children___id
+  childrenUniqueViolationsTallyJson___children___children___children
+  childrenUniqueViolationsTallyJson___children___internal___content
+  childrenUniqueViolationsTallyJson___children___internal___contentDigest
+  childrenUniqueViolationsTallyJson___children___internal___description
+  childrenUniqueViolationsTallyJson___children___internal___fieldOwners
+  childrenUniqueViolationsTallyJson___children___internal___ignoreType
+  childrenUniqueViolationsTallyJson___children___internal___mediaType
+  childrenUniqueViolationsTallyJson___children___internal___owner
+  childrenUniqueViolationsTallyJson___children___internal___type
+  childrenUniqueViolationsTallyJson___internal___content
+  childrenUniqueViolationsTallyJson___internal___contentDigest
+  childrenUniqueViolationsTallyJson___internal___description
+  childrenUniqueViolationsTallyJson___internal___fieldOwners
+  childrenUniqueViolationsTallyJson___internal___ignoreType
+  childrenUniqueViolationsTallyJson___internal___mediaType
+  childrenUniqueViolationsTallyJson___internal___owner
+  childrenUniqueViolationsTallyJson___internal___type
+  childrenUniqueViolationsTallyJson___reportId
+  childrenUniqueViolationsTallyJson___tally___byImpact___minor
+  childrenUniqueViolationsTallyJson___tally___byImpact___moderate
+  childrenUniqueViolationsTallyJson___tally___byImpact___serious
+  childrenUniqueViolationsTallyJson___tally___byImpact___critical
+  childrenUniqueViolationsTallyJson___tally___byInstance___minor
+  childrenUniqueViolationsTallyJson___tally___byInstance___moderate
+  childrenUniqueViolationsTallyJson___tally___byInstance___serious
+  childrenUniqueViolationsTallyJson___tally___byInstance___critical
+  childUniqueViolationsTallyJson___id
+  childUniqueViolationsTallyJson___parent___id
+  childUniqueViolationsTallyJson___parent___parent___id
+  childUniqueViolationsTallyJson___parent___parent___children
+  childUniqueViolationsTallyJson___parent___children
+  childUniqueViolationsTallyJson___parent___children___id
+  childUniqueViolationsTallyJson___parent___children___children
+  childUniqueViolationsTallyJson___parent___internal___content
+  childUniqueViolationsTallyJson___parent___internal___contentDigest
+  childUniqueViolationsTallyJson___parent___internal___description
+  childUniqueViolationsTallyJson___parent___internal___fieldOwners
+  childUniqueViolationsTallyJson___parent___internal___ignoreType
+  childUniqueViolationsTallyJson___parent___internal___mediaType
+  childUniqueViolationsTallyJson___parent___internal___owner
+  childUniqueViolationsTallyJson___parent___internal___type
+  childUniqueViolationsTallyJson___children
+  childUniqueViolationsTallyJson___children___id
+  childUniqueViolationsTallyJson___children___parent___id
+  childUniqueViolationsTallyJson___children___parent___children
+  childUniqueViolationsTallyJson___children___children
+  childUniqueViolationsTallyJson___children___children___id
+  childUniqueViolationsTallyJson___children___children___children
+  childUniqueViolationsTallyJson___children___internal___content
+  childUniqueViolationsTallyJson___children___internal___contentDigest
+  childUniqueViolationsTallyJson___children___internal___description
+  childUniqueViolationsTallyJson___children___internal___fieldOwners
+  childUniqueViolationsTallyJson___children___internal___ignoreType
+  childUniqueViolationsTallyJson___children___internal___mediaType
+  childUniqueViolationsTallyJson___children___internal___owner
+  childUniqueViolationsTallyJson___children___internal___type
+  childUniqueViolationsTallyJson___internal___content
+  childUniqueViolationsTallyJson___internal___contentDigest
+  childUniqueViolationsTallyJson___internal___description
+  childUniqueViolationsTallyJson___internal___fieldOwners
+  childUniqueViolationsTallyJson___internal___ignoreType
+  childUniqueViolationsTallyJson___internal___mediaType
+  childUniqueViolationsTallyJson___internal___owner
+  childUniqueViolationsTallyJson___internal___type
+  childUniqueViolationsTallyJson___reportId
+  childUniqueViolationsTallyJson___tally___byImpact___minor
+  childUniqueViolationsTallyJson___tally___byImpact___moderate
+  childUniqueViolationsTallyJson___tally___byImpact___serious
+  childUniqueViolationsTallyJson___tally___byImpact___critical
+  childUniqueViolationsTallyJson___tally___byInstance___minor
+  childUniqueViolationsTallyJson___tally___byInstance___moderate
+  childUniqueViolationsTallyJson___tally___byInstance___serious
+  childUniqueViolationsTallyJson___tally___byInstance___critical
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+input SiteSiteMetadataFilterInput {
+  title: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  appName: StringQueryOperatorInput
+  author: StringQueryOperatorInput
+}
+
+input SitePageContextFilterInput {
+  impact: StringQueryOperatorInput
+  data: SitePageContextDataFilterListInput
+  reportId: DateQueryOperatorInput
+  summary: SitePageContextSummaryFilterInput
+  id: StringQueryOperatorInput
+  name: StringQueryOperatorInput
+  details: SitePageContextDetailsFilterListInput
+  tally: SitePageContextTallyFilterInput
+}
+
+input SitePageContextDataFilterListInput {
+  elemMatch: SitePageContextDataFilterInput
+}
+
+input SitePageContextDataFilterInput {
+  description: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  instances: SitePageContextDataInstancesFilterListInput
+  routes: SitePageContextDataRoutesFilterListInput
+  ruleId: StringQueryOperatorInput
+  summary: StringQueryOperatorInput
+  tags: StringQueryOperatorInput
+}
+
+input SitePageContextDataInstancesFilterListInput {
+  elemMatch: SitePageContextDataInstancesFilterInput
+}
+
+input SitePageContextDataInstancesFilterInput {
+  html: StringQueryOperatorInput
+  routes: SitePageContextDataInstancesRoutesFilterListInput
+  all: SitePageContextDataInstancesAllFilterListInput
+  any: SitePageContextDataInstancesAnyFilterListInput
+}
+
+input SitePageContextDataInstancesRoutesFilterListInput {
+  elemMatch: SitePageContextDataInstancesRoutesFilterInput
+}
+
+input SitePageContextDataInstancesRoutesFilterInput {
+  path: StringQueryOperatorInput
+}
+
+input SitePageContextDataInstancesAllFilterListInput {
+  elemMatch: SitePageContextDataInstancesAllFilterInput
+}
+
+input SitePageContextDataInstancesAllFilterInput {
+  message: StringQueryOperatorInput
+}
+
+input SitePageContextDataInstancesAnyFilterListInput {
+  elemMatch: SitePageContextDataInstancesAnyFilterInput
+}
+
+input SitePageContextDataInstancesAnyFilterInput {
+  message: StringQueryOperatorInput
+}
+
+input SitePageContextDataRoutesFilterListInput {
+  elemMatch: SitePageContextDataRoutesFilterInput
+}
+
+input SitePageContextDataRoutesFilterInput {
+  path: StringQueryOperatorInput
+}
+
+input SitePageContextDetailsFilterListInput {
+  elemMatch: SitePageContextDetailsFilterInput
+}
+
+input SitePageContextDetailsFilterInput {
+  route: SitePageContextDetailsRouteFilterInput
+  violations: SitePageContextDetailsViolationsFilterListInput
+}
+
+input SitePageContextDetailsRouteFilterInput {
+  id: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+}
+
+input SitePageContextDetailsViolationsFilterListInput {
+  elemMatch: SitePageContextDetailsViolationsFilterInput
+}
+
+input SitePageContextDetailsViolationsFilterInput {
+  help: StringQueryOperatorInput
+  impact: StringQueryOperatorInput
+  helpUrl: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  nodes: SitePageContextDetailsViolationsNodesFilterListInput
+  id: StringQueryOperatorInput
+}
+
+input SitePageContextDetailsViolationsNodesFilterListInput {
+  elemMatch: SitePageContextDetailsViolationsNodesFilterInput
+}
+
+input SitePageContextDetailsViolationsNodesFilterInput {
+  html: StringQueryOperatorInput
+}
+
+input SitePageContextTallyFilterInput {
+  byImpact: SitePageContextTallyByImpactFilterInput
+}
+
+input SitePageContextTallyByImpactFilterInput {
+  critical: IntQueryOperatorInput
+  minor: IntQueryOperatorInput
+  moderate: IntQueryOperatorInput
+  serious: IntQueryOperatorInput
+}
+
+type SummariesJsonConnection {
+  totalCount: Int!
+  edges: [SummariesJsonEdge!]!
+  nodes: [SummariesJson!]!
+  pageInfo: PageInfo!
+  distinct(field: SummariesJsonFieldsEnum!): [String!]!
+  max(field: SummariesJsonFieldsEnum!): Float
+  min(field: SummariesJsonFieldsEnum!): Float
+  sum(field: SummariesJsonFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: SummariesJsonFieldsEnum!): [SummariesJsonGroupConnection!]!
+}
+
+type SummariesJsonEdge {
+  next: SummariesJson
+  node: SummariesJson!
+  previous: SummariesJson
+}
+
+enum SummariesJsonFieldsEnum {
+  reportId
+  totalViolationsForAllFeature
+  routes___notValidated
+  routes___validated
+  routes___numberChecked
+  routes___with
+  routes___without
+  routes___id
+  routes___parent___id
+  routes___parent___parent___id
+  routes___parent___parent___children
+  routes___parent___children
+  routes___parent___children___id
+  routes___parent___children___children
+  routes___parent___internal___content
+  routes___parent___internal___contentDigest
+  routes___parent___internal___description
+  routes___parent___internal___fieldOwners
+  routes___parent___internal___ignoreType
+  routes___parent___internal___mediaType
+  routes___parent___internal___owner
+  routes___parent___internal___type
+  routes___children
+  routes___children___id
+  routes___children___parent___id
+  routes___children___parent___children
+  routes___children___children
+  routes___children___children___id
+  routes___children___children___children
+  routes___children___internal___content
+  routes___children___internal___contentDigest
+  routes___children___internal___description
+  routes___children___internal___fieldOwners
+  routes___children___internal___ignoreType
+  routes___children___internal___mediaType
+  routes___children___internal___owner
+  routes___children___internal___type
+  routes___internal___content
+  routes___internal___contentDigest
+  routes___internal___description
+  routes___internal___fieldOwners
+  routes___internal___ignoreType
+  routes___internal___mediaType
+  routes___internal___owner
+  routes___internal___type
+  totalViolationsForAllFeatures
+  features
+  features___id
+  features___name
+  features___details
+  features___details___needsManualCheck
+  features___details___route___id
+  features___details___route___path
+  features___details___violations
+  features___details___violations___id
+  features___details___violations___impact
+  features___details___violations___tags
+  features___details___violations___description
+  features___details___violations___help
+  features___details___violations___helpUrl
+  features___details___violations___nodes
+  features___tally___byImpact___minor
+  features___tally___byImpact___moderate
+  features___tally___byImpact___serious
+  features___tally___byImpact___critical
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type SummariesJsonGroupConnection {
+  totalCount: Int!
+  edges: [SummariesJsonEdge!]!
+  nodes: [SummariesJson!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input SummariesJsonSortInput {
+  fields: [SummariesJsonFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type RoutesInfoConnection {
+  totalCount: Int!
+  edges: [RoutesInfoEdge!]!
+  nodes: [RoutesInfo!]!
+  pageInfo: PageInfo!
+  distinct(field: RoutesInfoFieldsEnum!): [String!]!
+  max(field: RoutesInfoFieldsEnum!): Float
+  min(field: RoutesInfoFieldsEnum!): Float
+  sum(field: RoutesInfoFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: RoutesInfoFieldsEnum!): [RoutesInfoGroupConnection!]!
+}
+
+type RoutesInfoEdge {
+  next: RoutesInfo
+  node: RoutesInfo!
+  previous: RoutesInfo
+}
+
+enum RoutesInfoFieldsEnum {
+  notValidated
+  validated
+  numberChecked
+  with
+  without
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type RoutesInfoGroupConnection {
+  totalCount: Int!
+  edges: [RoutesInfoEdge!]!
+  nodes: [RoutesInfo!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input RoutesInfoSortInput {
+  fields: [RoutesInfoFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactModerateConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactModerateEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactModerate!]!
+  pageInfo: PageInfo!
+  distinct(field: UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum!): [String!]!
+  max(field: UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum!): Float
+  min(field: UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum!): Float
+  sum(field: UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum!): [UniqueViolationsJsonOverviewViolationsByImpactModerateGroupConnection!]!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactModerateEdge {
+  next: UniqueViolationsJsonOverviewViolationsByImpactModerate
+  node: UniqueViolationsJsonOverviewViolationsByImpactModerate!
+  previous: UniqueViolationsJsonOverviewViolationsByImpactModerate
+}
+
+enum UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum {
+  instances
+  instances___any
+  instances___any___id
+  instances___any___data___role
+  instances___any___data___accessibleText
+  instances___any___data___id
+  instances___any___data___children
+  instances___any___relatedNodes
+  instances___any___relatedNodes___html
+  instances___any___relatedNodes___target
+  instances___any___relatedNodes___id
+  instances___any___relatedNodes___children
+  instances___any___impact
+  instances___any___message
+  instances___any___parent___id
+  instances___any___parent___children
+  instances___any___children
+  instances___any___children___id
+  instances___any___children___children
+  instances___any___internal___content
+  instances___any___internal___contentDigest
+  instances___any___internal___description
+  instances___any___internal___fieldOwners
+  instances___any___internal___ignoreType
+  instances___any___internal___mediaType
+  instances___any___internal___owner
+  instances___any___internal___type
+  instances___all
+  instances___all___id
+  instances___all___impact
+  instances___all___message
+  instances___all___parent___id
+  instances___all___parent___children
+  instances___all___children
+  instances___all___children___id
+  instances___all___children___children
+  instances___all___internal___content
+  instances___all___internal___contentDigest
+  instances___all___internal___description
+  instances___all___internal___fieldOwners
+  instances___all___internal___ignoreType
+  instances___all___internal___mediaType
+  instances___all___internal___owner
+  instances___all___internal___type
+  instances___impact
+  instances___html
+  instances___target
+  instances___failureSummary
+  instances___routes
+  instances___routes___id
+  instances___routes___path
+  instances___routes___parent___id
+  instances___routes___parent___children
+  instances___routes___children
+  instances___routes___children___id
+  instances___routes___children___children
+  instances___routes___internal___content
+  instances___routes___internal___contentDigest
+  instances___routes___internal___description
+  instances___routes___internal___fieldOwners
+  instances___routes___internal___ignoreType
+  instances___routes___internal___mediaType
+  instances___routes___internal___owner
+  instances___routes___internal___type
+  instances___id
+  instances___parent___id
+  instances___parent___parent___id
+  instances___parent___parent___children
+  instances___parent___children
+  instances___parent___children___id
+  instances___parent___children___children
+  instances___parent___internal___content
+  instances___parent___internal___contentDigest
+  instances___parent___internal___description
+  instances___parent___internal___fieldOwners
+  instances___parent___internal___ignoreType
+  instances___parent___internal___mediaType
+  instances___parent___internal___owner
+  instances___parent___internal___type
+  instances___children
+  instances___children___id
+  instances___children___parent___id
+  instances___children___parent___children
+  instances___children___children
+  instances___children___children___id
+  instances___children___children___children
+  instances___children___internal___content
+  instances___children___internal___contentDigest
+  instances___children___internal___description
+  instances___children___internal___fieldOwners
+  instances___children___internal___ignoreType
+  instances___children___internal___mediaType
+  instances___children___internal___owner
+  instances___children___internal___type
+  instances___internal___content
+  instances___internal___contentDigest
+  instances___internal___description
+  instances___internal___fieldOwners
+  instances___internal___ignoreType
+  instances___internal___mediaType
+  instances___internal___owner
+  instances___internal___type
+  description
+  helpUrl
+  impact
+  routes
+  routes___id
+  routes___path
+  ruleId
+  summary
+  tags
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactModerateGroupConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactModerateEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactModerate!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactModerateSortInput {
+  fields: [UniqueViolationsJsonOverviewViolationsByImpactModerateFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactMinorConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactMinorEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactMinor!]!
+  pageInfo: PageInfo!
+  distinct(field: UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum!): [String!]!
+  max(field: UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum!): Float
+  min(field: UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum!): Float
+  sum(field: UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum!): [UniqueViolationsJsonOverviewViolationsByImpactMinorGroupConnection!]!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactMinorEdge {
+  next: UniqueViolationsJsonOverviewViolationsByImpactMinor
+  node: UniqueViolationsJsonOverviewViolationsByImpactMinor!
+  previous: UniqueViolationsJsonOverviewViolationsByImpactMinor
+}
+
+enum UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum {
+  instances
+  instances___any
+  instances___any___id
+  instances___any___data___role
+  instances___any___data___accessibleText
+  instances___any___data___id
+  instances___any___data___children
+  instances___any___relatedNodes
+  instances___any___relatedNodes___html
+  instances___any___relatedNodes___target
+  instances___any___relatedNodes___id
+  instances___any___relatedNodes___children
+  instances___any___impact
+  instances___any___message
+  instances___any___parent___id
+  instances___any___parent___children
+  instances___any___children
+  instances___any___children___id
+  instances___any___children___children
+  instances___any___internal___content
+  instances___any___internal___contentDigest
+  instances___any___internal___description
+  instances___any___internal___fieldOwners
+  instances___any___internal___ignoreType
+  instances___any___internal___mediaType
+  instances___any___internal___owner
+  instances___any___internal___type
+  instances___all
+  instances___all___id
+  instances___all___impact
+  instances___all___message
+  instances___all___parent___id
+  instances___all___parent___children
+  instances___all___children
+  instances___all___children___id
+  instances___all___children___children
+  instances___all___internal___content
+  instances___all___internal___contentDigest
+  instances___all___internal___description
+  instances___all___internal___fieldOwners
+  instances___all___internal___ignoreType
+  instances___all___internal___mediaType
+  instances___all___internal___owner
+  instances___all___internal___type
+  instances___impact
+  instances___html
+  instances___target
+  instances___failureSummary
+  instances___routes
+  instances___routes___id
+  instances___routes___path
+  instances___routes___parent___id
+  instances___routes___parent___children
+  instances___routes___children
+  instances___routes___children___id
+  instances___routes___children___children
+  instances___routes___internal___content
+  instances___routes___internal___contentDigest
+  instances___routes___internal___description
+  instances___routes___internal___fieldOwners
+  instances___routes___internal___ignoreType
+  instances___routes___internal___mediaType
+  instances___routes___internal___owner
+  instances___routes___internal___type
+  instances___id
+  instances___parent___id
+  instances___parent___parent___id
+  instances___parent___parent___children
+  instances___parent___children
+  instances___parent___children___id
+  instances___parent___children___children
+  instances___parent___internal___content
+  instances___parent___internal___contentDigest
+  instances___parent___internal___description
+  instances___parent___internal___fieldOwners
+  instances___parent___internal___ignoreType
+  instances___parent___internal___mediaType
+  instances___parent___internal___owner
+  instances___parent___internal___type
+  instances___children
+  instances___children___id
+  instances___children___parent___id
+  instances___children___parent___children
+  instances___children___children
+  instances___children___children___id
+  instances___children___children___children
+  instances___children___internal___content
+  instances___children___internal___contentDigest
+  instances___children___internal___description
+  instances___children___internal___fieldOwners
+  instances___children___internal___ignoreType
+  instances___children___internal___mediaType
+  instances___children___internal___owner
+  instances___children___internal___type
+  instances___internal___content
+  instances___internal___contentDigest
+  instances___internal___description
+  instances___internal___fieldOwners
+  instances___internal___ignoreType
+  instances___internal___mediaType
+  instances___internal___owner
+  instances___internal___type
+  description
+  helpUrl
+  impact
+  routes
+  routes___id
+  routes___path
+  ruleId
+  summary
+  tags
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactMinorGroupConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactMinorEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactMinor!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactMinorSortInput {
+  fields: [UniqueViolationsJsonOverviewViolationsByImpactMinorFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactSeriousConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactSeriousEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactSerious!]!
+  pageInfo: PageInfo!
+  distinct(field: UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum!): [String!]!
+  max(field: UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum!): Float
+  min(field: UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum!): Float
+  sum(field: UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum!): [UniqueViolationsJsonOverviewViolationsByImpactSeriousGroupConnection!]!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactSeriousEdge {
+  next: UniqueViolationsJsonOverviewViolationsByImpactSerious
+  node: UniqueViolationsJsonOverviewViolationsByImpactSerious!
+  previous: UniqueViolationsJsonOverviewViolationsByImpactSerious
+}
+
+enum UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum {
+  instances
+  instances___any
+  instances___any___id
+  instances___any___data___role
+  instances___any___data___accessibleText
+  instances___any___data___id
+  instances___any___data___children
+  instances___any___relatedNodes
+  instances___any___relatedNodes___html
+  instances___any___relatedNodes___target
+  instances___any___relatedNodes___id
+  instances___any___relatedNodes___children
+  instances___any___impact
+  instances___any___message
+  instances___any___parent___id
+  instances___any___parent___children
+  instances___any___children
+  instances___any___children___id
+  instances___any___children___children
+  instances___any___internal___content
+  instances___any___internal___contentDigest
+  instances___any___internal___description
+  instances___any___internal___fieldOwners
+  instances___any___internal___ignoreType
+  instances___any___internal___mediaType
+  instances___any___internal___owner
+  instances___any___internal___type
+  instances___all
+  instances___all___id
+  instances___all___impact
+  instances___all___message
+  instances___all___parent___id
+  instances___all___parent___children
+  instances___all___children
+  instances___all___children___id
+  instances___all___children___children
+  instances___all___internal___content
+  instances___all___internal___contentDigest
+  instances___all___internal___description
+  instances___all___internal___fieldOwners
+  instances___all___internal___ignoreType
+  instances___all___internal___mediaType
+  instances___all___internal___owner
+  instances___all___internal___type
+  instances___impact
+  instances___html
+  instances___target
+  instances___failureSummary
+  instances___routes
+  instances___routes___id
+  instances___routes___path
+  instances___routes___parent___id
+  instances___routes___parent___children
+  instances___routes___children
+  instances___routes___children___id
+  instances___routes___children___children
+  instances___routes___internal___content
+  instances___routes___internal___contentDigest
+  instances___routes___internal___description
+  instances___routes___internal___fieldOwners
+  instances___routes___internal___ignoreType
+  instances___routes___internal___mediaType
+  instances___routes___internal___owner
+  instances___routes___internal___type
+  instances___id
+  instances___parent___id
+  instances___parent___parent___id
+  instances___parent___parent___children
+  instances___parent___children
+  instances___parent___children___id
+  instances___parent___children___children
+  instances___parent___internal___content
+  instances___parent___internal___contentDigest
+  instances___parent___internal___description
+  instances___parent___internal___fieldOwners
+  instances___parent___internal___ignoreType
+  instances___parent___internal___mediaType
+  instances___parent___internal___owner
+  instances___parent___internal___type
+  instances___children
+  instances___children___id
+  instances___children___parent___id
+  instances___children___parent___children
+  instances___children___children
+  instances___children___children___id
+  instances___children___children___children
+  instances___children___internal___content
+  instances___children___internal___contentDigest
+  instances___children___internal___description
+  instances___children___internal___fieldOwners
+  instances___children___internal___ignoreType
+  instances___children___internal___mediaType
+  instances___children___internal___owner
+  instances___children___internal___type
+  instances___internal___content
+  instances___internal___contentDigest
+  instances___internal___description
+  instances___internal___fieldOwners
+  instances___internal___ignoreType
+  instances___internal___mediaType
+  instances___internal___owner
+  instances___internal___type
+  description
+  helpUrl
+  impact
+  routes
+  routes___id
+  routes___path
+  ruleId
+  summary
+  tags
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactSeriousGroupConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactSeriousEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactSerious!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactSeriousSortInput {
+  fields: [UniqueViolationsJsonOverviewViolationsByImpactSeriousFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactCriticalConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactCriticalEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactCritical!]!
+  pageInfo: PageInfo!
+  distinct(field: UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum!): [String!]!
+  max(field: UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum!): Float
+  min(field: UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum!): Float
+  sum(field: UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum!): [UniqueViolationsJsonOverviewViolationsByImpactCriticalGroupConnection!]!
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactCriticalEdge {
+  next: UniqueViolationsJsonOverviewViolationsByImpactCritical
+  node: UniqueViolationsJsonOverviewViolationsByImpactCritical!
+  previous: UniqueViolationsJsonOverviewViolationsByImpactCritical
+}
+
+enum UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum {
+  instances
+  instances___any
+  instances___any___id
+  instances___any___data___role
+  instances___any___data___accessibleText
+  instances___any___data___id
+  instances___any___data___children
+  instances___any___relatedNodes
+  instances___any___relatedNodes___html
+  instances___any___relatedNodes___target
+  instances___any___relatedNodes___id
+  instances___any___relatedNodes___children
+  instances___any___impact
+  instances___any___message
+  instances___any___parent___id
+  instances___any___parent___children
+  instances___any___children
+  instances___any___children___id
+  instances___any___children___children
+  instances___any___internal___content
+  instances___any___internal___contentDigest
+  instances___any___internal___description
+  instances___any___internal___fieldOwners
+  instances___any___internal___ignoreType
+  instances___any___internal___mediaType
+  instances___any___internal___owner
+  instances___any___internal___type
+  instances___all
+  instances___all___id
+  instances___all___impact
+  instances___all___message
+  instances___all___parent___id
+  instances___all___parent___children
+  instances___all___children
+  instances___all___children___id
+  instances___all___children___children
+  instances___all___internal___content
+  instances___all___internal___contentDigest
+  instances___all___internal___description
+  instances___all___internal___fieldOwners
+  instances___all___internal___ignoreType
+  instances___all___internal___mediaType
+  instances___all___internal___owner
+  instances___all___internal___type
+  instances___impact
+  instances___html
+  instances___target
+  instances___failureSummary
+  instances___routes
+  instances___routes___id
+  instances___routes___path
+  instances___routes___parent___id
+  instances___routes___parent___children
+  instances___routes___children
+  instances___routes___children___id
+  instances___routes___children___children
+  instances___routes___internal___content
+  instances___routes___internal___contentDigest
+  instances___routes___internal___description
+  instances___routes___internal___fieldOwners
+  instances___routes___internal___ignoreType
+  instances___routes___internal___mediaType
+  instances___routes___internal___owner
+  instances___routes___internal___type
+  instances___id
+  instances___parent___id
+  instances___parent___parent___id
+  instances___parent___parent___children
+  instances___parent___children
+  instances___parent___children___id
+  instances___parent___children___children
+  instances___parent___internal___content
+  instances___parent___internal___contentDigest
+  instances___parent___internal___description
+  instances___parent___internal___fieldOwners
+  instances___parent___internal___ignoreType
+  instances___parent___internal___mediaType
+  instances___parent___internal___owner
+  instances___parent___internal___type
+  instances___children
+  instances___children___id
+  instances___children___parent___id
+  instances___children___parent___children
+  instances___children___children
+  instances___children___children___id
+  instances___children___children___children
+  instances___children___internal___content
+  instances___children___internal___contentDigest
+  instances___children___internal___description
+  instances___children___internal___fieldOwners
+  instances___children___internal___ignoreType
+  instances___children___internal___mediaType
+  instances___children___internal___owner
+  instances___children___internal___type
+  instances___internal___content
+  instances___internal___contentDigest
+  instances___internal___description
+  instances___internal___fieldOwners
+  instances___internal___ignoreType
+  instances___internal___mediaType
+  instances___internal___owner
+  instances___internal___type
+  description
+  helpUrl
+  impact
+  routes
+  routes___id
+  routes___path
+  ruleId
+  summary
+  tags
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type UniqueViolationsJsonOverviewViolationsByImpactCriticalGroupConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonOverviewViolationsByImpactCriticalEdge!]!
+  nodes: [UniqueViolationsJsonOverviewViolationsByImpactCritical!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input UniqueViolationsJsonOverviewViolationsByImpactCriticalSortInput {
+  fields: [UniqueViolationsJsonOverviewViolationsByImpactCriticalFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type InstancesInfoConnection {
+  totalCount: Int!
+  edges: [InstancesInfoEdge!]!
+  nodes: [InstancesInfo!]!
+  pageInfo: PageInfo!
+  distinct(field: InstancesInfoFieldsEnum!): [String!]!
+  max(field: InstancesInfoFieldsEnum!): Float
+  min(field: InstancesInfoFieldsEnum!): Float
+  sum(field: InstancesInfoFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: InstancesInfoFieldsEnum!): [InstancesInfoGroupConnection!]!
+}
+
+type InstancesInfoEdge {
+  next: InstancesInfo
+  node: InstancesInfo!
+  previous: InstancesInfo
+}
+
+enum InstancesInfoFieldsEnum {
+  any
+  any___id
+  any___data___role
+  any___data___accessibleText
+  any___data___id
+  any___data___parent___id
+  any___data___parent___children
+  any___data___children
+  any___data___children___id
+  any___data___children___children
+  any___data___internal___content
+  any___data___internal___contentDigest
+  any___data___internal___description
+  any___data___internal___fieldOwners
+  any___data___internal___ignoreType
+  any___data___internal___mediaType
+  any___data___internal___owner
+  any___data___internal___type
+  any___relatedNodes
+  any___relatedNodes___html
+  any___relatedNodes___target
+  any___relatedNodes___id
+  any___relatedNodes___parent___id
+  any___relatedNodes___parent___children
+  any___relatedNodes___children
+  any___relatedNodes___children___id
+  any___relatedNodes___children___children
+  any___relatedNodes___internal___content
+  any___relatedNodes___internal___contentDigest
+  any___relatedNodes___internal___description
+  any___relatedNodes___internal___fieldOwners
+  any___relatedNodes___internal___ignoreType
+  any___relatedNodes___internal___mediaType
+  any___relatedNodes___internal___owner
+  any___relatedNodes___internal___type
+  any___impact
+  any___message
+  any___parent___id
+  any___parent___parent___id
+  any___parent___parent___children
+  any___parent___children
+  any___parent___children___id
+  any___parent___children___children
+  any___parent___internal___content
+  any___parent___internal___contentDigest
+  any___parent___internal___description
+  any___parent___internal___fieldOwners
+  any___parent___internal___ignoreType
+  any___parent___internal___mediaType
+  any___parent___internal___owner
+  any___parent___internal___type
+  any___children
+  any___children___id
+  any___children___parent___id
+  any___children___parent___children
+  any___children___children
+  any___children___children___id
+  any___children___children___children
+  any___children___internal___content
+  any___children___internal___contentDigest
+  any___children___internal___description
+  any___children___internal___fieldOwners
+  any___children___internal___ignoreType
+  any___children___internal___mediaType
+  any___children___internal___owner
+  any___children___internal___type
+  any___internal___content
+  any___internal___contentDigest
+  any___internal___description
+  any___internal___fieldOwners
+  any___internal___ignoreType
+  any___internal___mediaType
+  any___internal___owner
+  any___internal___type
+  all
+  all___id
+  all___impact
+  all___message
+  all___parent___id
+  all___parent___parent___id
+  all___parent___parent___children
+  all___parent___children
+  all___parent___children___id
+  all___parent___children___children
+  all___parent___internal___content
+  all___parent___internal___contentDigest
+  all___parent___internal___description
+  all___parent___internal___fieldOwners
+  all___parent___internal___ignoreType
+  all___parent___internal___mediaType
+  all___parent___internal___owner
+  all___parent___internal___type
+  all___children
+  all___children___id
+  all___children___parent___id
+  all___children___parent___children
+  all___children___children
+  all___children___children___id
+  all___children___children___children
+  all___children___internal___content
+  all___children___internal___contentDigest
+  all___children___internal___description
+  all___children___internal___fieldOwners
+  all___children___internal___ignoreType
+  all___children___internal___mediaType
+  all___children___internal___owner
+  all___children___internal___type
+  all___internal___content
+  all___internal___contentDigest
+  all___internal___description
+  all___internal___fieldOwners
+  all___internal___ignoreType
+  all___internal___mediaType
+  all___internal___owner
+  all___internal___type
+  impact
+  html
+  target
+  failureSummary
+  routes
+  routes___id
+  routes___path
+  routes___parent___id
+  routes___parent___parent___id
+  routes___parent___parent___children
+  routes___parent___children
+  routes___parent___children___id
+  routes___parent___children___children
+  routes___parent___internal___content
+  routes___parent___internal___contentDigest
+  routes___parent___internal___description
+  routes___parent___internal___fieldOwners
+  routes___parent___internal___ignoreType
+  routes___parent___internal___mediaType
+  routes___parent___internal___owner
+  routes___parent___internal___type
+  routes___children
+  routes___children___id
+  routes___children___parent___id
+  routes___children___parent___children
+  routes___children___children
+  routes___children___children___id
+  routes___children___children___children
+  routes___children___internal___content
+  routes___children___internal___contentDigest
+  routes___children___internal___description
+  routes___children___internal___fieldOwners
+  routes___children___internal___ignoreType
+  routes___children___internal___mediaType
+  routes___children___internal___owner
+  routes___children___internal___type
+  routes___internal___content
+  routes___internal___contentDigest
+  routes___internal___description
+  routes___internal___fieldOwners
+  routes___internal___ignoreType
+  routes___internal___mediaType
+  routes___internal___owner
+  routes___internal___type
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type InstancesInfoGroupConnection {
+  totalCount: Int!
+  edges: [InstancesInfoEdge!]!
+  nodes: [InstancesInfo!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input InstancesInfoSortInput {
+  fields: [InstancesInfoFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type FixInfoAnyConnection {
+  totalCount: Int!
+  edges: [FixInfoAnyEdge!]!
+  nodes: [FixInfoAny!]!
+  pageInfo: PageInfo!
+  distinct(field: FixInfoAnyFieldsEnum!): [String!]!
+  max(field: FixInfoAnyFieldsEnum!): Float
+  min(field: FixInfoAnyFieldsEnum!): Float
+  sum(field: FixInfoAnyFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: FixInfoAnyFieldsEnum!): [FixInfoAnyGroupConnection!]!
+}
+
+type FixInfoAnyEdge {
+  next: FixInfoAny
+  node: FixInfoAny!
+  previous: FixInfoAny
+}
+
+enum FixInfoAnyFieldsEnum {
+  id
+  data___role
+  data___accessibleText
+  data___id
+  data___parent___id
+  data___parent___parent___id
+  data___parent___parent___children
+  data___parent___children
+  data___parent___children___id
+  data___parent___children___children
+  data___parent___internal___content
+  data___parent___internal___contentDigest
+  data___parent___internal___description
+  data___parent___internal___fieldOwners
+  data___parent___internal___ignoreType
+  data___parent___internal___mediaType
+  data___parent___internal___owner
+  data___parent___internal___type
+  data___children
+  data___children___id
+  data___children___parent___id
+  data___children___parent___children
+  data___children___children
+  data___children___children___id
+  data___children___children___children
+  data___children___internal___content
+  data___children___internal___contentDigest
+  data___children___internal___description
+  data___children___internal___fieldOwners
+  data___children___internal___ignoreType
+  data___children___internal___mediaType
+  data___children___internal___owner
+  data___children___internal___type
+  data___internal___content
+  data___internal___contentDigest
+  data___internal___description
+  data___internal___fieldOwners
+  data___internal___ignoreType
+  data___internal___mediaType
+  data___internal___owner
+  data___internal___type
+  relatedNodes
+  relatedNodes___html
+  relatedNodes___target
+  relatedNodes___id
+  relatedNodes___parent___id
+  relatedNodes___parent___parent___id
+  relatedNodes___parent___parent___children
+  relatedNodes___parent___children
+  relatedNodes___parent___children___id
+  relatedNodes___parent___children___children
+  relatedNodes___parent___internal___content
+  relatedNodes___parent___internal___contentDigest
+  relatedNodes___parent___internal___description
+  relatedNodes___parent___internal___fieldOwners
+  relatedNodes___parent___internal___ignoreType
+  relatedNodes___parent___internal___mediaType
+  relatedNodes___parent___internal___owner
+  relatedNodes___parent___internal___type
+  relatedNodes___children
+  relatedNodes___children___id
+  relatedNodes___children___parent___id
+  relatedNodes___children___parent___children
+  relatedNodes___children___children
+  relatedNodes___children___children___id
+  relatedNodes___children___children___children
+  relatedNodes___children___internal___content
+  relatedNodes___children___internal___contentDigest
+  relatedNodes___children___internal___description
+  relatedNodes___children___internal___fieldOwners
+  relatedNodes___children___internal___ignoreType
+  relatedNodes___children___internal___mediaType
+  relatedNodes___children___internal___owner
+  relatedNodes___children___internal___type
+  relatedNodes___internal___content
+  relatedNodes___internal___contentDigest
+  relatedNodes___internal___description
+  relatedNodes___internal___fieldOwners
+  relatedNodes___internal___ignoreType
+  relatedNodes___internal___mediaType
+  relatedNodes___internal___owner
+  relatedNodes___internal___type
+  impact
+  message
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type FixInfoAnyGroupConnection {
+  totalCount: Int!
+  edges: [FixInfoAnyEdge!]!
+  nodes: [FixInfoAny!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input FixInfoAnySortInput {
+  fields: [FixInfoAnyFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type FixInfoAllConnection {
+  totalCount: Int!
+  edges: [FixInfoAllEdge!]!
+  nodes: [FixInfoAll!]!
+  pageInfo: PageInfo!
+  distinct(field: FixInfoAllFieldsEnum!): [String!]!
+  max(field: FixInfoAllFieldsEnum!): Float
+  min(field: FixInfoAllFieldsEnum!): Float
+  sum(field: FixInfoAllFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: FixInfoAllFieldsEnum!): [FixInfoAllGroupConnection!]!
+}
+
+type FixInfoAllEdge {
+  next: FixInfoAll
+  node: FixInfoAll!
+  previous: FixInfoAll
+}
+
+enum FixInfoAllFieldsEnum {
+  id
+  impact
+  message
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type FixInfoAllGroupConnection {
+  totalCount: Int!
+  edges: [FixInfoAllEdge!]!
+  nodes: [FixInfoAll!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input FixInfoAllSortInput {
+  fields: [FixInfoAllFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type FixDataConnection {
+  totalCount: Int!
+  edges: [FixDataEdge!]!
+  nodes: [FixData!]!
+  pageInfo: PageInfo!
+  distinct(field: FixDataFieldsEnum!): [String!]!
+  max(field: FixDataFieldsEnum!): Float
+  min(field: FixDataFieldsEnum!): Float
+  sum(field: FixDataFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: FixDataFieldsEnum!): [FixDataGroupConnection!]!
+}
+
+type FixDataEdge {
+  next: FixData
+  node: FixData!
+  previous: FixData
+}
+
+enum FixDataFieldsEnum {
+  role
+  accessibleText
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+}
+
+type FixDataGroupConnection {
+  totalCount: Int!
+  edges: [FixDataEdge!]!
+  nodes: [FixData!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input FixDataSortInput {
+  fields: [FixDataFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type UniqueViolationsJsonConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonEdge!]!
+  nodes: [UniqueViolationsJson!]!
+  pageInfo: PageInfo!
+  distinct(field: UniqueViolationsJsonFieldsEnum!): [String!]!
+  max(field: UniqueViolationsJsonFieldsEnum!): Float
+  min(field: UniqueViolationsJsonFieldsEnum!): Float
+  sum(field: UniqueViolationsJsonFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: UniqueViolationsJsonFieldsEnum!): [UniqueViolationsJsonGroupConnection!]!
+}
+
+type UniqueViolationsJsonEdge {
+  next: UniqueViolationsJson
+  node: UniqueViolationsJson!
+  previous: UniqueViolationsJson
+}
+
+enum UniqueViolationsJsonFieldsEnum {
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+  reportId
+  overview___ids___all
+  overview___ids___byImpact___minor
+  overview___ids___byImpact___moderate
+  overview___ids___byImpact___serious
+  overview___ids___byImpact___critical
+  overview___violations___all
+  overview___violations___all___description
+  overview___violations___all___helpUrl
+  overview___violations___all___impact
+  overview___violations___all___instances
+  overview___violations___all___routes
+  overview___violations___all___ruleId
+  overview___violations___all___summary
+  overview___violations___all___tags
+  overview___violations___byImpact___minor
+  overview___violations___byImpact___moderate
+  overview___violations___byImpact___serious
+  overview___violations___byImpact___critical
+}
+
+type UniqueViolationsJsonGroupConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsJsonEdge!]!
+  nodes: [UniqueViolationsJson!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input UniqueViolationsJsonSortInput {
+  fields: [UniqueViolationsJsonFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+type UniqueViolationsTallyJsonConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsTallyJsonEdge!]!
+  nodes: [UniqueViolationsTallyJson!]!
+  pageInfo: PageInfo!
+  distinct(field: UniqueViolationsTallyJsonFieldsEnum!): [String!]!
+  max(field: UniqueViolationsTallyJsonFieldsEnum!): Float
+  min(field: UniqueViolationsTallyJsonFieldsEnum!): Float
+  sum(field: UniqueViolationsTallyJsonFieldsEnum!): Float
+  group(skip: Int, limit: Int, field: UniqueViolationsTallyJsonFieldsEnum!): [UniqueViolationsTallyJsonGroupConnection!]!
+}
+
+type UniqueViolationsTallyJsonEdge {
+  next: UniqueViolationsTallyJson
+  node: UniqueViolationsTallyJson!
+  previous: UniqueViolationsTallyJson
+}
+
+enum UniqueViolationsTallyJsonFieldsEnum {
+  id
+  parent___id
+  parent___parent___id
+  parent___parent___parent___id
+  parent___parent___parent___children
+  parent___parent___children
+  parent___parent___children___id
+  parent___parent___children___children
+  parent___parent___internal___content
+  parent___parent___internal___contentDigest
+  parent___parent___internal___description
+  parent___parent___internal___fieldOwners
+  parent___parent___internal___ignoreType
+  parent___parent___internal___mediaType
+  parent___parent___internal___owner
+  parent___parent___internal___type
+  parent___children
+  parent___children___id
+  parent___children___parent___id
+  parent___children___parent___children
+  parent___children___children
+  parent___children___children___id
+  parent___children___children___children
+  parent___children___internal___content
+  parent___children___internal___contentDigest
+  parent___children___internal___description
+  parent___children___internal___fieldOwners
+  parent___children___internal___ignoreType
+  parent___children___internal___mediaType
+  parent___children___internal___owner
+  parent___children___internal___type
+  parent___internal___content
+  parent___internal___contentDigest
+  parent___internal___description
+  parent___internal___fieldOwners
+  parent___internal___ignoreType
+  parent___internal___mediaType
+  parent___internal___owner
+  parent___internal___type
+  children
+  children___id
+  children___parent___id
+  children___parent___parent___id
+  children___parent___parent___children
+  children___parent___children
+  children___parent___children___id
+  children___parent___children___children
+  children___parent___internal___content
+  children___parent___internal___contentDigest
+  children___parent___internal___description
+  children___parent___internal___fieldOwners
+  children___parent___internal___ignoreType
+  children___parent___internal___mediaType
+  children___parent___internal___owner
+  children___parent___internal___type
+  children___children
+  children___children___id
+  children___children___parent___id
+  children___children___parent___children
+  children___children___children
+  children___children___children___id
+  children___children___children___children
+  children___children___internal___content
+  children___children___internal___contentDigest
+  children___children___internal___description
+  children___children___internal___fieldOwners
+  children___children___internal___ignoreType
+  children___children___internal___mediaType
+  children___children___internal___owner
+  children___children___internal___type
+  children___internal___content
+  children___internal___contentDigest
+  children___internal___description
+  children___internal___fieldOwners
+  children___internal___ignoreType
+  children___internal___mediaType
+  children___internal___owner
+  children___internal___type
+  internal___content
+  internal___contentDigest
+  internal___description
+  internal___fieldOwners
+  internal___ignoreType
+  internal___mediaType
+  internal___owner
+  internal___type
+  reportId
+  tally___byImpact___minor
+  tally___byImpact___moderate
+  tally___byImpact___serious
+  tally___byImpact___critical
+  tally___byInstance___minor
+  tally___byInstance___moderate
+  tally___byInstance___serious
+  tally___byInstance___critical
+}
+
+type UniqueViolationsTallyJsonGroupConnection {
+  totalCount: Int!
+  edges: [UniqueViolationsTallyJsonEdge!]!
+  nodes: [UniqueViolationsTallyJson!]!
+  pageInfo: PageInfo!
+  field: String!
+  fieldValue: String
+}
+
+input UniqueViolationsTallyJsonSortInput {
+  fields: [UniqueViolationsTallyJsonFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}

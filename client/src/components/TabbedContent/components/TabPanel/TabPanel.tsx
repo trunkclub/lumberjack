@@ -3,7 +3,7 @@ import React from 'react'
 import { Box } from '../../../../pattern-library'
 
 type PropsT = {
-  children,
+  children
   id: string
   isActive: boolean
   tabId: string
@@ -14,12 +14,7 @@ const TabPanel = ({
   isActive,
   id,
   tabId,
-}: PropsT) => {
-
-  if (!id || !tabId) {
-    return null
-  }
-
+}: PropsT): React.ReactElement => {
   const panelRef = React.useRef<HTMLElement>()
 
   React.useEffect(() => {
@@ -27,6 +22,10 @@ const TabPanel = ({
       panelRef.current.focus()
     }
   }, [isActive])
+
+  if (!id || !tabId) {
+    return null
+  }
 
   return (
     <Box

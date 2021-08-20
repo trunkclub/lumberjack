@@ -10,18 +10,21 @@ import { useStaticQuery, graphql } from 'gatsby'
 
 import { Box, Flex } from '../pattern-library'
 
-import { NavItemT } from '../_types'
-
-import Header from './Header'
+import Header, { NavItem } from './Header'
 
 type PropsT = {
   children: React.ReactNode
-  navigation?: NavItemT[]
+  navigation?: NavItem[]
 }
 
-const Layout = ({ children }: PropsT) => {
+const Layout = ({ children }: PropsT): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query SideNavQuery {
+      site {
+        siteMetadata {
+          appName
+        }
+      }
       allSummariesJson(sort: {fields: reportId, order: DESC}, limit: 1) {
         nodes {
           reportId
@@ -37,6 +40,7 @@ const Layout = ({ children }: PropsT) => {
     }
   `)
 
+  const appName = data?.site?.siteMetadata?.appName
   const navigation = data?.allSummariesJson?.nodes[0]?.features || []
 
   return (
@@ -52,6 +56,7 @@ const Layout = ({ children }: PropsT) => {
     >
       <Box>
         <Header
+          appName={appName}
           navigation={navigation}
         />
       </Box>

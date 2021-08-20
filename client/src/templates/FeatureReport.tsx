@@ -19,8 +19,7 @@ type PropsT = {
   pageContext: any
 }
 
-const FeatureReport = ({ pageContext }: PropsT) => {
-
+const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
   const reportDate = getReportDate(pageContext.reportId)
 
   const summaryData = {
@@ -46,7 +45,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
     }
   })
 
-  const violationPercentage = Math.round((summaryData.routesWithViolations.length / summaryData.totalRoutesChecked)*100)
+  const violationPercentage = Math.round((summaryData.routesWithViolations.length / summaryData.totalRoutesChecked) * 100)
 
   return (
     <Layout>
@@ -92,7 +91,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
             </Flex>
           )}
         </Flex>
-        
+
         <Box
           sx={{
             gridColumnStart: 1,
@@ -139,9 +138,11 @@ const FeatureReport = ({ pageContext }: PropsT) => {
             Routes with Violations:
           </Heading>
 
-          {summaryData.routesWithViolations.length === 0 ? (
+          {summaryData.routesWithViolations.length === 0
+            ? (
             <Box as="p" variant="bodyLarge">No violations for this feature- well done!</Box>
-          ) : (
+              )
+            : (
             <>
               <Box
                 variant='lineList'
@@ -151,7 +152,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                   <li>{route.route.path}<br /></li>
                 ))}
               </Box>
-              
+
               {summaryData.routesWithViolations.map(route => (
                 <Box my={2} key={route.route_id}>
                   <Heading
@@ -228,7 +229,7 @@ const FeatureReport = ({ pageContext }: PropsT) => {
                 </Box>
               ))}
             </>
-          )}
+              )}
         </Box>
       </Box>
     </Layout>

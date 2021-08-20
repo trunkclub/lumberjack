@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { RuleSummary, UniqueViolation } from '../../../../lumberjack.types'
+
 import { Box, Heading, Text } from '../../pattern-library'
-import { RuleSummaryT, ViolationT } from '../../_types'
 import { getPluralContent } from '../../utils'
 
 import TabbedContent from '../TabbedContent'
@@ -10,12 +11,11 @@ import ViolationCard from './components/ViolationCard'
 import ViolationFixes from './components/ViolationFixes'
 
 type PropsT = {
-  ruleSummary: RuleSummaryT
-  violation: ViolationT
+  ruleSummary: RuleSummary
+  violation: UniqueViolation
 }
 
-const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
-
+const ViolationSummaryBlock = ({ violation, ruleSummary }: PropsT): React.ReactElement => {
   const numberOfElements = Object.keys(ruleSummary.elements).length
   const numberOfInstances = Number(ruleSummary.totalInstances)
 
@@ -24,8 +24,8 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
 
   return (
     <Box
-      key={violation.ruleId}
-      id={violation.ruleId}
+      key={violation.id}
+      id={violation.id}
       mb={3}
       p={2}
       sx={{
@@ -48,7 +48,7 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
       </Box>
 
       <TabbedContent
-        uniqueId={violation.ruleId}
+        uniqueId={violation.id}
         details={
           <>
             <Heading variant="bodyLarge" as="h4" my={0}>
@@ -56,7 +56,7 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
             </Heading>
             <Box as="ul" mt={1} mb={2}>
               <li>
-                <b>Summary:</b> {violation.summary}{' '}<a href={violation.helpUrl}>Learn more &gt;</a>
+                <b>Summary:</b> {violation.help}{' '}<a href={violation.helpUrl}>Learn more &gt;</a>
               </li>
               <li>
                 <b>Tags:</b> {violation.tags.join(', ')}
@@ -64,11 +64,11 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
             </Box>
             <ViolationFixes
               fixData={{
-                all: violation.instances[0].all,
-                any: violation.instances[0].any,
+                all: violation.nodes[0].all,
+                any: violation.nodes[0].any,
               }}
               helpUrl={violation.helpUrl}
-              ruleId={violation.ruleId}
+              ruleId={violation.id}
             />
           </>
         }
@@ -86,7 +86,6 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
               }}
             >
             {Object.keys(ruleSummary.elements).map((element, index) => {
-
               const { routes } = ruleSummary.elements[element]
               const uniqueRoutes: string[] = Array.from(new Set(routes))
 
@@ -95,7 +94,7 @@ const ViolationSummaryBlock = ({violation, ruleSummary}: PropsT) => {
 
               return (
                 <ViolationCard
-                  key={`${violation.ruleId}-${index}`}
+                  key={`${violation.id}-${index}`}
                   element={element}
                   index={index}
                   instances={instancesOfElement}

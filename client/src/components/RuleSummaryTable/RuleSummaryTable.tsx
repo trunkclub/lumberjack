@@ -4,16 +4,20 @@ import { Link } from 'gatsby'
 
 import { Box } from '../../pattern-library'
 
+import { RuleSummary, UniqueViolation } from '../../../../lumberjack.types'
+
 type PropsT = {
-  violations: any
-  summary: any
+  violations: UniqueViolation[]
+  summary: {
+    rules: RuleSummary[]
+    totalInstancesForLevel: number
+  }
 }
 
 const RuleSummaryTable = ({
   violations,
   summary,
-}: PropsT) => {
-
+}: PropsT): React.ReactElement => {
   return (
     <Box
       as="table"
@@ -31,7 +35,7 @@ const RuleSummaryTable = ({
         }}
       >
         <tr>
-          <Box as="th" pr={2} sx={{ textAlign: 'left'}}>Violations:</Box>
+          <Box as="th" pr={2} sx={{ textAlign: 'left' }}>Violations:</Box>
           <Box as="th" px={2}>Elements:</Box>
           <Box as="th" px={2}>Instances:</Box>
           <td></td>
@@ -39,13 +43,12 @@ const RuleSummaryTable = ({
       </Box>
       <tbody>
         {violations.map((violation, index) => {
-
-          const numberOfElements = Object.keys(summary.rules[violation.ruleId].elements).length
-          const numberOfInstances = summary.rules[violation.ruleId].totalInstances
+          const numberOfElements = Object.keys(summary.rules[violation.id].elements).length
+          const numberOfInstances = summary.rules[violation.id].totalInstances
           return (
             <Box
               as="tr"
-              key={`${violation.ruleId}-toc-${index}`}
+              key={`${violation.id}-toc-${index}`}
               sx={{
                 borderColor: 'borders.decorative',
                 borderStyle: 'solid',
@@ -65,7 +68,7 @@ const RuleSummaryTable = ({
               </Box>
               <Box as="td" sx={{ textAlign: 'center' }}>{numberOfElements}</Box>
               <Box as="td" sx={{ textAlign: 'center' }}>{numberOfInstances}</Box>
-              <td><Link to={`#${violation.ruleId}`}>View details</Link></td>
+              <td><Link to={`#${violation.id}`}>View details</Link></td>
             </Box>
           )
         })}
