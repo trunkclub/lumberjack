@@ -1,4 +1,4 @@
-name: Test and release
+name: Release
 
 # Run the workflow when a Pull Request is opened or when changes are pushed to main
 on:
@@ -17,6 +17,8 @@ jobs:
   # Fetch the latest commit
   - name: Checkout
     uses: actions/checkout@v2
+    with:
+      persist-credentials: false
 
   # Setup Node.js using the appropriate version
   - name: Use Node.js ${{ matrix.node-version }}
@@ -26,7 +28,7 @@ jobs:
 
   # Install package dependencies
   - name: Install
-    run: yarn
+    run: yarn install --frozen-lockfile
 
   # Run tests: TODO
   # - name: Test
@@ -41,6 +43,8 @@ jobs:
   steps:
   - name: Checkout
     uses: actions/checkout@v2
+    with:
+      persist-credentials: false
 
   - name: Setup Node.js
     uses: actions/setup-node@v1
@@ -48,7 +52,7 @@ jobs:
       node-version: 12.x
 
   - name: Install
-    run: yarn
+    run: yarn install --frozen-lockfile
 
   - name: Release
     run: npx semantic-release
