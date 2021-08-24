@@ -19,11 +19,11 @@ const getImpactSummary = (violations) => {
 
   for (const violation of violations) {
 
-    impactSummary.totalInstancesForLevel += violation.instances.length
+    impactSummary.totalInstancesForLevel += violation.nodes.length
 
     let elements = {}
 
-    violation.instances.forEach(instance => {
+    violation.nodes.forEach(instance => {
 
       const paths = instance.routes.map(route => route.path)
 
@@ -39,9 +39,9 @@ const getImpactSummary = (violations) => {
       }
     })
 
-    impactSummary.rules[violation.ruleId] = {
+    impactSummary.rules[violation.id] = {
       elements,
-      totalInstances: violation.instances.length,
+      totalInstances: violation.nodes.length,
     }
   }
 
@@ -69,7 +69,7 @@ exports.createPages = async ({ graphql, actions }) => {
                     description
                     helpUrl
                     impact
-                    instances {
+                    nodes {
                       html
                       routes {
                         path
@@ -84,15 +84,15 @@ exports.createPages = async ({ graphql, actions }) => {
                     routes {
                       path
                     }
-                    ruleId
-                    summary
+                    id
+                    help
                     tags
                   }
                   minor {
                     description
                     helpUrl
                     impact
-                    instances {
+                    nodes {
                       html
                       routes {
                         path
@@ -107,15 +107,15 @@ exports.createPages = async ({ graphql, actions }) => {
                     routes {
                       path
                     }
-                    ruleId
-                    summary
+                    id
+                    help
                     tags
                   }
                   serious {
                     description
                     helpUrl
                     impact
-                    instances {
+                    nodes {
                       html
                       routes {
                         path
@@ -130,15 +130,15 @@ exports.createPages = async ({ graphql, actions }) => {
                     routes {
                       path
                     }
-                    ruleId
-                    summary
+                    id
+                    help
                     tags
                   }
                   critical {
                     description
                     helpUrl
                     impact
-                    instances {
+                    nodes {
                       html
                       routes {
                         path
@@ -153,8 +153,8 @@ exports.createPages = async ({ graphql, actions }) => {
                     routes {
                       path
                     }
-                    ruleId
-                    summary
+                    id
+                    help
                     tags
                   }
                 }

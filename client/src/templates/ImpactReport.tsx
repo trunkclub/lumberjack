@@ -14,6 +14,7 @@ type PropsT = {
 }
 
 const ImpactReport = ({ pageContext }: PropsT): React.ReactElement => {
+
   const location = useLocation()
 
   React.useEffect(() => {
@@ -108,7 +109,7 @@ const ImpactReport = ({ pageContext }: PropsT): React.ReactElement => {
           </Heading>
           <Divider mt={0} />
           {pageContext.data.map(violation => {
-            const ruleSummary = pageContext.summary.rules[violation.ruleId]
+            const ruleSummary = pageContext.summary.rules[violation.id]
             return (
               <ViolationSummaryBlock ruleSummary={ruleSummary} violation={violation} />
             )

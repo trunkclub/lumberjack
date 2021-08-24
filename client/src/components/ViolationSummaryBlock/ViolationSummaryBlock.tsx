@@ -16,6 +16,11 @@ type PropsT = {
 }
 
 const ViolationSummaryBlock = ({ violation, ruleSummary }: PropsT): React.ReactElement => {
+
+  if (!violation || !ruleSummary) {
+    return null
+  }
+
   const numberOfElements = Object.keys(ruleSummary.elements).length
   const numberOfInstances = Number(ruleSummary.totalInstances)
 
