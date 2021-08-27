@@ -1,12 +1,12 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 
-import BarChart, { TallyChartData } from '../components/Charts/BarChart'
+import { BarChart, TallyChartData } from '../components/Charts/BarChart'
 
 import Layout from '../components/Layout'
 import ReportSummaries from '../components/ReportSummaries'
 import SEO from '../components/SEO'
-import { Divider, Text } from '../pattern-library'
+import { Box, Button, Divider, Flex, Heading, Modal, Text } from '../pattern-library'
 
 import {
   ImpactTally,
@@ -22,6 +22,10 @@ type PropsT = {
 }
 
 const IndexPage = ({ summaryData, tallyData }: PropsT): React.ReactElement => {
+
+  const [ routeContextIsOpen, setRouteContextIsOpen ] = React.useState(false)
+  const [ violationContextIsOpen, setViolationContextIsOpen ] = React.useState(false)
+
   // TODO: Consolidate tallying functions with their BarCharts into dedicated components
 
   const tallybyImpact: TallyChartData[] = tallyData.map((data) => {
@@ -94,22 +98,68 @@ const IndexPage = ({ summaryData, tallyData }: PropsT): React.ReactElement => {
 
       <Divider />
 
-      <h2>Violations by Element and Instance</h2>
-      <Text variant="body" as="p">The following two charts count violations by individual element and by the times the element is rendered across routes checked.</Text>
-      <Text variant="body" as="p">For example, let's say we had an  Input component that wasn't correctly labeled properly, and so it triggers a violation. It appears in a form in our app four times. The <b>by element</b> count would equal 1, and the <b>by instance</b> count would equal 4.</Text>
-      <Text variant="body" as="p">This context can be helpful in prioritizing remediation, since addressing an element that is causing hundreds of violations will be more impactful than fixing an element causing five.</Text>
+      <Box mb={2}>
+        <Heading
+          variant="standardHeadline"
+          as="h2"
+          display="inline-block"
+          mr={1}
+        >
+          Violations by Element and Instance
+        </Heading>
+        <Button
+          variant="link"
+          onClick={() => { setViolationContextIsOpen(true)}}
+        >
+          Learn more about this data
+        </Button>
+      </Box>
+      <Modal
+        aria={{labelledby: 'violationContext'}}
+        isOpen={violationContextIsOpen}
+        handleCloseModal={() => { setViolationContextIsOpen(false)}}
+        onRequestClose={() => { setViolationContextIsOpen(false)}}
+      >
+        <h2 id="violationContext">What does "By Element" and "By Instance" mean?</h2>
+        <Text variant="body" as="p">These two charts count violations by individual element and by the times the element is rendered across routes checked.</Text>
+        <Text variant="body" as="p">For example, let's say we had an  Input component that wasn't correctly labeled properly, and so it triggers a violation. It appears in a form in our app four times. The <b>by element</b> count would equal 1, and the <b>by instance</b> count would equal 4.</Text>
+        <Text variant="body" as="p">This context can be helpful in prioritizing remediation, since addressing an element that is causing hundreds of violations will be more impactful than fixing an element causing five.</Text>
+      </Modal>
 
-      <h3>Violations by Element</h3>
-      <BarChart data={tallybyImpact} />
-
-      <h3>Violations by Total Instances</h3>
-      <BarChart data={tallyByTotalInstances} />
-
+      
+          <h3>Violations by Element</h3>
+          <BarChart data={tallybyImpact} />
+          <h3>Violations by Total Instances</h3>
+          <BarChart data={tallyByTotalInstances} />
+      
       <Divider />
 
-      <h2>Most Impactful Violation on Every Route Checked</h2>
-      <Text variant="body" as="p">This chart shows a helicopter view of all routes checked, and counts the highest-impact-level violation found for each route. If no programmatic violations are found for a given route, it is added to the <b>none</b> count. You should still check these routes manually.</Text>
-      <Text variant="body" as="p">You may choose to add or remove routes from your audit over time, or some routes may not be available each time Lumberjack runs. These charts will help you guage the overall "accessibility health" of your app over time, but also catch issues in the audit run itself should they occur.</Text>
+      <Box mb={2}>
+        <Heading
+          variant="standardHeadline"
+          as="h2"
+          display="inline-block"
+          mr={1}
+        >
+          Most Impactful Violation on Every Route Checked
+        </Heading>
+        <Button
+          variant="link"
+          onClick={() => { setRouteContextIsOpen(true)}}
+        >
+          Learn more about this data
+        </Button>
+      </Box>
+      <Modal
+        aria={{labelledby: 'impactfulContext'}}
+        isOpen={routeContextIsOpen}
+        handleCloseModal={() => { setRouteContextIsOpen(false)}}
+        onRequestClose={() => { setRouteContextIsOpen(false)}}
+      >
+        <h2 id="impactfulContext">What does "Most Impactful Violation" mean?</h2>
+        <Text variant="body" as="p">This chart shows a helicopter view of all routes checked, and counts the highest-impact-level violation found for each route. If no programmatic violations are found for a given route, it is added to the <b>none</b> count. You should still check these routes manually.</Text>
+        <Text variant="body" as="p">You may choose to add or remove routes from your audit over time, or some routes may not be available each time Lumberjack runs. These charts will help you guage the overall "accessibility health" of your app over time, but also catch issues in the audit run itself should they occur.</Text>
+      </Modal>
 
       <BarChart data={allRoutesByMostImpactfulViolation} dataTalliedLabel="routes checked" showNone={true} />
 
