@@ -2,10 +2,8 @@ import React from 'react'
 
 import { RuleSummary, UniqueViolation } from '../../../../lumberjack.types'
 
-import { Box, Heading, Text } from '../../pattern-library'
+import { Box, Heading, TabbedContent, Text } from '../../pattern-library'
 import { getPluralContent } from '../../utils'
-
-import TabbedContent from '../TabbedContent'
 
 import ViolationCard from './components/ViolationCard'
 import ViolationFixes from './components/ViolationFixes'

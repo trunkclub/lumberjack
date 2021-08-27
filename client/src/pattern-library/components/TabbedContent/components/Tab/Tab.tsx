@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, ButtonProps } from '../../../../pattern-library'
+import { Button, ButtonProps } from '../../../../.'
 
 export type PropsT = {
   children: React.ReactNode
