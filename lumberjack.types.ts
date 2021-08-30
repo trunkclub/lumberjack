@@ -1,5 +1,4 @@
 import { ImpactValue, Result, NodeResult } from 'axe-core'
-import { Page } from 'puppeteer'
 
 // Client Types
 
@@ -8,14 +7,16 @@ export type RoutesInfo = {
   list: string
 }
 
+export type ImpactSummary = {
+  rules: RuleSummary[]
+  totalInstancesForLevel: number
+}
+
 export type ImpactReportPayload = {
   impact: ImpactValue
-  data: any
+  data: UniqueViolation[]
   reportId: string
-  summary: {
-    rules: RuleSummary[],
-    totalInstancesForLevel: number
-  }
+  summary: ImpactSummary
 }
 
 export type TallyReport = {

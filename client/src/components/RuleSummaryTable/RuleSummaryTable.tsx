@@ -43,8 +43,10 @@ const RuleSummaryTable = ({
       </Box>
       <tbody>
         {violations.map((violation, index) => {
+
           const numberOfElements = Object.keys(summary.rules[violation.id].elements).length
           const numberOfInstances = summary.rules[violation.id].totalInstances
+
           return (
             <Box
               as="tr"

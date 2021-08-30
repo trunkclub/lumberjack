@@ -26,6 +26,12 @@ Lumberjack's client:
 
 1.  Once those two tasks have been completed successfully, you can run the client to display the results by running `cd client && yarn start` from root. A browser window should open showing you your results. Happy testing!
 
+## Upgrading from v 1.0.0 to v 2.0.0
+
+Version 2 of Lumberjack includes changes that bring its data structure more in line with Axe's typing. While none of these changes will impact any legacy report data you currently have saved, it does impact your most recent unique violation data.
+
+To update your project's report data so the client can run, just run `yarn lumberjack` and select `Combine and tally report data` on your most recent report ID.
+
 ## Versioning
 
 Lumberjack uses [semantic versioning](https://semver.org/). To help keep this dependable, the project uses [commitizen](https://github.com/commitizen/cz-cli) and [semantic-release](https://github.com/semantic-release/semantic-release) to automate versioning updates, and [GitHub Releases](https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github/about-releases) to document changes. 

@@ -15,10 +15,10 @@ type SitePageContextData {
   description: String
   helpUrl: String
   impact: String
-  instances: [SitePageContextDataInstances]
+  nodes: [SitePageContextDataInstances]
   routes: [SitePageContextDataRoutes]
-  ruleId: String
-  summary: String
+  id: String
+  help: String
   tags: [String]
 }
 
@@ -170,13 +170,13 @@ type RoutesInfo implements Node {
 }
 
 type UniqueViolationsJsonOverviewViolationsByImpactModerate implements Node {
-  instances: [InstancesInfo]
+  nodes: [NodesInfo]
   description: String
   helpUrl: String
   impact: String
   routes: [UniqueViolationsJsonOverviewViolationsByImpactModerateRoutes]
-  ruleId: String
-  summary: String
+  id: String
+  help: String
   tags: [String]
   id: ID!
   parent: Node
@@ -190,13 +190,13 @@ type UniqueViolationsJsonOverviewViolationsByImpactModerateRoutes {
 }
 
 type UniqueViolationsJsonOverviewViolationsByImpactMinor implements Node {
-  instances: [InstancesInfo]
+  nodes: [NodesInfo]
   description: String
   helpUrl: String
   impact: String
   routes: [UniqueViolationsJsonOverviewViolationsByImpactMinorRoutes]
-  ruleId: String
-  summary: String
+  id: String
+  help: String
   tags: [String]
   id: ID!
   parent: Node
@@ -210,13 +210,13 @@ type UniqueViolationsJsonOverviewViolationsByImpactMinorRoutes {
 }
 
 type UniqueViolationsJsonOverviewViolationsByImpactSerious implements Node {
-  instances: [InstancesInfo]
+  nodes: [NodesInfo]
   description: String
   helpUrl: String
   impact: String
   routes: [UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutes]
-  ruleId: String
-  summary: String
+  id: String
+  help: String
   tags: [String]
   id: ID!
   parent: Node
@@ -230,13 +230,13 @@ type UniqueViolationsJsonOverviewViolationsByImpactSeriousRoutes {
 }
 
 type UniqueViolationsJsonOverviewViolationsByImpactCritical implements Node {
-  instances: [InstancesInfo]
+  nodes: [NodesInfo]
   description: String
   helpUrl: String
   impact: String
   routes: [UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutes]
-  ruleId: String
-  summary: String
+  id: String
+  help: String
   tags: [String]
   id: ID!
   parent: Node
@@ -249,7 +249,7 @@ type UniqueViolationsJsonOverviewViolationsByImpactCriticalRoutes {
   path: String
 }
 
-type InstancesInfo implements Node {
+type NodesInfo implements Node {
   any: [FixInfoAny]
   all: [FixInfoAll]
   impact: String
@@ -358,8 +358,8 @@ type UniqueViolationsJsonOverviewViolationsAll {
   impact: String
   instances: [UniqueViolationsJsonOverviewViolationsAllInstances]
   routes: [UniqueViolationsJsonOverviewViolationsAllRoutes]
-  ruleId: String
-  summary: String
+  id: String
+  help: String
   tags: [String]
 }
 
