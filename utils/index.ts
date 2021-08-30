@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import inquirer, { Answers } from 'inquirer';
 
 import config from '../.ljconfig';
 import { FeatureConfig } from '../lumberjack.types'
@@ -20,13 +20,21 @@ const featureList = config?.features?.map((feature: FeatureConfig) => {
   }
 }) || []
 
+const currentReportIds = getCurrentReportIds()
+
+const initialChoices = [
+  { name: 'Run full audit', value: 'full' },
+  { name: 'Run individual tasks', value: 'tasks' },
+]
+
+// If there are available Report IDs, let a user check their summaries.
+if (currentReportIds.length) {
+  initialChoices.push({ name: 'Get audit summary for a report ID', value: 'routes' })
+}
+
 const questions = [
   {
-    choices: [
-      { name: 'Run full audit', value: 'full' },
-      { name: 'Run individual tasks', value: 'tasks' },
-      { name: 'Get audit summary for a report ID', value: 'routes' },
-    ],
+    choices: initialChoices,
     message: 'What would you like to do?',
     name: 'run_scope',
     type: 'list',
@@ -39,7 +47,7 @@ const questions = [
       { name: 'Generate unique violation data', value: 'unique' },
       { name: 'Generate per-route feature reports', value: 'reports' },
     ],
-    when: (answers: any) => answers.run_scope === 'tasks',
+    when: (answers: Answers) => answers.run_scope === 'tasks',
   },
   {
     type: 'list',
@@ -52,21 +60,25 @@ const questions = [
         value: 'one',
       },
     ],
-    when: (answers: any) => answers.task === 'reports',
+    when: (answers: Answers) => answers.task === 'reports',
   },
   {
     type: 'list',
     name: 'report_id',
     message: 'Which report ID would you like to base this on?',
-    choices: getCurrentReportIds(),
-    when: (answers: any) => answers.task === 'unique' || answers.run_scope === 'routes',
+    choices: currentReportIds,
+    when: (answers: Answers) => (
+      currentReportIds.length
+      || answers.task === 'unique'
+      || answers.run_scope === 'routes'
+    ),
   },
   {
     type: 'list',
     name: 'features',
     message: 'Which feature would you like to check?',
     choices: featureList,
-    when: (answers: any) => answers.what_features === 'one',
+    when: (answers: Answers) => answers.what_features === 'one',
   },
   {
     type: 'checkbox',
@@ -82,7 +94,7 @@ const questions = [
         value: 'not-headless',
       },
     ],
-    when: (answers: any) => answers.run_scope === 'full' || answers.task === 'reports',
+    when: (answers: Answers) => answers.run_scope === 'full' || answers.task === 'reports',
   },
 ];
 

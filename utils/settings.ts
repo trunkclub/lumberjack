@@ -49,20 +49,27 @@ export const isMissingRequiredConfig = (): boolean => {
    * @returns {string[]}
    */
 export const getCurrentReportIds = (): string[] => {
-  const filenames = fs.readdirSync(`${AUDIT_FOLDER}/route-reports`)
+
+  const reportsPath = `${AUDIT_FOLDER}/route-reports`
   const reportIds: string[] = []
-  // fetch all json files
-  for (const filename of filenames) {
-    const file = fs.readFileSync(
-      `${AUDIT_FOLDER}/route-reports/${filename}`,
-      'utf8'
-    )
-    const data = JSON.parse(file)
-    data.forEach((entry: RouteReport) => {
-      if (!reportIds.includes(entry.reportId)) {
-        reportIds.push(entry.reportId)
-      }
-    })
+
+  if (fs.existsSync(reportsPath)) {
+
+    const filenames = fs.readdirSync(reportsPath)
+
+    // fetch all json files
+    for (const filename of filenames) {
+      const file = fs.readFileSync(
+        `${AUDIT_FOLDER}/route-reports/${filename}`,
+        'utf8'
+      )
+      const data = JSON.parse(file)
+      data.forEach((entry: RouteReport) => {
+        if (!reportIds.includes(entry.reportId)) {
+          reportIds.push(entry.reportId)
+        }
+      })
+    }
   }
 
   return reportIds
