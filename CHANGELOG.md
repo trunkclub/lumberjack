@@ -1,3 +1,16 @@
+# [2.1.0](https://github.com/trunkclub/lumberjack/compare/v2.0.0...v2.1.0) (2021-08-30)
+
+
+### Bug Fixes
+
+* **cli:** adds check for report folder before pulling data ([ce6c789](https://github.com/trunkclub/lumberjack/commit/ce6c789f584f76d0145bd3c49179de2f6d2cc3d0))
+* **client:** makes changes to schema to reflect typing changes from v2.0.0 ([575c96e](https://github.com/trunkclub/lumberjack/commit/575c96ee7e09e6c6678fed0c25a151c71eb6217a))
+
+
+### Features
+
+* **cli:** creates all-in-one CLI option ([c2d01b2](https://github.com/trunkclub/lumberjack/commit/c2d01b282c887f69a45f7b1d1ef4f3b93a62c4e4))
+
 # [2.0.0](https://github.com/trunkclub/lumberjack/compare/v1.0.0...v2.0.0) (2021-08-20)
 
 
