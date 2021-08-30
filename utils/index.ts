@@ -1,10 +1,10 @@
-import inquirer, { QuestionCollection } from 'inquirer'
+import inquirer, { Answers } from 'inquirer';
 
-import config from '../.ljconfig'
-
+import config from '../.ljconfig';
 import { FeatureConfig } from '../lumberjack.types'
 
 import { Audits } from './audits'
+import { REPORT_ID } from './_constants'
 import { Reports } from './reports'
 import { Violations } from './violations'
 import { getCurrentReportIds, isMissingRequiredConfig } from './settings'
@@ -13,8 +13,74 @@ const AuditUtilities = new Audits()
 const ReportUtilites = new Reports()
 const ViolationUtilities = new Violations()
 
-const runAudit = (): void => {
-  const settingsPrompt: QuestionCollection = {
+const featureList = config?.features?.map((feature: FeatureConfig) => {
+  return {
+    name: feature.name,
+    value: [feature],
+  }
+}) || []
+
+const currentReportIds = getCurrentReportIds()
+
+const initialChoices = [
+  { name: 'Run full audit', value: 'full' },
+  { name: 'Run individual tasks', value: 'tasks' },
+]
+
+// If there are available Report IDs, let a user check their summaries.
+if (currentReportIds.length) {
+  initialChoices.push({ name: 'Get audit summary for a report ID', value: 'routes' })
+}
+
+const questions = [
+  {
+    choices: initialChoices,
+    message: 'What would you like to do?',
+    name: 'run_scope',
+    type: 'list',
+  },
+  {
+    type: 'list',
+    name: 'task',
+    message: 'What task would you like to run?',
+    choices: [
+      { name: 'Generate unique violation data', value: 'unique' },
+      { name: 'Generate per-route feature reports', value: 'reports' },
+    ],
+    when: (answers: Answers) => answers.run_scope === 'tasks',
+  },
+  {
+    type: 'list',
+    name: 'what_features',
+    message: 'How many features would you like to check?',
+    choices: [
+      { name: 'All features', value: 'all' },
+      {
+        name: 'A single feature',
+        value: 'one',
+      },
+    ],
+    when: (answers: Answers) => answers.task === 'reports',
+  },
+  {
+    type: 'list',
+    name: 'report_id',
+    message: 'Which report ID would you like to base this on?',
+    choices: currentReportIds,
+    when: (answers: Answers) => (
+      currentReportIds.length
+      || answers.task === 'unique'
+      || answers.run_scope === 'routes'
+    ),
+  },
+  {
+    type: 'list',
+    name: 'features',
+    message: 'Which feature would you like to check?',
+    choices: featureList,
+    when: (answers: Answers) => answers.what_features === 'one',
+  },
+  {
     type: 'checkbox',
     name: 'settings',
     message: 'Would you like to include any of the following in this run?',
@@ -28,119 +94,43 @@ const runAudit = (): void => {
         value: 'not-headless',
       },
     ],
+    when: (answers: Answers) => answers.run_scope === 'full' || answers.task === 'reports',
+  },
+];
+
+export const CLI = async (): Promise<void> => {
+
+  if (isMissingRequiredConfig()) {
+    return
   }
 
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'check',
-        message: 'What would you like to do?',
-        choices: [
-          { name: 'Check for a11y violations on all features', value: 'all' },
-          {
-            name: 'Check for a11y violations on a single feature',
-            value: 'one',
-          },
-        ],
-      },
-    ])
-    .then(({ check }) => {
-      if (check === 'one') {
-        const featureList = config.features.map((feature: FeatureConfig) => {
-          return {
-            name: feature.name,
-            value: [feature],
-          }
-        })
+  const answers = await inquirer.prompt(questions);
+  const { features, report_id, run_scope, settings, task } = answers;
 
-        return inquirer.prompt([
-          {
-            type: 'list',
-            name: 'features',
-            message: 'Which feature would you like to check?',
-            choices: featureList,
-          },
-          settingsPrompt,
-        ])
-      } else {
-        return inquirer.prompt(settingsPrompt)
-      }
-    })
-    .then(answers => {
-      if (!answers.features) {
-        answers.features = config.features
-      }
+  if (run_scope === 'routes' && report_id) {
+    ViolationUtilities.getRouteData(report_id)
+  }
 
-      const notHeadless = !!answers.settings.includes('not-headless')
+  if (run_scope === 'full' || task === 'reports') {
 
-      AuditUtilities.runAudit(
-        answers.features,
-        !notHeadless,
-        answers.settings.includes('screenshot')
-      )
-    })
-}
+    const featuresToCheck = features ?? config.features
+    const notHeadless = !!settings.includes('not-headless')
 
-const runCombine = (): void => {
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'reportId',
-        message: 'Which report ID would you like to combine data for?',
-        choices: getCurrentReportIds(),
-      },
-    ]).then((answer) => {
-      ReportUtilites.createAllReports(answer.reportId)
-    })
-}
+    await AuditUtilities.runAudit(
+      featuresToCheck,
+      !notHeadless,
+      settings.includes('screenshot')
+    )
+  }
 
-const runGetRouteData = (): void => {
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'reportId',
-        message: 'Which report ID would you like route data for?',
-        choices: getCurrentReportIds(),
-      },
-    ]).then((answer) => {
-      ViolationUtilities.getRouteData(answer.reportId)
-    })
-}
+  if (run_scope === 'full' || task === 'unique') {
 
-if (isMissingRequiredConfig()) {
-  process.exit()
-}
+    const currentReportId = report_id ?? REPORT_ID
 
-inquirer
-  .prompt([
-    {
-      type: 'list',
-      name: 'action',
-      message: 'What would you like to do?',
-      choices: [
-        { name: 'Generate a11y reports for routes', value: 'audit' },
-        { name: 'Combine and tally report data', value: 'combine' },
-        { name: 'Review application route info', value: 'routes' },
-      ],
-    },
-  ])
-  .then(choice => {
-    const { action } = choice
+    console.group(`Creating unique violation reports for ${currentReportId}...`)
+    await ReportUtilites.createAllReports(currentReportId);
+    console.groupEnd()
+  }
+};
 
-    switch (action) {
-      case 'audit':
-        runAudit()
-        break
-      case 'combine':
-        runCombine()
-        break
-      case 'routes':
-        runGetRouteData()
-        break
-      default:
-        console.log('Action not found, something went wrong')
-    }
-  })
+CLI();

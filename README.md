@@ -20,11 +20,36 @@ Lumberjack's client:
 
 1.  Copy or rename the `./example.lsconfig.js` file so you have a `./.ljconfig.js` file. Then edit it to suit your application's needs. We recommend starting small with just a few routes to test your setup.
 
-1.  Run `yarn lumberjack` in the root directory. This will present some options. To begin, select `Generate a11y reports for routes`. At this point, Axe will crawl your routes and generate reports. Please note this can take some time for larger sites, but the terminal will keep you updated about progress as it runs.
+1. Run `yarn lumberjack` and select `Run full audit`. This will check every route on every feature, and combine any violations found into a unique violation report. Please note this can take some time for larger sites, but the terminal will keep you updated about progress as it runs.
 
-1.  Once that is complete, run `yarn lumberjack` again, and select `Combine and tally report data`. You'll be prompted with report IDs based on the date the report was run. Select the one you just ran, and summary reports will be generated.
+1. Once that completes successfully, you can start up the client locally to view the results by running `cd client && yarn start` from root. A browser window will open showing your dashboard. Happy testing!
 
-1.  Once those two tasks have been completed successfully, you can run the client to display the results by running `cd client && yarn start` from root. A browser window should open showing you your results. Happy testing!
+## Additional CLI Options
+
+### Running Individual Tasks
+
+There are two main tasks that need to run to provide the client with enough data to display:
+
+1. auditing all the routes and generating per-route reports, and
+1. generating unique violation data based on those reports
+
+You may find situations where running one or both individually are needed, so they can be run independently with the following:
+
+**If you need to generate unique violation data for a particular report ID:**
+1. Run `yarn lumberjack`.
+1. Select `Run individual tasks`.
+1. Select `Generate unique violation data`. You'll be prompted with report IDs based on the date the report was run.
+
+**If you need to run an audit on a specific feature or all features:**
+1. Run `yarn lumberjack`.
+1. Select `Run individual tasks`.
+1. select `Generate per-route feature reports`. 
+
+PLEASE NOTE: If you select this option you'll ALSO need to run `Generate unique violation data` after for that data to be available to the client.
+
+### Viewing an Audit Summary
+
+You can also quickly view the audit summary of any available report ID by running `yarn lumberjack` and selecting `Get audit summary for a report ID`.
 
 ## Upgrading from v 1.0.0 to v 2.0.0
 
