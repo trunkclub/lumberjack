@@ -158,7 +158,7 @@ const IndexPage = ({ summaryData, tallyData }: PropsT): React.ReactElement => {
       >
         <h2 id="impactfulContext">What does "Most Impactful Violation" mean?</h2>
         <Text variant="body" as="p">This chart shows a helicopter view of all routes checked, and counts the highest-impact-level violation found for each route. If no programmatic violations are found for a given route, it is added to the <b>none</b> count. You should still check these routes manually.</Text>
-        <Text variant="body" as="p">You may choose to add or remove routes from your audit over time, or some routes may not be available each time Lumberjack runs. These charts will help you guage the overall "accessibility health" of your app over time, but also catch issues in the audit run itself should they occur.</Text>
+        <Text variant="body" as="p">You may choose to add or remove routes from your audit over time, or some routes may not be available each time Lumberjack runs. These charts will help you gauge the overall "accessibility health" of your app over time, but also catch issues in the audit run itself should they occur.</Text>
       </Modal>
 
       <BarChart data={allRoutesByMostImpactfulViolation} dataTalliedLabel="routes checked" showNone={true} />
