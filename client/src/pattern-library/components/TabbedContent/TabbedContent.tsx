@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Box, Flex } from '../../pattern-library'
+import { Box, Flex } from '../../.'
 
 import Tab from './components/Tab'
 import TabPanel from './components/TabPanel'

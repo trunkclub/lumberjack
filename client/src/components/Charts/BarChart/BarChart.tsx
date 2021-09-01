@@ -44,9 +44,15 @@ const BarChart = ({ data, showNone = false, dataTalliedLabel = 'violations' }: P
   const keys = Object.keys(barColors).map(key => key.replace('Color', ''))
 
   return (
-    <Box height='600px' width='100%' sx={{
-      border: '1px solid #CCC',
-    }}>
+    <Box
+      height='600px'
+      width='100%'
+      sx={{
+        borderColor: 'borders.decorative',
+        borderStyle: 'solid',
+        borderWidth: '1px',
+      }}
+    >
       <ResponsiveBar
         keys={keys}
         animate={true}

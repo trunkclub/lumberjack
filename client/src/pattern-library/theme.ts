@@ -78,6 +78,17 @@ const typography = {
 }
 
 const theme = {
+  buttons: {
+    link: {
+      background: 'none',
+      color: 'inherit',
+      display: 'inline',
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      padding: 0,
+      textDecoration: 'underline',
+    }
+  },
   colors: roleColors,
   fonts: {
     body: fontStack,

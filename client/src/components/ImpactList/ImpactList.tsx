@@ -1,9 +1,9 @@
 import React from 'react'
 
 // @ts-ignore - FIXME
-import Alert from '../../../images/Alert.svg'
+import Alert from '../../images/Alert.svg'
 
-import { Box } from '../../.'
+import { Box } from '../../pattern-library'
 
 type ImpactListItemT = {
   children: React.ReactNode

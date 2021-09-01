@@ -7,8 +7,12 @@
 // @ts-check
 
 import React from 'react'
+import ReactModal from 'react-modal'
 import ThemeProvider from './src/pattern-library/ThemeProvider'
 
 export const wrapPageElement = ({ element, props }) => {
-  return <ThemeProvider {...props}>{element}</ThemeProvider>
+  ReactModal.setAppElement('#___gatsby')
+  return <ThemeProvider {...props}>
+    {element}
+  </ThemeProvider>
 }

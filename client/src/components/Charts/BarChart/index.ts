@@ -1,1 +1,1 @@
-export { default, TallyChartData } from './BarChart'
+export { default as BarChart, TallyChartData } from './BarChart'

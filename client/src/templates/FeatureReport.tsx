@@ -4,12 +4,11 @@ import Layout from '../components/Layout'
 import SEO from '../components/SEO'
 // @ts-ignore - FIXME
 import Alert from '../images/Alert.svg'
+import { ImpactList, ImpactListItem } from '../components/ImpactList'
 import {
   Box,
   Divider,
   Flex,
-  ImpactList,
-  ImpactListItem,
   Heading,
   Text
 } from '../pattern-library'

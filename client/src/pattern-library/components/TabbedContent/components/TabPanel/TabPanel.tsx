@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box } from '../../../../pattern-library'
+import { Box } from '../../../../.'
 
 type PropsT = {
   children

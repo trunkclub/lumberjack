@@ -96,7 +96,7 @@ const ReportSummaries = ({ tallyData }: PropsT): React.ReactElement => {
 
         return (
           <Box
-            key={`section_${index}`}
+            key={`section_${data.reportId}`}
             as="tbody"
             sx={{
               borderColor: 'borders.decorative',
@@ -114,7 +114,7 @@ const ReportSummaries = ({ tallyData }: PropsT): React.ReactElement => {
               const differenceByInstances = calculateDifference(numberByInstances, previousByInstances)
 
               return (
-                <tr>
+                <tr key={`impact-${impact}_${data.reportId}`}>
                   {index === 0 && (
                     <Box
                       as="th"
