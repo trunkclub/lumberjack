@@ -3,6 +3,10 @@
   "version": "2.1.0",
   "description": "An automated accessibility crawler.",
   "author": "Beck Kramer <beck.kramer@nordstrom.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trunkclub/lumberjack"
+  },
   "main": "index.ts",
   "private": true,
   "files": [
@@ -18,9 +22,10 @@
     "lint:utils": "eslint 'utils/**/*.{ts,tsx}' --max-warnings=0",
     "lumberjack": "ts-node utils/index.ts",
     "prettier": "prettier --write '{app,utils}/**/*.{ts,js,json,scss,md}'",
+    "release-check": "semantic-release --debug",
     "setup": "yarn install && cd client && yarn install && git remote add upstream https://github.com/trunkclub/lumberjack.git",
-    "tsc": "tsc",
-    "sync": "git fetch upstream"
+    "sync": "git fetch upstream",
+    "tsc": "tsc"
   },
   "license": "MIT",
   "dependencies": {
