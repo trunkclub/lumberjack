@@ -1,3 +1,11 @@
+# [2.2.0](https://github.com/trunkclub/lumberjack/compare/v2.1.0...v2.2.0) (2021-09-02)
+
+
+### Features
+
+* **homepage:** moves context copy into modals ([cab57a9](https://github.com/trunkclub/lumberjack/commit/cab57a940e89889e632933f5c5b6f258362eec7e)), closes [#84](https://github.com/trunkclub/lumberjack/issues/84)
+* **modal:** adds modal to client ([2401962](https://github.com/trunkclub/lumberjack/commit/2401962080c6b3e194dc5616eaf48a1f7dfcd112))
+
 # [2.1.0](https://github.com/trunkclub/lumberjack/compare/v2.0.0...v2.1.0) (2021-08-30)
 
 
