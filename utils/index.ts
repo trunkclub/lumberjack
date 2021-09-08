@@ -68,9 +68,8 @@ const questions = [
     message: 'Which report ID would you like to base this on?',
     choices: currentReportIds,
     when: (answers: Answers) => (
-      currentReportIds.length
-      || answers.task === 'unique'
-      || answers.run_scope === 'routes'
+      answers.run_scope !== 'full'
+      && currentReportIds.length
     ),
   },
   {
