@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/trunkclub/lumberjack/compare/v2.2.0...v2.2.1) (2021-09-08)
+
+
+### Bug Fixes
+
+* **cli:** fixes issue where user was asked for report ID instead of running job ([6576c67](https://github.com/trunkclub/lumberjack/commit/6576c67ffadf47dfe78dddf82f2fd7ed7295ccdb))
+
 # [2.2.0](https://github.com/trunkclub/lumberjack/compare/v2.1.0...v2.2.0) (2021-09-02)
 
 
