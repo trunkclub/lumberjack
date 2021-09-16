@@ -37,6 +37,13 @@ const violationGenerator = function * (reportId: string): Generator<RouteReport,
  * @class Violations
  */
 export class Violations {
+
+  levels: ImpactValue[]
+
+  constructor() {
+    this.levels = ['critical', 'serious', 'moderate', 'minor']
+  }
+
   // Generate unique violation data for a given report ID
   public getUniqueViolationData = (reportId: string): UniqueViolation[] => {
     const uniqueViolations: UniqueViolation[] = []
@@ -113,39 +120,80 @@ export class Violations {
     return violationData
   }
 
-  public countViolationsByInstance = (violations: UniqueViolation[], impact: ImpactValue): number => {
-    const violationsForImpactLevel = violations.filter(violation => violation.impact === impact)
-    let numberOfInstances = 0
+  public getTallySummary = (violations: UniqueViolation[]): {
+    totalElements: number
+    totalInstances: number
+  } => {
 
-    violationsForImpactLevel.forEach(violation => {
-      numberOfInstances += violation.nodes.length
-    })
+    const tallySummary = {
+      totalElements: 0,
+      totalInstances: 0,
+    }
 
-    return numberOfInstances
+    if (!violations.length) {
+      return tallySummary
+    }
+
+    for (const violation of violations) {
+
+      tallySummary.totalInstances += violation.nodes.length
+
+      const elements: { [key: string]: UniqueViolationNode } = {}
+
+      violation.nodes.forEach(instance => {
+
+        const { routes } = instance
+
+        // TODO: Add a fuzzy match check here, so elements that are
+        // mostly the same get grouped together for remediation
+        // (eg. <span class="xyz1">one</span> and <span class="xyz1">two</span>)
+
+        if (elements[instance.html] && elements[instance.html].routes) {
+          elements[instance.html].routes.push(...routes)
+        } else {
+          elements[instance.html] = {
+            ...instance,
+            routes,
+          }
+        }
+      })
+
+      tallySummary.totalElements += Object.keys(elements).length
+    }
+
+    return tallySummary
   }
 
   /**
-   * Tally violations by element and by impact
+   * Tally violations by element and by instance
    *
    * @param {string} reportId
    * @returns {Promise<ViolationTally>}
    */
   public getTallyViolationData = async (reportId: string): Promise<ViolationTally> => {
     const uniqueViolations = await this.getUniqueViolationData(reportId)
-
     const tally = {
-      byImpact: {
-        minor: uniqueViolations.filter(violation => violation.impact === 'minor').length,
-        moderate: uniqueViolations.filter(violation => violation.impact === 'moderate').length,
-        serious: uniqueViolations.filter(violation => violation.impact === 'serious').length,
-        critical: uniqueViolations.filter(violation => violation.impact === 'critical').length,
+      byElement: {
+        critical: 0,
+        serious: 0,
+        moderate: 0,
+        minor: 0,
       },
       byInstance: {
-        minor: this.countViolationsByInstance(uniqueViolations, 'minor'),
-        moderate: this.countViolationsByInstance(uniqueViolations, 'moderate'),
-        serious: this.countViolationsByInstance(uniqueViolations, 'serious'),
-        critical: this.countViolationsByInstance(uniqueViolations, 'critical'),
+        critical: 0,
+        serious: 0,
+        moderate: 0,
+        minor: 0,
       },
+    }
+
+    for (const level of this.levels) {
+
+      const violationsByImpact = uniqueViolations.filter(violation => violation.impact === level)
+      const { totalElements = 0, totalInstances = 0 } = this.getTallySummary(violationsByImpact)
+
+      tally.byElement[level] = totalElements
+      tally.byInstance[level] = totalInstances
     }
 
     return tally
