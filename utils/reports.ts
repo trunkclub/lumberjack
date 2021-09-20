@@ -10,7 +10,7 @@ import {
 } from '../lumberjack.types'
 
 import { AUDIT_FOLDER } from './_constants'
-import { Violations } from './Violations'
+import { Violations } from './violations'
 
 const ViolationUtilities = new Violations()
 
