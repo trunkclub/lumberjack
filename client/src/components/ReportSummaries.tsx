@@ -27,7 +27,7 @@ type PropsT = {
 }
 
 const ReportSummaries = ({ tallyData }: PropsT): React.ReactElement => {
-  const impacts = Object.keys(tallyData[0].tally.byImpact)
+  const impacts = Object.keys(tallyData[0].tally.byElement)
   return (
     <Box
       as="table"
@@ -105,8 +105,8 @@ const ReportSummaries = ({ tallyData }: PropsT): React.ReactElement => {
             }}
           >
             {impacts.map((impact, index) => {
-              const numberByElement = Number(data.tally.byImpact[impact])
-              const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byImpact[impact]) : 0
+              const numberByElement = Number(data.tally.byElement[impact])
+              const previousByElement = previousDateEntry ? Number(previousDateEntry.tally.byElement[impact]) : 0
               const differenceByElement = calculateDifference(numberByElement, previousByElement)
 
               const numberByInstances = Number(data.tally.byInstance[impact])

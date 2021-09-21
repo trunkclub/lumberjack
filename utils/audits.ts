@@ -18,7 +18,7 @@ import {
 import { AUDIT_FOLDER, REPORT_ID } from './_constants'
 
 import { Reports } from './reports'
-import { Violations } from './Violations'
+import { Violations } from './violations'
 
 const ReportUtils = new Reports()
 const ViolationUtils = new Violations()

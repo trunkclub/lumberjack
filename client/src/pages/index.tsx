@@ -28,10 +28,10 @@ const IndexPage = ({ summaryData, tallyData }: PropsT): React.ReactElement => {
 
   // TODO: Consolidate tallying functions with their BarCharts into dedicated components
 
-  const tallybyImpact: TallyChartData[] = tallyData.map((data) => {
+  const tallybyElement: TallyChartData[] = tallyData.map((data) => {
     return {
       date: getReportDate(data.reportId),
-      ...data.tally.byImpact,
+      ...data.tally.byElement,
     }
   }).reverse()
   const tallyByTotalInstances: TallyChartData[] = tallyData.map((data) => {
@@ -128,7 +128,7 @@ const IndexPage = ({ summaryData, tallyData }: PropsT): React.ReactElement => {
 
       
           <h3>Violations by Element</h3>
-          <BarChart data={tallybyImpact} />
+          <BarChart data={tallybyElement} />
           <h3>Violations by Total Instances</h3>
           <BarChart data={tallyByTotalInstances} />
       
@@ -179,7 +179,7 @@ export default props => (
           nodes {
             reportId
             tally {
-              byImpact {
+              byElement {
                 critical
                 minor
                 moderate

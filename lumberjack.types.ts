@@ -22,7 +22,7 @@ export type ImpactReportPayload = {
 export type TallyReport = {
   reportId: string
   tally: {
-    byImpact: ImpactTally
+    byElement: ImpactTally
     byInstance: ImpactTally
   }
 }
@@ -195,7 +195,7 @@ export type ViolationOverview = {
 }
 
 export type ViolationTally = {
-  byImpact: {
+  byElement: {
     minor: number
     moderate: number
     serious: number

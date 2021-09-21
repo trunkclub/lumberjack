@@ -9,36 +9,52 @@ module.exports = {
     },
   },
   app: {
-    name: 'My App',
+    name: 'Example App',
     login: {
       path: '/login',
       fields: {
         username: 'input[type="email"]',
         password: 'input[type="password"]',
         submitButton: 'button[type="submit"]',
-      }
+      },
     },
-    root: 'https://my-app.com',
+    root: 'https://www.w3.org/WAI/demos/bad',
     errors: {
       content: [
-        'Whoops! Page not found!',
+        'Ope! No content found.',
       ],
       featureId: 'invalid',
     },
   },
   features: [
     {
-      name: 'Invalid / 404 Routes',
-      id: 'invalid',
+      name: 'Mix',
+      id: 'mix',
       paths: [
-        '/not-found',
+        '/before/home.html',
+        '/after/news.html',
+        '/before/tickets.html',
+        '/after/survey.html',
       ],
     },
     {
-      name: 'Auth',
-      id: 'auth',
+      name: 'Fail',
+      id: 'fail',
       paths: [
-        '/sign-in',
+        '/before/home.html',
+        '/before/news.html',
+        '/before/tickets.html',
+        '/before/survey.html',
+      ],
+    },
+    {
+      name: 'Pass',
+      id: 'pass',
+      paths: [
+        '/after/home.html',
+        '/after/news.html',
+        '/after/tickets.html',
+        '/after/survey.html',
       ],
     },
   ],
