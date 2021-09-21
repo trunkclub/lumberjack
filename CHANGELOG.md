@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/trunkclub/lumberjack/compare/v2.2.1...v3.0.0) (2021-09-21)
+
+
+### Bug Fixes
+
+* **by element tally:** fixes issue where byElement tally was incorrect ([61c8a2e](https://github.com/trunkclub/lumberjack/commit/61c8a2ed758402146ca9d7bbd9e4eb29e1ce2a36)), closes [#98](https://github.com/trunkclub/lumberjack/issues/98)
+
+
+### BREAKING CHANGES
+
+* **by element tally:** Because keys have been renamed, Unique Violation Data will need to be recreated for
+previous Report IDs.
+
 ## [2.2.1](https://github.com/trunkclub/lumberjack/compare/v2.2.0...v2.2.1) (2021-09-08)
 
 
