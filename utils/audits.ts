@@ -24,11 +24,11 @@ const ReportUtils = new Reports()
 const ViolationUtils = new Violations()
 
 type AxeRunnerData = {
-  account?: AccountConfig,
-  puppeteerPage: Page,
-  currentPath: string,
-  featureInfo: FeatureInfo,
-  reportId: string,
+  account?: AccountConfig
+  puppeteerPage: Page
+  currentPath: string
+  featureInfo: FeatureInfo
+  reportId: string
   takeScreenshots?: boolean
 }
 
@@ -358,6 +358,11 @@ export class Audits {
       id: feature.id,
     }
     const browser = await puppeteer.launch({
+      args: [
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-setuid-sandbox',
+      ],
       defaultViewport: null,
       headless: headless,
     })
@@ -376,7 +381,7 @@ export class Audits {
             featureInfo,
             puppeteerPage: page,
             reportId,
-            takeScreenshots: screenshot
+            takeScreenshots: screenshot,
           })
 
           if (auditStatus.completedAudit) {

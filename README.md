@@ -51,11 +51,20 @@ PLEASE NOTE: If you select this option you'll ALSO need to run `Generate unique 
 
 You can also quickly view the audit summary of any available report ID by running `yarn lumberjack` and selecting `Get audit summary for a report ID`.
 
-## Upgrading from v 1.0.0 to v 2.0.0
+## Automated runs
 
-Version 2 of Lumberjack includes changes that bring its data structure more in line with Axe's typing. While none of these changes will impact any legacy report data you currently have saved, it does impact your most recent unique violation data.
+If you would like to set up Lumberjack to run via some kind of automated means (e.g. in a CI/CD pipeline), you can leverage `yarn automated-audit` to do so. You can also pass in if you would like to capture screenshots with this script by adjusting the `automated` config setting in your `.ljconfig.js` file.
 
-To update your project's report data so the client can run, just run `yarn lumberjack` and select `Combine and tally report data` on your most recent report ID.
+## Upgrading to v 2.0.0+
+
+Version 2+ of Lumberjack include changes that adjust the structure of the data to both more closely mirror Axe's and to adjust the naming of `byElement` unique data. While none of these changes will impact any legacy report data you currently have saved, they do impact your most recent unique violation data.
+
+You can update you project's report data by following these steps for each report ID:
+
+- Run `yarn lumberjack`
+- Select `Run individual tasks`
+- Select `Generate unique violation data`
+- Select report ID
 
 ## Versioning
 

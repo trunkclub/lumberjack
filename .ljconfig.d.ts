@@ -5,6 +5,9 @@ declare const config: {
     default: AccountConfig
   }
   app: AppConfig
+  automated: {
+    takeScreenshots?: boolean
+  }
   features: FeatureConfig[]
   params?: {
     [key: string]: string | number

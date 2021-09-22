@@ -26,6 +26,9 @@ module.exports = {
       featureId: 'invalid',
     },
   },
+  automated: {
+    takeScreenshots: true,
+  },
   features: [
     {
       name: 'Mix',

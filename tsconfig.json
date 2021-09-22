@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "utils",
     "declaration": true,
@@ -12,7 +13,7 @@
     "paths": {
       "*": [
         "node_modules/*",
-        "utils/*"
+        "utils/*",
       ]
     },
     "resolveJsonModule": true,
@@ -20,7 +21,6 @@
   },
   "include": [
     "utils/**/*",
-    "node_modules/axe-core",
-    "node_modules/@types/puppeteer/index.d.ts"
+    ".ljconfig.js",
   ]
 }
