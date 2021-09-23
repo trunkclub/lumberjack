@@ -78,6 +78,7 @@ const typography = {
 }
 
 const theme = {
+  breakpoints: ['1240px'],
   buttons: {
     link: {
       background: 'none',

@@ -70,7 +70,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
       <SEO title={`Lumberjack - Feature Report - ${pageContext.name}`} />
       <Box
         as="section"
-        display="grid"
+        display={['block', 'grid']}
         py={3}
         sx={{
           gridGap: 3,
@@ -81,6 +81,8 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
         <Flex
           alignItems="center"
           justifyContent="space-between"
+          mb={[2, 0]}
+          pb={[2, 0]}
           sx={{
             borderColor: 'borders.decorative',
             borderStyle: 'solid',
