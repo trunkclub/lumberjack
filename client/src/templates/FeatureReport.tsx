@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'gatsby'
 
 import Layout from '../components/Layout'
 import SEO from '../components/SEO'
@@ -27,6 +28,24 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
     routesWithoutViolations: [],
     totalRoutesChecked: pageContext.details.length,
     totalViolations: 0,
+  }
+
+  const impactSort = (a, b) => {
+    const impactWeights = {
+      critical: 4,
+      serious: 3,
+      moderate: 2,
+      minor: 1,
+    }
+
+    if (impactWeights[a.impact] > impactWeights[b.impact]) {
+      return -1
+    }
+    if (impactWeights[a.impact] < impactWeights[b.impact]) {
+      return 1
+    }
+    // Impact weights must be equal:
+    return 0
   }
 
   pageContext.details.forEach(detail => {
@@ -169,7 +188,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
                   </Text>
 
                   <ImpactList>
-                    {route.violations.map(detail => (
+                    {route.violations.sort(impactSort).map(detail => (
                       <ImpactListItem
                         key={`${route.route_id}_${detail.id}`}
                         isCritical={detail.impact === 'critical'}
@@ -203,12 +222,34 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
                           </Box>
                         </Text>
 
-                        <Heading variant="body" as="h4">{detail.help}</Heading>
+                        <Heading variant="body" as="h4">Violation: {detail.help}</Heading>
                         <Text
                           variant="bodySmall"
                           as="p"
                         >
-                          {detail.description}{' '}<a href={detail.helpUrl}>Learn more</a>
+                          {detail.description}
+                        </Text>
+                        <Text
+                          variant="bodySmall"
+                          as="ul"
+                          mb={2}
+                        >
+                          <Box
+                            as="li"
+                            mt={2}
+                          >
+                            <Link to={`/report/by-impact/${detail.impact}/#${detail.id}`}>
+                              View app-wide details for this violation
+                            </Link>
+                          </Box>
+                          <Box
+                            as="li"
+                            my={2}
+                          >
+                            <a href={detail.helpUrl} target="_blank" rel="noreferrer">
+                              Learn how to fix this (opens new tab)
+                            </a>
+                          </Box>
                         </Text>
 
                         <Heading

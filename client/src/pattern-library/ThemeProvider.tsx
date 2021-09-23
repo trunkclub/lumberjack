@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: Cairo, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
+    scroll-behavior: auto;
   }
 
   a {
