@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/trunkclub/lumberjack/compare/v3.0.0...v3.1.0) (2021-09-23)
+
+
+### Features
+
+* **automation:** adds an automate script to support runs without the CLI ([#102](https://github.com/trunkclub/lumberjack/issues/102)) ([373cde7](https://github.com/trunkclub/lumberjack/commit/373cde704626d1f1888e2914b9520215baaa2adf))
+
 # [3.0.0](https://github.com/trunkclub/lumberjack/compare/v2.2.1...v3.0.0) (2021-09-21)
 
 
