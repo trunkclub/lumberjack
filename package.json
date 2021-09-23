@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "app": "cd app && yarn start",
+    "automated-audit": "yarn tsc && node dist/utils/automate.js",
     "commitizen": "commitizen",
     "generate-docs": "jsdoc -c ./jsdoc.json",
     "lint:client": "eslint 'client/**/*.{ts,tsx}' --max-warnings=0",
