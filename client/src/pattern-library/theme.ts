@@ -77,6 +77,34 @@ const typography = {
   },
 }
 
+const lineList = {
+  borderColor: 'borders.decorative',
+  borderStyle: 'solid',
+  borderWidth: '0 0 0 1px',
+  mb: 2,
+  p: 0,
+  pt: 2,
+  li: {
+    lineHeight: '1.25',
+    listStyleType: 'none',
+    pb: 2,
+    pl: 2,
+    my: 0,
+    position: 'relative',
+    '::before': {
+      borderColor: 'borders.decorative',
+      borderStyle: 'solid',
+      borderWidth: '1px 0 0',
+      content: '""',
+      display: 'block',
+      top: '0.625em',
+      position: 'absolute',
+      left: 0,
+      width: '1rem',
+    },
+  },
+}
+
 const theme = {
   breakpoints: ['1240px'],
   buttons: {
@@ -88,7 +116,7 @@ const theme = {
       fontFamily: 'inherit',
       padding: 0,
       textDecoration: 'underline',
-    }
+    },
   },
   colors: roleColors,
   fonts: {
@@ -111,32 +139,13 @@ const theme = {
       fontWeight: 'semibold',
       textDecoration: 'underline',
     },
-    lineList: {
-      borderColor: 'borders.decorative',
-      borderStyle: 'solid',
-      borderWidth: '0 0 0 1px',
-      mb: 2,
-      p: 0,
-      pt: 2,
-      li: {
-        lineHeight: '1.25',
-        listStyleType: 'none',
-        pb: 2,
-        pl: 2,
-        my: 0,
-        position: 'relative',
-        '::before': {
-          borderColor: 'borders.decorative',
-          borderStyle: 'solid',
-          borderWidth: '1px 0 0',
-          content: '""',
-          display: 'block',
-          top: '0.625em',
-          position: 'absolute',
-          left: 0,
-          width: '1rem',
-        },
-      },
+    lineList: lineList,
+
+    lineListDense: {
+      ...lineList,
+      mb: '1rem',
+      ml: '0.25rem',
+      pt: '1rem',
     },
   },
 }

@@ -23,7 +23,12 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
   const reportDate = getReportDate(pageContext.reportId)
 
   const summaryData = {
-    criticalViolations: 0,
+    impactCount: {
+      critical: 0,
+      serious: 0,
+      moderate: 0,
+      minor: 0,
+    },
     routesWithViolations: [],
     routesWithoutViolations: [],
     totalRoutesChecked: pageContext.details.length,
@@ -56,9 +61,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
     } else {
       summaryData.routesWithViolations.push(detail)
       detail.violations?.forEach(violation => {
-        if (violation.impact === 'critical') {
-          summaryData.criticalViolations++
-        }
+        summaryData.impactCount[violation.impact]++
       })
     }
   })
@@ -100,7 +103,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
             {pageContext.name}
           </Heading>
 
-          {summaryData.criticalViolations > 0 && (
+          {summaryData.impactCount.critical > 0 && (
             <Flex
               alignItems="center"
               justifyContent="center"
@@ -131,10 +134,23 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
             as="ul"
           >
             <li>
-              <b>{summaryData.totalRoutesChecked}</b> route{summaryData.totalRoutesChecked === 1 ? '' : 's'} checked
+              <b>{summaryData.totalViolations}</b> violations found
+              {summaryData.totalViolations > 0 && (
+                <Box
+                  variant='lineListDense'
+                  as="ul"
+                  mt={2}
+                  mb={0}
+                >
+                  <li><b>{summaryData.impactCount.critical}</b> critical</li>
+                  <li><b>{summaryData.impactCount.serious}</b> serious</li>
+                  <li><b>{summaryData.impactCount.moderate}</b> moderate</li>
+                  <li><b>{summaryData.impactCount.minor}</b> minor</li>
+                </Box>
+              )}
             </li>
             <li>
-              <b>{summaryData.totalViolations}</b> total violations
+              <b>{summaryData.totalRoutesChecked}</b> route{summaryData.totalRoutesChecked === 1 ? '' : 's'} checked
             </li>
             {violationPercentage > 0 && (
               <li>
