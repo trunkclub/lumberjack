@@ -142,10 +142,9 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
                   mt={2}
                   mb={0}
                 >
-                  <li><b>{summaryData.impactCount.critical}</b> critical</li>
-                  <li><b>{summaryData.impactCount.serious}</b> serious</li>
-                  <li><b>{summaryData.impactCount.moderate}</b> moderate</li>
-                  <li><b>{summaryData.impactCount.minor}</b> minor</li>
+                  {Object.keys(summaryData.impactCount).map(impactLevel => (
+                    <li key={`count-${impactLevel}`}><b>{summaryData.impactCount[impactLevel]}</b> {impactLevel}</li>
+                  ))}
                 </Box>
               )}
             </li>
