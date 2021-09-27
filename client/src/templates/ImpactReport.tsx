@@ -36,7 +36,7 @@ const ImpactReport = ({ pageContext }: PropsT): React.ReactElement => {
     <Layout>
       <SEO title={`Lumberjack - Impact Report - ${pageContext.impact} Violations`} />
       <Box
-        display="grid"
+        display={['block', 'grid']}
         py={3}
         sx={{
           gridGap: 3,
@@ -47,6 +47,8 @@ const ImpactReport = ({ pageContext }: PropsT): React.ReactElement => {
         <Flex
           alignItems="center"
           justifyContent="space-between"
+          mb={[2, 0]}
+          pb={[2, 0]}
           sx={{
             borderColor: 'borders.decorative',
             borderStyle: 'solid',

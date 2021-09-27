@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'gatsby'
 
 import Layout from '../components/Layout'
 import SEO from '../components/SEO'
@@ -22,11 +23,34 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
   const reportDate = getReportDate(pageContext.reportId)
 
   const summaryData = {
-    criticalViolations: 0,
+    impactCount: {
+      critical: 0,
+      serious: 0,
+      moderate: 0,
+      minor: 0,
+    },
     routesWithViolations: [],
     routesWithoutViolations: [],
     totalRoutesChecked: pageContext.details.length,
     totalViolations: 0,
+  }
+
+  const impactSort = (a, b) => {
+    const impactWeights = {
+      critical: 4,
+      serious: 3,
+      moderate: 2,
+      minor: 1,
+    }
+
+    if (impactWeights[a.impact] > impactWeights[b.impact]) {
+      return -1
+    }
+    if (impactWeights[a.impact] < impactWeights[b.impact]) {
+      return 1
+    }
+    // Impact weights must be equal:
+    return 0
   }
 
   pageContext.details.forEach(detail => {
@@ -37,9 +61,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
     } else {
       summaryData.routesWithViolations.push(detail)
       detail.violations?.forEach(violation => {
-        if (violation.impact === 'critical') {
-          summaryData.criticalViolations++
-        }
+        summaryData.impactCount[violation.impact]++
       })
     }
   })
@@ -51,7 +73,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
       <SEO title={`Lumberjack - Feature Report - ${pageContext.name}`} />
       <Box
         as="section"
-        display="grid"
+        display={['block', 'grid']}
         py={3}
         sx={{
           gridGap: 3,
@@ -62,6 +84,8 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
         <Flex
           alignItems="center"
           justifyContent="space-between"
+          mb={[2, 0]}
+          pb={[2, 0]}
           sx={{
             borderColor: 'borders.decorative',
             borderStyle: 'solid',
@@ -79,7 +103,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
             {pageContext.name}
           </Heading>
 
-          {summaryData.criticalViolations > 0 && (
+          {summaryData.impactCount.critical > 0 && (
             <Flex
               alignItems="center"
               justifyContent="center"
@@ -110,10 +134,22 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
             as="ul"
           >
             <li>
-              <b>{summaryData.totalRoutesChecked}</b> route{summaryData.totalRoutesChecked === 1 ? '' : 's'} checked
+              <b>{summaryData.totalViolations}</b> violations found
+              {summaryData.totalViolations > 0 && (
+                <Box
+                  variant='lineListDense'
+                  as="ul"
+                  mt={2}
+                  mb={0}
+                >
+                  {Object.keys(summaryData.impactCount).map(impactLevel => (
+                    <li key={`count-${impactLevel}`}><b>{summaryData.impactCount[impactLevel]}</b> {impactLevel}</li>
+                  ))}
+                </Box>
+              )}
             </li>
             <li>
-              <b>{summaryData.totalViolations}</b> total violations
+              <b>{summaryData.totalRoutesChecked}</b> route{summaryData.totalRoutesChecked === 1 ? '' : 's'} checked
             </li>
             {violationPercentage > 0 && (
               <li>
@@ -169,7 +205,7 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
                   </Text>
 
                   <ImpactList>
-                    {route.violations.map(detail => (
+                    {route.violations.sort(impactSort).map(detail => (
                       <ImpactListItem
                         key={`${route.route_id}_${detail.id}`}
                         isCritical={detail.impact === 'critical'}
@@ -203,12 +239,34 @@ const FeatureReport = ({ pageContext }: PropsT): React.ReactElement => {
                           </Box>
                         </Text>
 
-                        <Heading variant="body" as="h4">{detail.help}</Heading>
+                        <Heading variant="body" as="h4">Violation: {detail.help}</Heading>
                         <Text
                           variant="bodySmall"
                           as="p"
                         >
-                          {detail.description}{' '}<a href={detail.helpUrl}>Learn more</a>
+                          {detail.description}
+                        </Text>
+                        <Text
+                          variant="bodySmall"
+                          as="ul"
+                          mb={2}
+                        >
+                          <Box
+                            as="li"
+                            mt={2}
+                          >
+                            <Link to={`/report/by-impact/${detail.impact}/#${detail.id}`}>
+                              View app-wide details for this violation
+                            </Link>
+                          </Box>
+                          <Box
+                            as="li"
+                            my={2}
+                          >
+                            <a href={detail.helpUrl} target="_blank" rel="noreferrer">
+                              Learn how to fix this (opens new tab)
+                            </a>
+                          </Box>
                         </Text>
 
                         <Heading
