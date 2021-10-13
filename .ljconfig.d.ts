@@ -5,7 +5,8 @@ declare const config: {
     default: AccountConfig
   }
   app: AppConfig
-  automated: {
+  auditSettings: {
+    maxLoadingTime?: number
     takeScreenshots?: boolean
   }
   features: FeatureConfig[]

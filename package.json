@@ -27,7 +27,7 @@
     "setup": "yarn install && cd client && yarn install && git remote add upstream https://github.com/trunkclub/lumberjack.git",
     "sync": "git fetch upstream",
     "test:minimal": "jest",
-    "test": "jest --clearCache && jest --coverage --watch",
+    "test": "jest --clearCache && jest --coverage --watchAll",
     "tsc": "tsc"
   },
   "license": "MIT",

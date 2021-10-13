@@ -53,7 +53,7 @@ You can also quickly view the audit summary of any available report ID by runnin
 
 ## Automated runs
 
-If you would like to set up Lumberjack to run via some kind of automated means (e.g. in a CI/CD pipeline), you can leverage `yarn automated-audit` to do so. You can also pass in if you would like to capture screenshots with this script by adjusting the `automated` config setting in your `.ljconfig.js` file.
+If you would like to set up Lumberjack to run via some kind of automated means (e.g. in a CI/CD pipeline), you can leverage `yarn automated-audit` to do so. You can also pass in if you would like to capture screenshots with this script by adjusting the `auditSettings` config settings in your `.ljconfig.js` file.
 
 ## Upgrading to v 2.0.0+
 

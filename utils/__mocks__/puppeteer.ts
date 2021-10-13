@@ -23,6 +23,9 @@ export const Page = {
   goto(url: string) {
     return Promise.resolve()
   },
+  screenshot() {
+    return Promise.resolve()
+  },
   setBypassCSP() {
     return Promise.resolve()
   },

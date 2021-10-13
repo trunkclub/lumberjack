@@ -23,6 +23,9 @@ import { Violations } from './violations'
 const ReportUtils = new Reports()
 const ViolationUtils = new Violations()
 
+const VIEWPORT_HEIGHT = 800
+const CONFIGURED_TIMEOUT = config?.auditSettings?.maxLoadingTime
+
 type AxeRunnerData = {
   account?: AccountConfig
   puppeteerPage: Page
@@ -49,18 +52,24 @@ export class Audits {
    * @param  {AccountConfig} user Current user data
    * @returns {Promise<void>}
    */
-  public userLogin = async (page: Page, account: AccountConfig): Promise<void> => {
+  public logInAccount = async (page: Page, account: AccountConfig): Promise<void> => {
     console.log('Redirected to login screen. Logging in...')
 
+    const { fields } = config.app.login
+
+    await page.waitForSelector(fields.username)
+    await page.waitForSelector(fields.password)
+    await page.waitForSelector(fields.submitButton)
+
     try {
-      await page.click(config.app.login.fields.username)
+      await page.click(fields.username)
       await page.keyboard.type(account.username)
 
-      await page.click(config.app.login.fields.password)
+      await page.click(fields.password)
       await page.keyboard.type(account.password)
 
-      await page.click(config.app.login.fields.submitButton)
-      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 5000 })
+      await page.click(fields.submitButton)
+      await page.waitForNavigation({ waitUntil: 'networkidle0', timeout: CONFIGURED_TIMEOUT || 5000 })
 
       return Promise.resolve()
     } catch (error) {
@@ -118,18 +127,13 @@ export class Audits {
     console.log('Checking route for error content...')
 
     const pageContent = await page.$eval(mainContentElement, element => element.textContent)
-
-    if (pageContent === '' || pageContent.includes('Loading')) {
-      console.log('Still loading, adding wait time.')
-      await page.waitFor(2000)
-    }
-
     const hasErrorContent = errorContent.some((error: string) => pageContent.includes(error))
 
     if (hasErrorContent) {
       console.log('Error content found; This route will be skipped.')
       return false
     } else {
+      console.log('No error content found. Running audit...')
       return true
     }
   }
@@ -142,7 +146,7 @@ export class Audits {
    * @param {Page} page Puppeteer page
    * @param {AccountConfig} account Current user info
    */
-  public loadUrl = async (
+  public navigateToUrl = async (
     currentPath: string,
     page: Page,
     account?: AccountConfig
@@ -150,7 +154,7 @@ export class Audits {
     const destinationUrl = config.app.root + currentPath
 
     await page
-      .goto(destinationUrl, { waitUntil: 'networkidle2' })
+      .goto(destinationUrl)
       .catch(error => {
         // error
         console.log('Issue with initial route loading.')
@@ -168,7 +172,7 @@ export class Audits {
       } else {
         if (account) {
           console.log(`Logging in as ${account.username}...`)
-          await this.userLogin(page, account)
+          await this.logInAccount(page, account)
         } else {
           console.log(`Unable to audit ${destinationUrl}; login required and no account data found. Please check your config file.`)
           throw new Error()
@@ -180,6 +184,48 @@ export class Audits {
       console.log(`Unable to go to ${destinationUrl}:\n - redirected to ${page.url()}.`)
       throw new Error()
     }
+  }
+
+  /**
+   * Scrolls to the bottom of current page in increments,
+   * to load as much content as possible for audit.
+   *
+   * @function
+   * @param {Page} page Puppeteer page
+   * @returns {Page} Page fully scrolled to the bottom
+   */
+  public fullyScrolledPage = async (page: Page): Promise<Page> => {
+    // @ts-ignore: FIXME: Likely type not coming in from package
+    await scrollPageToBottom(
+      page,
+      // Amount scrolled at a time in px.
+      // Should be smaller than viewport for lazyload triggering.
+      VIEWPORT_HEIGHT / 2,
+      150 // delay between scrolls in ms
+    )
+
+    const initialWaitTime = CONFIGURED_TIMEOUT || 8000
+
+    try {
+      await page.waitForNetworkIdle({
+        idleTime: 100,
+        timeout: initialWaitTime,
+      })
+    } catch (error) {
+      console.log(`Page still loading after ${initialWaitTime/1000} seconds. Adding time...`)
+
+      const maxWaitTime = CONFIGURED_TIMEOUT || 4000
+      try {
+        await page.waitForNetworkIdle({
+          idleTime: 100, // defaults to 500
+          timeout: CONFIGURED_TIMEOUT || 4000, // defaults to 30000
+        })
+      } catch (error) {
+        console.log(`Maximum wait time reached (${(initialWaitTime+maxWaitTime)/1000} seconds); will audit current state.`)
+      }
+    }
+
+    return page
   }
 
   /**
@@ -209,8 +255,10 @@ export class Audits {
     console.group(`\n Auditing ${currentPath}...`)
 
     try {
-      await this.loadUrl(currentPath, puppeteerPage, account)
+      await this.navigateToUrl(currentPath, puppeteerPage, account)
     } catch (error) {
+
+      console.log(error)
       // error
       console.log('Problem loading route; this route will be skipped.\n')
 
@@ -223,15 +271,10 @@ export class Audits {
       }
     }
 
-    const contentValid = await this.hasValidContent(puppeteerPage, currentPath)
+    const fullPage = await this.fullyScrolledPage(puppeteerPage)
+    const contentValid = await this.hasValidContent(fullPage, currentPath)
 
     if (contentValid) {
-      // @ts-ignore: FIXME: Likely type not coming in from package
-      await scrollPageToBottom(
-        puppeteerPage,
-        800, // amount scrolled at a time in px
-        20 // delay between scrolls in ms
-      )
 
       let violations: Result[] = []
 
@@ -239,10 +282,10 @@ export class Audits {
         console.log('Taking screenshots...')
         const fileName = ReportUtils.formatRouteToId(currentPath)
 
-        await puppeteerPage.screenshot({ path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true })
+        await fullPage.screenshot({ path: `${AUDIT_FOLDER}/screenshots/${fileName}.png`, fullPage: true })
       }
 
-      await new AxePuppeteer(puppeteerPage)
+      await new AxePuppeteer(fullPage)
         .analyze()
         .then(async (results: AxeResults) => {
           if (results.violations && results.violations.length) {
@@ -370,6 +413,12 @@ export class Audits {
 
     await page.setBypassCSP(true)
 
+    page.setViewport({
+      width: 1200,
+      height: VIEWPORT_HEIGHT,
+      deviceScaleFactor: 1,
+    })
+
     for (const path of feature.paths) {
       const auditPath = path.indexOf(':') > 0 ? this.pathWithParamsAdded(path, account) : path
 
@@ -424,9 +473,9 @@ export class Audits {
     const summary = []
     const reportId = REPORT_ID
 
-    mkdirp(`${AUDIT_FOLDER}/route-reports`)
+    await mkdirp(`${AUDIT_FOLDER}/route-reports`)
     if (takeScreenshots) {
-      mkdirp(`${AUDIT_FOLDER}/screenshots`)
+      await mkdirp(`${AUDIT_FOLDER}/screenshots`)
     }
 
     for (const feature of features) {
@@ -454,6 +503,7 @@ export class Audits {
 
         totalViolationsForAllFeatures += totalViolations
 
+        // TODO: Assess if this is catching not validated routes as expected
         routesValidated.forEach((route: string) => {
           if (!validatedRoutes.includes(route)) {
             validatedRoutes.push(route)
@@ -497,11 +547,11 @@ export class Audits {
         }),
         { encoding: 'utf-8', flag: 'w' }
       )
+
+      console.log('Summary file created.')
     } catch (error) {
       if (error) {
-        console.log('There was an issue writing the report.')
-      } else {
-        console.log('Report created.')
+        console.log('There was an issue writing the summary file.')
       }
     }
 
