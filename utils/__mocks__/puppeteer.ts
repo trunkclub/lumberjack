@@ -1,39 +1,61 @@
 // https://javascriptwebscrapingguy.com/jordan-mocks-puppeteer-with-jest/
 
-import { Browser, Page, ElementHandle } from "puppeteer";
+import {
+  Browser as BrowserT,
+  Page as PageT,
+  ElementHandle as ElementHandleT,
+  Puppeteer as PuppeteerT
+} from 'puppeteer'
 
-export const stubPuppeteer = {
-  launch() {
-    return Promise.resolve(stubBrowser);
+export const ElementHandle = {
+  $eval() {
+    return Promise.resolve()
   },
-} as unknown as any;
+} as unknown as ElementHandleT
 
-export const stubBrowser = {
-  newPage() {
-    return Promise.resolve(stubPage);
-  },
+export const Page = {
   close() {
-    return Promise.resolve();
+    return Promise.resolve()
   },
-} as unknown as Browser;
-
-export const stubPage = {
+  evaluate() {
+    return Promise.resolve()
+  },
   goto(url: string) {
-    return Promise.resolve();
+    return Promise.resolve()
   },
-  $$(selector: string): Promise<ElementHandle[]> {
+  setBypassCSP() {
+    return Promise.resolve()
+  },
+  setViewport() {
+    return Promise.resolve()
+  },
+  waitForNetworkIdle() {
+    return Promise.resolve()
+  },
+  $$(selector: string): Promise<ElementHandleT[]> {
     return Promise.resolve([]);
   },
   $(selector: string) {
-    return Promise.resolve(stubElementHandle);
+    return Promise.resolve(ElementHandle);
   },
   $eval(selector: string, pageFunction: any) {
-    return Promise.resolve();
+    return Promise.resolve('Mocked text content.')
   },
-} as unknown as Page;
+} as unknown as PageT
 
-export const stubElementHandle = {
-  $eval() {
-    return Promise.resolve();
+export const Browser = {
+  close() {
+    return Promise.resolve()
   },
-} as unknown as ElementHandle;
+  newPage() {
+    return Promise.resolve(Page)
+  },
+} as unknown as BrowserT
+
+const Puppeteer = {
+  launch() {
+    return Promise.resolve(Browser)
+  },
+} as unknown as PuppeteerT
+
+export default Puppeteer
