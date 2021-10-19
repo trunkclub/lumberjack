@@ -26,8 +26,7 @@ module.exports = {
       featureId: 'invalid',
     },
   },
-  auditSettings: {
-    maxLoadingTime: 6000,
+  automated: {
     takeScreenshots: true,
   },
   features: [

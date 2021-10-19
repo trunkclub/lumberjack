@@ -14,7 +14,7 @@ import { default as file8 } from './__mocks__/audit-data/route-reports/before_ti
 import { Violations } from './violations'
 import { UniqueViolation } from '../lumberjack.types'
 
-const REPORT_ID = '20210915' // Sept 15, 2021
+const REPORT_ID = '19991008' // Oct 8, 1999
 
 jest.mock('./reports', () => {
   return {
